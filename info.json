@@ -3,6 +3,7 @@
 "description": "Rules akin to standard-issue CCG-games",
 "author": "Professor & Baron",
 "unique_identifier": "PAB",
+"type": "base",
 "current_version": 0001,
 "previous_version": 0000,
 "download_url": "https://github.com/simonklit/Cardslinger-Standard-Game/archive/master.zip"
