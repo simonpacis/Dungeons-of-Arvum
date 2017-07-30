@@ -1,0 +1,151 @@
+<?php
+
+function newMap()
+{
+	global $map_height, $map_width, $map, $mapset, $rooms;
+
+	/* Running digger map generation function from rot.js – using phantomjs. Need some way to change lib based on OS server is running on, right now only macOS compatible. */
+
+	exec("libs/phantomjs libs/dig.js ".$map_width." " .$map_height);
+	echo "Map generation done.\n\n";
+
+	$mapfile = json_decode(file_get_contents("libs/map.txt"), true);
+	$roomsfile = json_decode(file_get_contents("libs/rooms.txt"), true);
+
+	foreach($mapfile as $key => $value) {
+	    $parts = explode(",", $key);
+	    $x = $parts[0];
+	    $y = $parts[1];
+	    $parsedRep = parseRepresentation($mapfile[$key]);
+	    setTile($x, $y, $parsedRep);
+	}
+	$mapset = true;
+	$rooms = $roomsfile;
+	populateMap();
+}
+
+function setTile($x, $y, &$object)
+{
+	global $map;
+	$map[$x][$y] = $object;
+}
+
+function moveTile($oldx, $oldy, $newx, $newy, &$object)
+{
+	global $map;
+	$tile = $object;
+	if($newx >= 0 && $newy >= 0)
+		{
+			if(!$map[$newx][$newy]->solid())
+			{
+				$blanktile = new Tile(new Floor());
+				setTile($oldx, $oldy, $blanktile);
+				setTile($newx, $newy, $tile);
+				return true;
+			} else {
+				setTile($oldx, $oldy, $tile);
+				return false;
+			}
+	} else {
+			return false;
+	}
+}
+
+function movePlayerTile($oldx, $oldy, $newx, $newy, &$object)
+{
+	global $map;
+	$tile = $object;
+	if($newx >= 0 && $newy >= 0)
+		{
+			if(!$map[$newx][$newy]->solid()) //If not solid.
+			{
+				$blanktile = new Tile(new Floor());
+				$oldtile = $map[$newx][$newy];
+				setTile($oldx, $oldy, $blanktile);
+				setTile($newx, $newy, $tile);
+				$oldtile->pickup($tile); //$tile is always player in movePlayerTile.
+				return true;
+			} else { // If solid
+				setTile($oldx, $oldy, $tile); //Make sure the player stays on old tile.
+				return false; //Nope, didn't move.
+			}
+	} else {
+			return false; //Can't move out of bounds – extra check, map shouldn't allow this either.
+	}
+}
+
+function parseMap($clientid)
+{
+
+	/*
+		Let's convert the big hunk of map in $map to something readable by the client.
+		The client needs to know:
+			x, y, representation and color
+		for each tile, and that is it!
+	*/
+
+	global $map, $players, $map_width, $map_height, $display_width, $display_height;
+	$player = $players[$clientid];
+
+	$x = $player->x;
+	$y = $player->y;
+	$display_height = 21;
+
+	/* TODO */
+	// Fix walking to the right, and removing camera centering there.
+
+	if(($x - ((($display_width - 1)/2))) > 0) // If approaching left of screen, don't center on player.
+	{
+		$startx = $x - (($display_width - 1)/2);
+	} else { // Centero on player horizontally.
+		$startx = 0;
+	}
+	if($y > 10)
+	{
+		$starty = $y - 10; //If not at top of map, center screen.
+	} else {
+		$starty = $y - ($y); //If approaching top of map, do not center screen.
+	}
+
+
+	$localmap = array_slice($map, $startx, $display_width); // Get the part of map we want to show player.
+	$localmap = array_values($localmap); //Reset coordinates.
+
+	$parsedMap = [];
+	
+	$i = 0;
+	for ($xi=0; $xi < $display_width; $xi++) {
+		$yi = 0;
+		$y = $localmap[$xi];
+		$y = array_slice($y, $starty, $display_height);
+		$y = array_values($y);
+		foreach ($y as $tile) {
+			if($tile != null)
+			{
+				$tilecolor = $tile->color($clientid);
+				
+				if(isset($tile->clientid)) //If player is not me, paint it RED!
+				{
+					if($tile->clientid != $clientid)
+					{
+						$tilecolor = "#ff0000";
+					}
+				}
+				$parsedMap[$xi][$yi] = json_encode(["rep" => $tile->representation(), "color" => $tilecolor]);
+				$yi++;
+			}
+		}
+	}
+	return $parsedMap;
+}
+
+function parseRepresentation($string)
+{
+	if($string == "#")
+	{
+		return new Tile(new Wall());
+	} elseif ($string == ".")
+	{
+		return new Tile(new Floor());
+	}
+}

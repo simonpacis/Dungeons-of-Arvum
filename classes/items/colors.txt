@@ -1,0 +1,7 @@
+Common: #fff
+Uncommon: #1eff00
+Strong: #0070ff
+Epic: #a335ee
+Legendary: #ff8000
+
+Max-id: 0014
