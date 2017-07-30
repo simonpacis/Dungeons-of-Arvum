@@ -10,9 +10,9 @@ Essentially, Dungeons of Arvum allows you to play with your friends in a huge (p
 The goal is to be the last man standing. However, the dungeon is so big that you might be hard pressed to locate other players right away. Should you level and gear up, to become more powerful, or should you chase around looking for the other players right as you spawn? It's up to you!
 
 ## Getting started
-The Dungeons of Arvum server is written in PHP, and is run from the terminal. Simply download this repository, and host the client contained in the "DoA-client" folder somewhere online. Then start up the server with the following terminal command:
+The Dungeons of Arvum server is written in PHP, and is run from the terminal. Simply download this repository and start up the server with the following terminal command:
 ```php server.php```
-And Dungeons of Arvum starts right up.
+And Dungeons of Arvum starts right up. Ask your players to head on over to [http://simonklitjohnson.github.io/Dungeons-of-Arvum/](http://simonklitjohnson.github.io/Dungeons-of-Arvum], and tell them your public-facing IP address.
 
 Note: If the game crashes at "Generating map", you need to get the correct phantomjs binary for your OS. Drop it in the "DoA/libs" folder, and then run the server again. They can be downloaded here: [http://phantomjs.org/download.html](http://phantomjs.org/download.html). The binary included is for macOS, however it has proved to work on other OS'es too. In the future, the requirement for phantomjs will not be present.
 
