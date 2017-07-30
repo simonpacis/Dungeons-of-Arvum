@@ -12,7 +12,7 @@ The goal is to be the last man standing. However, the dungeon is so big that you
 ## Getting started
 The Dungeons of Arvum server is written in PHP, and is run from the terminal. Simply download this repository and start up the server with the following terminal command:
 ```php server.php```
-And Dungeons of Arvum starts right up. Ask your players to head on over to [http://simonklitjohnson.github.io/Dungeons-of-Arvum](http://simonklitjohnson.github.io/Dungeons-of-Arvum), and tell them your public-facing IP address.
+And Dungeons of Arvum starts right up. Ask your players to head on over to [http://simonklitjohnson.github.io/Dungeons-of-Arvum](http://simonklitjohnson.github.io/Dungeons-of-Arvum), and tell them your public-facing IP address. If the client seems to crash after they've entered the IP-address and pressed enter, please read the note at the bottom of this page.
 
 Note: If the game crashes at "Generating map", you need to get the correct phantomjs binary for your OS. Drop it in the "DoA/libs" folder, and then run the server again. They can be downloaded here: [http://phantomjs.org/download.html](http://phantomjs.org/download.html). The binary included is for macOS, however it has proved to work on other OS'es too. In the future, the requirement for phantomjs will not be present.
 
@@ -25,3 +25,8 @@ The size of the dungeon depends on your computers powers. The code is **not** op
 |----------------------|------------------------|
 | Macbook Pro 2012 13" | 1000x1000 w/ 4 players |
 | Macbook Pro 2012 15" | 2000x2000 w/ 4 players |
+
+## Client seems to crash/freeze
+The client has probably been loaded over HTTPS, and not HTTP. It is **important** that it is not loaded over HTTPS. If it is, you are not allowed to use regular WebSockets, but have to use WebSockets Secure. This requires a more complicated setup, and is not supported at the moment.
+
+If Chrome persists on wanting to show your players a HTTPS version of the client, either host it yourself or make them open the link in incognito mode; this seems to solve the issue for some users.
