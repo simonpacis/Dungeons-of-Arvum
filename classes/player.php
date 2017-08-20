@@ -347,21 +347,28 @@ class Player
 		}
 	}
 
-	public function isInInventory($item_id, $use_name = false)
+	public function isInInventory($item_id, $use_name = false, $use_index = false)
 	{
-		foreach($this->inventory as $item)
+		if(!$use_index)
 		{
-			if(!$use_name)
+			foreach($this->inventory as $item)
 			{
-				if($item->id == $item_id)
+				if(!$use_name)
 				{
-					return true;
+					if($item->id == $item_id)
+					{
+						return true;
+					}
+				} elseif($use_name) {
+					if($item->name == $item_id)
+					{
+						return true;
+					}
 				}
-			} else {
-				if($item->name == $item_id)
-				{
-					return true;
-				}
+			}
+		} else {
+			if(isset($this->inventory[$item_id-1])) {
+				return true;
 			}
 		}
 		return false;
@@ -683,12 +690,18 @@ class Player
 		$item2 = substr($message, 1, 1);
 		if(is_numeric($item1) && is_numeric($item2) && $item1 > -1 && $item1 < 10 && $item1 != 0  && $item2 > -1 && $item2 < 10 && $item2 != 0)
 		{
-			$itemm1 = $this->inventory[$item1-1];
-			$itemm2 = $this->inventory[$item2-1];
-			$this->inventory[$item1-1] = $itemm2;
-			$this->inventory[$item2-1] = $itemm1;
-			status($this->clientid, "You swapped \"<span style='color:".$itemm1->color." !important;'>" . $itemm1->name . "</span>\" with \"<span style='color:".$itemm2->color." !important;'>" . $itemm2->name . "</span>\".", "#ffff00");
-			bigBroadcast();
+			if($this->isInInventory($item1, false, true) && $this->isInInventory($item2, false, true))
+			{
+				$itemm1 = $this->inventory[$item1-1];
+				$itemm2 = $this->inventory[$item2-1];
+				$this->inventory[$item1-1] = $itemm2;
+				$this->inventory[$item2-1] = $itemm1;
+				status($this->clientid, "You swapped \"<span style='color:".$itemm1->color." !important;'>" . $itemm1->name . "</span>\" with \"<span style='color:".$itemm2->color." !important;'>" . $itemm2->name . "</span>\".", "#ffff00");
+				bigBroadcast();
+			} else {
+				status($this->clientid, "It was not possible to swap these items", "#ffff00");
+			}
+
 		} else {
 			status($this->clientid, "You did not swap items.", "#ffff00");
 			return false;

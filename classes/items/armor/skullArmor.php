@@ -18,15 +18,12 @@ class skullArmor extends Armor
 	public function __construct()
 	{
 		$this->name = "Skull Armor";
-		$this->color = "#a335ee";
+		$this->color = "#ff8000";
 		$this->id = "0015";
-		$this->rarity = "epic";
-		$this->maxuses = 1000;
-		$this->curuses = $this->maxuses;
+		$this->rarity = "legendary";
 		$this->wielded = false;
 		$this->hook = ["before_damage", "after_kill"];
 		$this->resistance_percentage = 0;
-		$this->resistance_type = "all";
 		$this->wield_type = "armor";
 		$this->level = 6;
 	}
@@ -53,14 +50,6 @@ class skullArmor extends Armor
 			if($this->wielded)
 			{
 				$damage_to_remove = round($damage*$this->resistance_percentage);
-				$this->curuses = $this->curuses - $damage_to_remove;
-				if($this->curuses <= 0)
-				{
-					$player->removeFromInventory($this, false, true, true);
-					status($player->clientid, "Your " . $this->name . " broke.");
-					$player->unwield($this, $this->wield_type);
-					$this->wielded = false;
-				}
 				return round($damage-$damage_to_remove);
 			} else {
 				return [false, $damage];
