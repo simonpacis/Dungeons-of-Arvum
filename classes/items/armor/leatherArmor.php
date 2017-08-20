@@ -22,7 +22,7 @@ class leatherArmor extends Armor
 		$this->id = "0008";
 		$this->rarity = "common";
 		$this->description = "Reduces melee damage by 20%.";
-		$this->maxuses = 100;
+		$this->maxuses = 20;
 		$this->curuses = $this->maxuses;
 		$this->wielded = false;
 		$this->hook = "before_damage";

@@ -81,6 +81,10 @@ class Player
 
 	public function killed($enemy)
 	{
+		if($this->hasHook("after_kill"))
+		{
+			$amount = $this->runHook("after_kill", $enemy, $this);
+		}
 		$exp = $enemy->basedamage + ($enemy->basehp/1.5) + (pow($enemy->level,1.5));
 		$this->gainExp($exp);
 	}
@@ -196,7 +200,12 @@ class Player
 		{
 			$arm = [];
 			$arm["color"] = $this->wieldedArmor->color;
-			$arm["name"] = $this->wieldedArmor->name . " (".$this->wieldedArmor->curuses . " left)";
+			if(isset($this->wieldedArmor->maxuses))
+			{
+				$arm["name"] = $this->wieldedArmor->name . " (".$this->wieldedArmor->curuses . " left)";
+			} else {
+				$arm["name"] = $this->wieldedArmor->name;
+			}
 			return $arm;
 		} else {
 			$arm = [];
@@ -464,9 +473,17 @@ class Player
 		{
 			if(isset($item->hook))
 			{
-				if($item->hook == $hook)
+				if(is_array($item->hook))
 				{
-					return true;
+					if(in_array($hook, $item->hook))
+					{
+						return true;
+					}
+				} else {
+					if($item->hook == $hook)
+					{
+						return true;
+					}
 				}
 			}
 		}
@@ -477,6 +494,7 @@ class Player
 	{
 		$hook = func_get_arg(0);
 		$args = func_get_args();
+		array_push($args, $hook);
 		$orgval = 0;
 		array_splice($args, 0, 1);
 
@@ -484,18 +502,31 @@ class Player
 		{
 			if(isset($item->hook))
 			{
-				if($item->hook == $hook)
+				if(is_array($item->hook))
 				{
-					$ranHook = call_user_func_array(array($item, 'runHook'), $args);
-					echo "Running hook " . $hook . " and got " . $ranHook;
-					 // Only return the value if the hook succeeded.
-					if(!is_array($ranHook))
+					if(in_array($hook, $item->hook))
 					{
-						return $ranHook;
-					} else {
-						$orgval = $ranHook[1];
+						$ranHook = call_user_func_array(array($item, 'runHook'), $args);
+						 // Only return the value if the hook succeeded.
+						if(!is_array($ranHook))
+						{
+							return $ranHook;
+						} else {
+							$orgval = $ranHook[1];
+						}
 					}
-					echo "\n";
+				} else {
+					if($item->hook == $hook)
+					{
+						$ranHook = call_user_func_array(array($item, 'runHook'), $args);
+						 // Only return the value if the hook succeeded.
+						if(!is_array($ranHook))
+						{
+							return $ranHook;
+						} else {
+							$orgval = $ranHook[1];
+						}
+					}
 				}
 			}
 		}
@@ -640,6 +671,30 @@ class Player
 		}
 	}
 
+	public function swapRequest()
+	{
+		status($this->clientid, "What two items would you like to swap?", "#ffff00", true);
+		return true;
+	}
+
+	public function swapResponse($message)
+	{
+		$item1 = substr($message, 0, 1);
+		$item2 = substr($message, 1, 1);
+		if(is_numeric($item1) && is_numeric($item2) && $item1 > -1 && $item1 < 10 && $item1 != 0  && $item2 > -1 && $item2 < 10 && $item2 != 0)
+		{
+			$itemm1 = $this->inventory[$item1-1];
+			$itemm2 = $this->inventory[$item2-1];
+			$this->inventory[$item1-1] = $itemm2;
+			$this->inventory[$item2-1] = $itemm1;
+			status($this->clientid, "You swapped \"<span style='color:".$itemm1->color." !important;'>" . $itemm1->name . "</span>\" with \"<span style='color:".$itemm2->color." !important;'>" . $itemm2->name . "</span>\".", "#ffff00");
+			bigBroadcast();
+		} else {
+			status($this->clientid, "You did not swap items.", "#ffff00");
+			return false;
+		}
+	}
+
 	public function nameRequest()
 	{
 		$this->state = "nameRequest";
@@ -713,7 +768,11 @@ class Player
 		{
 			if(isset($this->inventory[$string-1]))
 			{
-				status($this->clientid, $this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". Level: " . $this->inventory[$string-1]->level . ".", "#ffff00");
+				if(method_exists($this->inventory[$string-1], "describe")) {
+					$this->inventory[$string-1]->describe($this->clientid);
+				} else {
+					status($this->clientid, $this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". Level: " . $this->inventory[$string-1]->level . ".", "#ffff00");
+				}
 				return true;
 			} else {
 				status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");

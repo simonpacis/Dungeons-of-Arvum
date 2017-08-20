@@ -16,6 +16,11 @@ function keypress($clientID, $key)
 		$players[$clientID]->useInventory(substr($key, -1));
 	}
 
+	if($key == "VK_C")
+	{
+		$players[$clientID]->request('swap');
+	}
+
 	if($key == "VK_Q")
 	{
 		$players[$clientID]->useHealthpot();

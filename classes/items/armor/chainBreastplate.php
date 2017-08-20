@@ -22,7 +22,7 @@ class chainBreastplate extends Armor
 		$this->id = "0009";
 		$this->rarity = "common";
 		$this->description = "Reduces ranged damage by 20%.";
-		$this->maxuses = 100;
+		$this->maxuses = 20;
 		$this->curuses = $this->maxuses;
 		$this->wielded = false;
 		$this->hook = "before_damage";

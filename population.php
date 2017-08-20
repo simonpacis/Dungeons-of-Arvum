@@ -19,6 +19,7 @@ $generic_items=[
 	new chainBreastplate(),
 	new leatherArmor(),
 	new protectiveBlessing(),
+	new skullArmor(),
 	new platemail(),
 	new vigilantBlessing(),
 	new chainmail()
