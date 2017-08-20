@@ -48,7 +48,6 @@ function wsOnOpen($clientID)
 	$ip = long2ip( $Server->wsClients[$clientID][6] );
 
 	echo "$ip ($clientID) has connected.\n" ;
-
 	newPlayer($clientID);
 	if($ready)
 	{
@@ -80,29 +79,8 @@ $Server = new PHPWebSocket();
 $Server->bind('message', 'wsOnReceive');
 $Server->bind('open', 'wsOnOpen');
 $Server->bind('close', 'wsOnClose');
-// for other computers to connect, you will probably need to change this to your LAN IP or external IP,
-// alternatively use: gethostbyaddr(gethostbyname($_SERVER['SERVER_NAME']))
-/*class Task extends Thread {
-	public $server;
 
-	public function __construct($server)
-	{
-		$this->server = $server;
-	}
-    public function run()
-    {
-    	sleep(2);
-    	while(true)
-    	{
-			realBigBroadcast();
-        	usleep(50000); // 20 ticks
-    	}
 
-    }
-};
-$task = new Task($Server);
-$task->start();*/
-
-$Server->wsStartServer($ip, 9300);
+$Server->wsStartServer($ip, $port);
 
 ?>

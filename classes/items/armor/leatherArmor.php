@@ -47,7 +47,7 @@ class leatherArmor extends Armor
 		{
 			if($type == $this->resistance_type)
 			{
-				$damage_to_remove = round($damage*$this->resistance_percentage);
+				$damage_to_remove = ceil($damage*$this->resistance_percentage);
 				$this->curuses = $this->curuses - $damage_to_remove;
 				if($this->curuses <= 0)
 				{
@@ -56,12 +56,12 @@ class leatherArmor extends Armor
 					$player->unwield($this, $this->wield_type);
 					$this->wielded = false;
 				}
-				return round($damage-$damage_to_remove);
+				return ceil($damage-$damage_to_remove);
 			} else {
 				return $damage;
 			}
 		} else {
-			return $damage;
+			return [false, $damage];
 		}
 	}
 }

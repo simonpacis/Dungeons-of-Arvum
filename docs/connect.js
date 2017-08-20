@@ -86,8 +86,14 @@
 
 		function connect(ip)
 		{
+			port = ip.split(':')[1];
+			ip = ip.split(':')[0];
+			if(port == undefined)
+			{
+				port = 9300;
+			}
 			log('Connecting...');
-			Server = new FancyWebSocket('ws://'+ip+':9300');
+			Server = new FancyWebSocket('ws://'+ip+':'+port);
 
 			//Let the user know we're connected
 			Server.bind('open', function() {

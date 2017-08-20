@@ -477,6 +477,7 @@ class Player
 	{
 		$hook = func_get_arg(0);
 		$args = func_get_args();
+		$orgval = 0;
 		array_splice($args, 0, 1);
 
 		foreach($this->inventory as $item)
@@ -486,15 +487,19 @@ class Player
 				if($item->hook == $hook)
 				{
 					$ranHook = call_user_func_array(array($item, 'runHook'), $args);
+					echo "Running hook " . $hook . " and got " . $ranHook;
 					 // Only return the value if the hook succeeded.
-					if($ranHook != false && $ranHook != null)
+					if(!is_array($ranHook))
 					{
 						return $ranHook;
+					} else {
+						$orgval = $ranHook[1];
 					}
+					echo "\n";
 				}
 			}
 		}
-		return false;
+		return $orgval;
 	}
 
 	public function damage($amount, $type, $dealer = null)
