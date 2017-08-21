@@ -22,7 +22,7 @@ function newMap()
 			echo("\nphantomjs is missing. You're probably on a UNIX system, so let's try a Linux binary. Please wait.\n");
 			exec('curl -LJ -o "' .realpath(dirname(__FILE__)).'/libs/phantom.zip"' . ' https://api.github.com/repos/simonklitjohnson/phantomjs-bins/zipball/linux');
 			exec('unzip ' .realpath(dirname(__FILE__)). '/libs/phantom.zip -d ' .realpath(dirname(__FILE__)). '/libs' );
-			exec('mv ' .realpath(dirname(__FILE__)). '/libs/simonklitjohnson-phantomjs-bins-37a1dc9/phantomjs ' .realpath(dirname(__FILE__)). '/libs/phantomjs');
+			exec('mv ' .realpath(dirname(__FILE__)). '/libs/simonklitjohnson-phantomjs-bins-6a04cde/phantomjs ' .realpath(dirname(__FILE__)). '/libs/phantomjs');
 			echo("\nphantomjs installed. Let's hope it works. Proceeding with map generation.\n");
 		}
 	}
