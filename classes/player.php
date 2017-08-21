@@ -730,44 +730,50 @@ class Player
 
 	public function dropRequest()
 	{
-		status($this->clientid, "Which item would you like to drop? Press esc to cancel.", "#ffff00", true);
+		status($this->clientid, "Which item(s) would you like to drop? Press esc to cancel.", "#ffff00", true);
 		return true;
 	}
 
 	public function dropResponse($string)
 	{
 		global $map;
-		if(is_numeric($string) && $string > 0 && $string < 10)
+		$ar = str_split($string);
+		rsort($ar);
+		foreach($ar as $string)
 		{
-			if(isset($this->inventory[$string-1]))
+			if(is_numeric($string) && $string > 0 && $string < 10)
 			{
-
-				status($this->clientid, "You have dropped \"<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>\".", "#ffff00");
-				
-				// Drops always occur to the right of the player first, with the current code. Change this to be random.
-
-				if($map[$this->x+1][$this->y]->representation() == ".")
+				if(isset($this->inventory[$string-1]))
 				{
-					setTile($this->x+1, $this->y, new Tile(new Itemtile($this->inventory[$string-1])));
-					$this->removeFromInventory($string-1, false);
-				} elseif($map[$this->x-1][$this->y]->representation() == ".") {
-					setTile($this->x-1, $this->y, new Tile(new Itemtile($this->inventory[$string-1])));
-					$this->removeFromInventory($string-1, false);
-				} elseif($map[$this->x][$this->y+1]->representation() == ".") {
-					setTile($this->x, $this->y+1, new Tile(new Itemtile($this->inventory[$string-1])));
-					$this->removeFromInventory($string-1, false);
-				} elseif($map[$this->x][$this->y-1]->representation() == ".") {
-					setTile($this->x, $this->y-1, new Tile(new Itemtile($this->inventory[$string-1])));
-					$this->removeFromInventory($string-1, false);
+
+					status($this->clientid, "You have dropped \"<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>\".", "#ffff00");
+					
+					// Drops always occur to the right of the player first, with the current code. Change this to be random.
+
+					if($map[$this->x+1][$this->y]->representation() == ".")
+					{
+						setTile($this->x+1, $this->y, new Tile(new Itemtile($this->inventory[$string-1])));
+						$this->removeFromInventory($string-1, false);
+					} elseif($map[$this->x-1][$this->y]->representation() == ".") {
+						setTile($this->x-1, $this->y, new Tile(new Itemtile($this->inventory[$string-1])));
+						$this->removeFromInventory($string-1, false);
+					} elseif($map[$this->x][$this->y+1]->representation() == ".") {
+						setTile($this->x, $this->y+1, new Tile(new Itemtile($this->inventory[$string-1])));
+						$this->removeFromInventory($string-1, false);
+					} elseif($map[$this->x][$this->y-1]->representation() == ".") {
+						setTile($this->x, $this->y-1, new Tile(new Itemtile($this->inventory[$string-1])));
+						$this->removeFromInventory($string-1, false);
+					} else {
+						status($this->clientid, "There is nowhere to drop your item.", "#ffff00");
+					}
+					//return true;
 				} else {
-					status($this->clientid, "There is nowhere to drop your item.", "#ffff00");
-				}
-				return true;
-			} else {
-				status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");
-				return true;
-			}		
-		}		
+					status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");
+					//return true;
+				}		
+			}
+		}
+		return true;		
 	}
 
 	public function describeRequest()
@@ -778,20 +784,24 @@ class Player
 
 	public function describeResponse($string)
 	{
-		if(is_numeric($string) && $string > 0 && $string < 10)
+		$ar = str_split($string);
+		foreach($ar as $string)
 		{
-			if(isset($this->inventory[$string-1]))
+			if(is_numeric($string) && $string > 0 && $string < 10)
 			{
-				if(method_exists($this->inventory[$string-1], "describe")) {
-					$this->inventory[$string-1]->describe($this->clientid);
+				if(isset($this->inventory[$string-1]))
+				{
+					if(method_exists($this->inventory[$string-1], "describe")) {
+						$this->inventory[$string-1]->describe($this->clientid);
+					} else {
+						status($this->clientid, "<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>: " .$this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". Level: " . $this->inventory[$string-1]->level . ".", "#ffff00");
+					}
+					//return true;
 				} else {
-					status($this->clientid, $this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". Level: " . $this->inventory[$string-1]->level . ".", "#ffff00");
-				}
-				return true;
-			} else {
-				status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");
-				return true;
-			}		
+					status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");
+					//return true;
+				}		
+			}
 		}
 		return true;
 	}

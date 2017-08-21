@@ -19,7 +19,7 @@ class dagger extends Weapon
 		$this->color = "#fff";
 		$this->id = "0014";
 		$this->rarity = "common";
-		$this->description = "An weak but useful dagger.";
+		$this->description = "A weak but useful dagger.";
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 1;
 		$this->radius_var_2 = 1;
