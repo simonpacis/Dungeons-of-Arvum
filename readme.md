@@ -18,7 +18,7 @@ The Dungeons of Arvum server is written in PHP. Simply download this repository 
 Then ask your players to head on over to [http://simonklitjohnson.github.io/Dungeons-of-Arvum](http://simonklitjohnson.github.io/Dungeons-of-Arvum), and tell them your public-facing IP address and port number. The IP and port is entered as such, in the client: "IP:PORT". If port is omitted, it will default to 9300.
 If the client seems to crash after they've entered the IP-address and pressed enter, please read the note at the bottom of this page.
 
-Note: If the game crashes at "Generating map", you need to get the correct phantomjs binary for your OS. Drop it in the "DoA/libs" folder, and then run the server again. They can be downloaded here: [http://phantomjs.org/download.html](http://phantomjs.org/download.html). The binary included is for macOS, however it has proved to work on other OS'es too. In the future, the requirement for phantomjs will not be present.
+Note: The first time you run the server, it will try to download a phantomjs binary for your OS. It can do so for macOS and Linux, but Windows users have to put a working phantomjs binary in the "libs" folder themselves. Hopefully this automated system works.
 
 Make sure to set your IP, port and wanted dungeon size in config.php.
 
