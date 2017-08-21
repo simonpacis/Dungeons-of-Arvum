@@ -104,6 +104,7 @@ class Player
 		// Calc new maxhp.
 		$this->curhp = $this->maxhp;
 		status($this->clientid, "You've gained a level!", "#ff33cc");
+		statusBroadcast($this->name . " reached level " . $this->level . "!", "#ff33cc", false, $this->clientid);
 		$a=0;
 		  for($x=1; $x<($this->level+1); $x++) {
 		    $a += floor($x+80*pow(2, ($x/7)));

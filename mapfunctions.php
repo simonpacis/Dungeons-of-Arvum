@@ -5,8 +5,20 @@ function newMap()
 	global $map_height, $map_width, $map, $mapset, $rooms;
 
 	/* Running digger map generation function from rot.js – using phantomjs. Need some way to change lib based on OS server is running on, right now only macOS compatible. */
-
-	exec(realpath(dirname(__FILE__)) . "/libs/phantomjs " . realpath(dirname(__FILE__)) . "/libs/dig.js ".$map_width." " .$map_height);
+	if(!file_exists(dirname(__FILE__) . "/libs/configged"))
+	{
+		$os = php_uname('s');
+		if(strtolower($os) == "darwin") //macOS
+		{
+			echo("\nphantomjs is missing. Downloading binary for macOS. Please wait.\n");
+			exec('curl -LJ -o "' .realpath(dirname(__FILE__)).'/libs/phantom.zip"' . ' https://api.github.com/repos/simonklitjohnson/phantomjs-bins/zipball/macos');
+			exec('unzip ' .realpath(dirname(__FILE__)). '/libs/phantom.zip -d ' .realpath(dirname(__FILE__)). '/libs' );
+			exec('mv ' .realpath(dirname(__FILE__)). '/libs/simonklitjohnson-phantomjs-bins-37a1dc9/phantomjs ' .realpath(dirname(__FILE__)). '/libs/phantomjs');
+			exec('touch '.realpath(dirname(__FILE__)).'/libs/configged');
+			echo("\nphantomjs installed. Proceeding with map generation.\n");
+		}
+	}
+	exec(realpath(dirname(__FILE__)) . "/libs/phantomjs " . realpath(dirname(__FILE__)) . "/libs/dig.js ".$map_width." " .$map_height);	
 	echo "Map generation done.\n\n";
 
 	$mapfile = json_decode(file_get_contents("libs/map.txt"), true);
