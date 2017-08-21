@@ -37,7 +37,7 @@ class shortBow extends Weapon
 
 	public function useRadius($thisplayer)
 	{
-		parent::damage_in_radius(1, "ranged", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+		parent::damage_in_radius(2, "ranged", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
 		parent::unset_radius($thisplayer);
 		return true;
 	}

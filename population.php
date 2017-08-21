@@ -18,11 +18,10 @@ $generic_items=[
 	new longBow(),
 	new chainBreastplate(),
 	new leatherArmor(),
-	new protectiveBlessing(),
 	new skullArmor(),
 	new platemail(),
-	new vigilantBlessing(),
-	new chainmail()
+	new chainmail(),
+	new longSword()
 ];
 
 // Shuffle item arrays for extra randomization.
