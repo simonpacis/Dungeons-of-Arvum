@@ -83,7 +83,7 @@ class Player
 	{
 		if($this->hasHook("after_kill"))
 		{
-			$amount = $this->runHook("after_kill", $enemy, $this);
+			$this->runHook("after_kill", $enemy, $this);
 		}
 		$exp = $enemy->basedamage + ($enemy->basehp/1.5) + (pow($enemy->level,1.5));
 		$this->gainExp($exp);
@@ -544,12 +544,19 @@ class Player
 	public function damage($amount, $type, $dealer = null)
 	{
 		if($dealer == null) { $dealer->name = "You were"; }
+		$orgamount = $amount;
 		if($this->hasHook("before_damage"))
 		{
 			$amount = $this->runHook("before_damage", $amount, $type, $this);
 		}
 		$this->curhp = $this->curhp - $amount;
-		status($this->clientid, $dealer->name . " dealt " . $amount . " " . $type . " damage.", "#ff5c5c");
+		if($amount < $orgamount)
+		{
+			$reducedamount = $orgamount - $amount;
+			status($this->clientid, $dealer->name . " dealt " . $amount . " " . $type . " damage. " . $reducedamount . " damage was reduced.", "#ff5c5c");
+		} else {
+			status($this->clientid, $dealer->name . " dealt " . $amount . " " . $type . " damage.", "#ff5c5c");
+		}
 		if($this->curhp <= 0)
 		{
 			$this->die();
