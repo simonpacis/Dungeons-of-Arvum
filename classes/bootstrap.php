@@ -2,7 +2,7 @@
 echo "\nDungeons of Arvum Server\n\n";
 echo "Loading classes...\n";
 include_once('items/weapons/weapon.php');
-include_all("classes");
+include_all(realpath(dirname(__FILE__)));
 echo "\nGenerating map.\n";
 /*include('player.php');
 include('tile.php');

@@ -6,7 +6,7 @@ function newMap()
 
 	/* Running digger map generation function from rot.js – using phantomjs. Need some way to change lib based on OS server is running on, right now only macOS compatible. */
 
-	exec("libs/phantomjs libs/dig.js ".$map_width." " .$map_height);
+	exec(realpath(dirname(__FILE__)) . "/libs/phantomjs " . realpath(dirname(__FILE__)) . "/libs/dig.js ".$map_width." " .$map_height);
 	echo "Map generation done.\n\n";
 
 	$mapfile = json_decode(file_get_contents("libs/map.txt"), true);

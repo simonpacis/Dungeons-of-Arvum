@@ -1,0 +1,5 @@
+#!/usr/bin/env php
+
+<?php
+echo realpath(dirname(__FILE__));
+include('server.php');

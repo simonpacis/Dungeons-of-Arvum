@@ -30,7 +30,7 @@ function include_all($dir, &$results = array()){
         if(!is_dir($path)) {
         	if(substr($path, -4) == ".php")
         	{
-        		echo "Loaded: " . $path . "\n";
+        		echo "Loaded: " . $value . "\n";
         		include_once($path);
         	}
             $results[] = $path;
