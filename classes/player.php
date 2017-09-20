@@ -19,6 +19,7 @@ class Player
 	public $inventory;
 	public $spells;
 	public $hold;
+	public $force_hold;
 	public $requestVar;
 	public $requestArg;
 	public $cheats;
@@ -58,6 +59,7 @@ class Player
 		$this->cheats = false;
 		$this->hardcheats = false;
 		$this->hold = false;
+		$this->force_hold = false;
 		$this->ready = false;
 		$this->state = "noname";
 		$this->requestVar = null;
@@ -78,7 +80,7 @@ class Player
 
 	public function move($x_veloc = 0, $y_veloc = 0)
 	{
-		if(!$this->hold && !$this->radius)
+		if(!$this->hold && !$this->radius && !$this->force_hold)
 		{
 			if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
 				$this->x = $this->x + $x_veloc;
@@ -109,6 +111,8 @@ class Player
 	public function levelUp()
 	{
 		$this->level++;
+		$this->maxtimeout++;
+		$this->curtimeout = $this->maxtimeout;
 		// Calc new maxhp.
 		$this->curhp = $this->maxhp;
 		status($this->clientid, "You've gained a level!", "#ff33cc");
@@ -127,6 +131,8 @@ class Player
 			if(($this->last_timeout + 5) <= time()) //Time has passed.
 			{
 				$this->in_timeout = false;
+				$this->force_hold = false;
+				status($this->clientid, "Timeout's over.");
 				return false;
 			} else {
 				return true;
@@ -140,11 +146,14 @@ class Player
 	{
 		if(!$this->in_timeout && $this->curtimeout > 0)
 		{
+			$this->force_hold = true;
 			$this->in_timeout = true;
 			$this->last_timeout = time();
 			$this->curtimeout--;
+			status($this->clientid, "You've entered into a timeout.");
 			return true;
 		} else {
+			status($this->clientid, "You have no more timeouts.");
 			return false;
 		}
 	}
