@@ -16,6 +16,11 @@ function keypress($clientID, $key)
 		$players[$clientID]->useInventory(substr($key, -1));
 	}
 
+	if($key == "VK_R")
+	{
+		$players[$clientID]->setTimeout();
+	}
+
 	if($key == "VK_C")
 	{
 		$players[$clientID]->request('swap');
@@ -306,15 +311,17 @@ function checkMobs()
 		{
 			$xstart = 0;
 		}
-
-		for ($i=$yend; $i <= $ystart; $i++) {
-			for($ix = $xstart; $ix <= $xend; $ix++)
-			{
-				if($map[$ix][$i] != null)
+		if(!$player->inTimeout())
+		{
+			for ($i=$yend; $i <= $ystart; $i++) {
+				for($ix = $xstart; $ix <= $xend; $ix++)
 				{
-					if($map[$ix][$i]->type() == "npc")
+					if($map[$ix][$i] != null)
 					{
-						$map[$ix][$i]->tick();
+						if($map[$ix][$i]->type() == "npc")
+						{
+							$map[$ix][$i]->tick();
+						}
 					}
 				}
 			}

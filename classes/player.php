@@ -32,6 +32,10 @@ class Player
 	public $wieldedArmor;
 	public $healthpots;
 	public $manapots;
+	public $last_timeout;
+	public $in_timeout;
+	public $curtimeout;
+	public $maxtimeout;
 
 	public function __construct($Clientid)
 	{
@@ -65,6 +69,10 @@ class Player
 		$this->wieldedArmor = null;
 		$this->healthpots = 1;
 		$this->manapots = 0;
+		$this->last_timeout = 0;
+		$this->in_timeout = false;
+		$this->curtimeout = 3;
+		$this->maxtimeout = 3;
 
 	}
 
@@ -110,6 +118,35 @@ class Player
 		    $a += floor($x+80*pow(2, ($x/7)));
 		}
 		$this->maxxp = floor($a/4);
+	}
+
+	public function inTimeout()
+	{
+		if($this->in_timeout)
+		{
+			if(($this->last_timeout + 5) <= time()) //Time has passed.
+			{
+				$this->in_timeout = false;
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public function setTimeout()
+	{
+		if(!$this->in_timeout && $this->curtimeout > 0)
+		{
+			$this->in_timeout = true;
+			$this->last_timeout = time();
+			$this->curtimeout--;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	public function addHealthpot($amount = 1)
@@ -192,7 +229,7 @@ class Player
 
 	public function parse()
 	{
-		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots];
+		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout];
 	}
 
 	public function parseArmor()
