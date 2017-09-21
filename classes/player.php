@@ -37,6 +37,8 @@ class Player
 	public $in_timeout;
 	public $curtimeout;
 	public $maxtimeout;
+	public $auto_timeout = 1;
+	public $show_settings;
 
 	public function __construct($Clientid)
 	{
@@ -75,7 +77,8 @@ class Player
 		$this->in_timeout = false;
 		$this->curtimeout = 3;
 		$this->maxtimeout = 3;
-
+		$this->auto_timeout = 1;
+		$this->show_settings = false;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -776,6 +779,7 @@ class Player
 		$ready = true;
 		setLobby($this->clientid);
 		status($this->clientid, "Your name has been set. Type \"!name new_name_here\", to change your name.");
+		$this->displaySettings();
 		$this->cheats = true;
 		$this->hardcheats = true;
 		return true;
@@ -833,6 +837,22 @@ class Player
 	{
 		status($this->clientid, "What would you like to have described? Press esc to cancel.", "#ffff00", true);
 		return true;
+	}
+
+	public function displaySettings()
+	{
+		$this->show_settings = true;
+		status($this->clientid, "Type \"!settings show\" to display this again.");
+		status($this->clientid, "Type \"!autotimeout NUMBER_HERE\" to change. Type 0 to disable.");
+		status($this->clientid, "*) autotimeout at " . $this->auto_timeout . " HP.");
+		status($this->clientid, "Your settings are:");
+	}
+
+	public function getSettings()
+	{
+		$lines = [];
+		array_push($lines, ["text" => "[ ] Autotimeout at [" . $this->auto_timeout . "] HP."]);
+		return $lines;
 	}
 
 	public function describeResponse($string)

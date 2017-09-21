@@ -146,6 +146,21 @@ function chat($clientID, $message)
 								status($clientID, "You can only set your name in the lobby.");
 							}
 							break;
+						case 'autotimeout':
+							(int)$arg = explode(" ", $arg)[0];
+							$arg = preg_replace('/\s+/', '', $arg);
+							if(is_numeric($arg))
+							{
+								status($clientID, "You will now automatically use a timeout, if you have one, when you hit " . $arg . " HP.");
+								$players[$clientID]->auto_timeout = $arg;
+
+							} else {
+								status($clientID, "You have to enter a number. Enter 0 to disable auto timeout.");
+							}
+							break;
+						case 'settings':
+							$players[$clientID]->displaySettings();
+							break;
 						default:
 							# code...
 							break;
@@ -199,6 +214,7 @@ function setLobby($clientID)
 			$Server->wsSend($key->clientid, json_encode($msg));
 		}
 	}
+
 }
 
 function unsetLobby()
@@ -353,6 +369,9 @@ function broadcastState($clientID)
 	if($players[$clientID]->state == "lobby")
 	{
 		setLobby($clientID);
+	} else if ($players[$clientID]->show_settings) {
+		$msg = ["type" => "settings", "line" => $players[$clientID]->getSettings()];
+		$Server->wsSend($clientID, json_encode($msg));
 	} else {
 		$state = getState($clientID);
 		$Server->wsSend($clientID, json_encode($state));

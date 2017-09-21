@@ -144,6 +144,15 @@
 							 	Game.display.drawText(1, iter, value['name']);
 							 	iter = iter + 1;
 							 });
+					} else if(payload['type'] == "settings")
+					{
+						Game.display.clear();
+						iter = 3;
+						$.each(payload['line'], function(index, value)
+						{
+							Game.display.drawText(1, iter, value['text']);
+							iter = iter + 1;
+						});
 					}
 				}/* else if(inLobby)
 				{
