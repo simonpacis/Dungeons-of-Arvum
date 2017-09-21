@@ -74,7 +74,7 @@ function keypress($clientID, $key)
 	{
 		$players[$clientID]->request('drop');
 	}
-	if($key == "VK_BACK_QUOTE")
+	if($key == "VK_H")
 	{
 		$players[$clientID]->displaySettings();
 	}
