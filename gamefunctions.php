@@ -30,7 +30,12 @@ function keypress($clientID, $key)
 
 	if($key == "VK_1" or $key == "VK_2" or $key == "VK_3" or $key == "VK_4" or $key == "VK_5" or $key == "VK_6" or $key == "VK_7" or $key == "VK_8" or $key == "VK_9")
 	{
-		$players[$clientID]->useInventory(substr($key, -1));
+		if(!$players[$clientID]->inTimeout())
+		{
+			$players[$clientID]->useInventory(substr($key, -1));
+		} else {
+			status($clientID, "You're unable to use items when you're in a timeout.");
+		}
 	}
 
 	if($key == "VK_SPACE")
@@ -43,7 +48,12 @@ function keypress($clientID, $key)
 
 	if($key == "VK_R")
 	{
-		$players[$clientID]->setTimeout();
+		if(!$players[$clientID]->inTimeout())
+		{
+			$players[$clientID]->setTimeout();
+		} else {
+			$players[$clientID]->unsetTimeout();
+		}
 	}
 
 	if($key == "VK_C")

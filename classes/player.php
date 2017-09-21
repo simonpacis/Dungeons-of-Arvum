@@ -45,6 +45,7 @@ class Player
 
 	public function __construct($Clientid)
 	{
+		global $default_auto_timeout;
 		$this->clientid = $Clientid;
 		$this->name = "null";
 		$this->level = 1;
@@ -80,7 +81,12 @@ class Player
 		$this->in_timeout = false;
 		$this->curtimeout = 3;
 		$this->maxtimeout = 3;
-		$this->auto_timeout = 4;
+		if($default_auto_timeout != -1)
+		{
+			$this->auto_timeout = $default_auto_timeout;
+		} else {
+			$this->auto_timeout = 0;
+		}
 		$this->show_settings = false;
 		$this->selected_setting = 0;
 		$this->max_settings = 0;
@@ -151,19 +157,30 @@ class Player
 		}
 	}
 
+	public function unsetTimeout()
+	{
+		$this->in_timeout = false;
+		$this->force_hold = false;
+		status($this->clientid, "Timeout's over.");
+	}
+
 	public function setTimeout()
 	{
-		if(!$this->in_timeout && $this->curtimeout > 0)
+		global $default_auto_timeout;
+		if($default_auto_timeout != -1)
 		{
-			$this->force_hold = true;
-			$this->in_timeout = true;
-			$this->last_timeout = time();
-			$this->curtimeout--;
-			status($this->clientid, "You've entered into a timeout.");
-			return true;
-		} else {
-			status($this->clientid, "You have no more timeouts.");
-			return false;
+			if(!$this->in_timeout && $this->curtimeout > 0 && $this->state == "game")
+			{
+				$this->force_hold = true;
+				$this->in_timeout = true;
+				$this->last_timeout = time();
+				$this->curtimeout--;
+				status($this->clientid, "You've entered into a timeout.");
+				return true;
+			} else {
+				status($this->clientid, "You have no more timeouts.");
+				return false;
+			}
 		}
 	}
 
@@ -885,12 +902,19 @@ class Player
 
 	public function settingResponse($string)
 	{
+		global $default_auto_timeout;
 		if(is_numeric($string))
 		{
 			switch ($this->selected_setting) {
 				case 0:
-					$this->auto_timeout = $string;
-					status($this->clientid, "You will now automatically use a timeout, if you have one, when you hit " . $this->auto_timeout . " HP.");
+					if($default_auto_timeout != -1)
+					{
+						$this->auto_timeout = $string;
+						$this->used_auto_timeout = false;
+						status($this->clientid, "You will now automatically use a timeout, if you have one, when you hit " . $this->auto_timeout . " HP.");
+					} else {
+						status($this->clientid, "Auto timeout is disabled on this server.");
+					}
 					break;
 				
 				default:
@@ -925,7 +949,8 @@ class Player
 		$lines = array_merge($strings, $options);
 		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "Use the arrows to move up and down"]);
-		array_push($lines, ["text" => "and press enter to change value."]);
+		array_push($lines, ["text" => "and press \"space\" to change value."]);
+		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "Press \"escape\" to leave menu."]);
 
 		return $lines;
