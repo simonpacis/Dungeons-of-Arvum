@@ -7,13 +7,38 @@ function keypress($clientID, $key)
 	checkMobs();
 	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")
 	{
-		$players[$clientID]->escape();
-		movePlayer($clientID, $key);
+		if(!$players[$clientID]->show_settings)
+		{
+			$players[$clientID]->escape();
+			movePlayer($clientID, $key);
+		} else {
+			if($key == "VK_DOWN")
+			{
+				if($players[$clientID]->selected_setting < $players[$clientID]->max_settings)
+				{
+					$players[$clientID]->selected_setting++;
+				}
+			} else if($key == "VK_UP")
+			{
+				if($players[$clientID]->selected_setting > 0)
+				{
+					$players[$clientID]->selected_setting--;	
+				}
+			}
+		}
 	}
 
 	if($key == "VK_1" or $key == "VK_2" or $key == "VK_3" or $key == "VK_4" or $key == "VK_5" or $key == "VK_6" or $key == "VK_7" or $key == "VK_8" or $key == "VK_9")
 	{
 		$players[$clientID]->useInventory(substr($key, -1));
+	}
+
+	if($key == "VK_SPACE")
+	{
+		if($players[$clientID]->show_settings)
+		{
+			$players[$clientID]->changeSetting();
+		}
 	}
 
 	if($key == "VK_R")
@@ -48,6 +73,10 @@ function keypress($clientID, $key)
 	if($key == "VK_X")
 	{
 		$players[$clientID]->request('drop');
+	}
+	if($key == "VK_BACK_QUOTE")
+	{
+		$players[$clientID]->displaySettings();
 	}
 	bigBroadcast();
 }
@@ -366,12 +395,12 @@ function realBigBroadcast()
 function broadcastState($clientID)
 {
 	global $Server, $map, $players, $broadcastqueue;
-	if($players[$clientID]->state == "lobby")
-	{
-		setLobby($clientID);
-	} else if ($players[$clientID]->show_settings) {
+	 if ($players[$clientID]->show_settings) {
 		$msg = ["type" => "settings", "line" => $players[$clientID]->getSettings()];
 		$Server->wsSend($clientID, json_encode($msg));
+	} else if($players[$clientID]->state == "lobby")
+	{
+		setLobby($clientID);
 	} else {
 		$state = getState($clientID);
 		$Server->wsSend($clientID, json_encode($state));

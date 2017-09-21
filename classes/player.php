@@ -37,8 +37,11 @@ class Player
 	public $in_timeout;
 	public $curtimeout;
 	public $maxtimeout;
-	public $auto_timeout = 1;
+	public $auto_timeout;
 	public $show_settings;
+	public $selected_setting;
+	public $max_settings;
+	public $used_auto_timeout;
 
 	public function __construct($Clientid)
 	{
@@ -77,8 +80,11 @@ class Player
 		$this->in_timeout = false;
 		$this->curtimeout = 3;
 		$this->maxtimeout = 3;
-		$this->auto_timeout = 1;
+		$this->auto_timeout = 4;
 		$this->show_settings = false;
+		$this->selected_setting = 0;
+		$this->max_settings = 0;
+		$this->used_auto_timeout = false;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -308,6 +314,7 @@ class Player
 		$this->unsetTiles();
 		$this->usedItem = null;
 		$this->radius = null;
+		$this->show_settings = false;
 		return true;
 	}
 
@@ -606,6 +613,14 @@ class Player
 		} else {
 			status($this->clientid, $dealer->name . " dealt " . $amount . " " . $type . " damage.", "#ff5c5c");
 		}
+		if($this->curhp <= $this->auto_timeout)
+		{
+			if($this->used_auto_timeout == false)
+			{
+				$this->used_auto_timeout = true;
+				$this->setTimeout();
+			}
+		}
 		if($this->curhp <= 0)
 		{
 			$this->die();
@@ -631,7 +646,7 @@ class Player
 		statusBroadcast($this->name . " has died a horrible death. There's " . $playersalive . " contestants left.", "#ff5c5c");
 	}
 
-	public function heal($amount)
+	public function heal($amount, $notify = true)
 	{
 		$oldcur = $this->curhp;
 		$this->curhp = $this->curhp + $amount;
@@ -641,7 +656,14 @@ class Player
 		}
 		$newcur = $this->curhp;
 		$diff = $newcur - $oldcur;
-		status($this->clientid, "You were healed " . $diff . " HP.", "#5CCC6B");
+		if($this->curhp > $this->auto_timeout)
+		{
+			$this->used_auto_timeout = false;
+		}
+		if($notify)
+		{
+			status($this->clientid, "You were healed " . $diff . " HP.", "#5CCC6B");
+		}
 	}
 
 	public function reduceMana($amount, $notify = true)
@@ -779,7 +801,6 @@ class Player
 		$ready = true;
 		setLobby($this->clientid);
 		status($this->clientid, "Your name has been set. Type \"!name new_name_here\", to change your name.");
-		$this->displaySettings();
 		$this->cheats = true;
 		$this->hardcheats = true;
 		return true;
@@ -833,26 +854,87 @@ class Player
 		return true;		
 	}
 
-	public function describeRequest()
-	{
-		status($this->clientid, "What would you like to have described? Press esc to cancel.", "#ffff00", true);
-		return true;
-	}
-
 	public function displaySettings()
 	{
 		$this->show_settings = true;
-		status($this->clientid, "Type \"!settings show\" to display this again.");
+		/*status($this->clientid, "Type \"!settings show\" to display this again.");
 		status($this->clientid, "Type \"!autotimeout NUMBER_HERE\" to change. Type 0 to disable.");
 		status($this->clientid, "*) autotimeout at " . $this->auto_timeout . " HP.");
-		status($this->clientid, "Your settings are:");
+		status($this->clientid, "Your settings are:");*/
+	}
+
+	public function changeSetting()
+	{
+		switch ($this->selected_setting) {
+			case 0:
+				status($this->clientid, "Please enter the HP at which you would like to auto timeout. Type 0 to disable auto timeout.", "#ffffff", true);
+				$this->request('setting');
+				break;
+			
+			default:
+				status($this->clientid, "Setting 2.");
+				$this->request('setting');
+				break;
+		}
+	}
+
+	public function settingRequest()
+	{
+		return true;
+	}
+
+	public function settingResponse($string)
+	{
+		if(is_numeric($string))
+		{
+			switch ($this->selected_setting) {
+				case 0:
+					$this->auto_timeout = $string;
+					status($this->clientid, "You will now automatically use a timeout, if you have one, when you hit " . $this->auto_timeout . " HP.");
+					break;
+				
+				default:
+					status($this->clientid, "Setting 2.");
+					break;
+			}
+		} else {
+			status($this->clientid, "Please enter a valid number.");
+		}
+		return true;
 	}
 
 	public function getSettings()
 	{
-		$lines = [];
-		array_push($lines, ["text" => "[ ] Autotimeout at [" . $this->auto_timeout . "] HP."]);
+		$strings = [];
+		$options = [];
+		array_push($options, ["text" => "Auto timeout at [" . $this->auto_timeout . "] HP."]);
+
+		$i = 0;
+		foreach ($options as $key => $value) {
+			if($this->selected_setting == $key)
+			{
+				$options[$i]["text"] = "[X] " . $options[$i]["text"];
+			} else {
+				$options[$i]["text"] = "[ ] " . $options[$i]["text"];
+			}
+			$i++;
+		}
+
+		array_push($strings, ["text" => "Your settings:"]);
+		array_push($strings, ["text" => " "]);
+		$lines = array_merge($strings, $options);
+		array_push($lines, ["text" => " "]);
+		array_push($lines, ["text" => "Use the arrows to move up and down"]);
+		array_push($lines, ["text" => "and press enter to change value."]);
+		array_push($lines, ["text" => "Press \"escape\" to leave menu."]);
+
 		return $lines;
+	}
+
+	public function describeRequest()
+	{
+		status($this->clientid, "What would you like to have described? Press esc to cancel.", "#ffff00", true);
+		return true;
 	}
 
 	public function describeResponse($string)

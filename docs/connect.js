@@ -137,7 +137,7 @@
 						iter = 9;
 						Game.display.clear();
 						Game.display.drawText(1, 3, "Waiting for all players..");
-						Game.display.drawText(1, 5, "Press enter and type \"startgame\" to begin.");
+						Game.display.drawText(1, 5, "Press enter and type \"startgame\" to begin. Press \"H\" to open settings.");
 						Game.display.drawText(1, 8, "Players:");
 						$.each(payload['players'], function(index, value)
 							 {
