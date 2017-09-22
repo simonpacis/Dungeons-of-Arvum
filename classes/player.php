@@ -42,6 +42,7 @@ class Player
 	public $selected_setting;
 	public $max_settings;
 	public $used_auto_timeout;
+	public $timeout_started_at;
 
 	public function __construct($Clientid)
 	{
@@ -89,8 +90,9 @@ class Player
 		}
 		$this->show_settings = false;
 		$this->selected_setting = 0;
-		$this->max_settings = 0;
+		$this->max_settings = 1;
 		$this->used_auto_timeout = false;
+		$this->timeout_started_at = 0;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -130,6 +132,10 @@ class Player
 		$this->curtimeout = $this->maxtimeout;
 		// Calc new maxhp.
 		$this->curhp = $this->maxhp;
+		if($this->curhp > $this->auto_timeout)
+		{
+			$this->used_auto_timeout = false;
+		}
 		status($this->clientid, "You've gained a level!", "#ff33cc");
 		statusBroadcast($this->name . " reached level " . $this->level . "!", "#ff33cc", false, $this->clientid);
 		$a=0;
@@ -141,13 +147,15 @@ class Player
 
 	public function inTimeout()
 	{
+		global $default_timeout_duration;
 		if($this->in_timeout)
 		{
-			if(($this->last_timeout + 5) <= time()) //Time has passed.
+			if(($this->last_timeout + $default_timeout_duration) <= time()) //Time has passed.
 			{
 				$this->in_timeout = false;
 				$this->force_hold = false;
-				status($this->clientid, "Timeout's over.");
+				$this->timeout_started_at = round(microtime(true) * 1000);
+				status($this->clientid, "You've been unsuspended.", "#ff33cc");
 				return false;
 			} else {
 				return true;
@@ -161,12 +169,12 @@ class Player
 	{
 		$this->in_timeout = false;
 		$this->force_hold = false;
-		status($this->clientid, "Timeout's over.");
+		status($this->clientid, "You've been unsuspended.", "#ff33cc");
 	}
 
 	public function setTimeout()
 	{
-		global $default_auto_timeout;
+		global $default_auto_timeout, $default_timeout_duration;
 		if($default_auto_timeout != -1)
 		{
 			if(!$this->in_timeout && $this->curtimeout > 0 && $this->state == "game")
@@ -175,10 +183,10 @@ class Player
 				$this->in_timeout = true;
 				$this->last_timeout = time();
 				$this->curtimeout--;
-				status($this->clientid, "You've entered into a timeout.");
+				status($this->clientid, "You're magically suspended for " . $default_timeout_duration . " seconds.", "#ff33cc");
 				return true;
 			} else {
-				status($this->clientid, "You have no more timeouts.");
+				status($this->clientid, "You have no more suspensions to use.");
 				return false;
 			}
 		}
@@ -817,7 +825,7 @@ class Player
 		$this->name = preg_replace('/\s+/', '', $name);
 		$ready = true;
 		setLobby($this->clientid);
-		status($this->clientid, "Your name has been set. Type \"!name new_name_here\", to change your name.");
+		status($this->clientid, "Your name has been set. Press \"H\" to open settings, if you want to change your name.");
 		$this->cheats = true;
 		$this->hardcheats = true;
 		return true;
@@ -884,7 +892,17 @@ class Player
 	{
 		switch ($this->selected_setting) {
 			case 0:
-				status($this->clientid, "Please enter the HP at which you would like to auto timeout. Type 0 to disable auto timeout.", "#ffffff", true);
+				if($this->state == "lobby")
+				{
+					status($this->clientid, "Please enter your new name.", "#ffff00", true);
+					$this->request('setting');
+
+				} else {
+					status($this->clientid, "You can only set your name in the lobby.");
+				}
+				break;
+			case 1:
+				status($this->clientid, "Please enter the HP at which you would like to auto suspend. Type 0 to disable auto suspend.", "#ffff00", true);
 				$this->request('setting');
 				break;
 			
@@ -903,17 +921,29 @@ class Player
 	public function settingResponse($string)
 	{
 		global $default_auto_timeout;
-		if(is_numeric($string))
-		{
 			switch ($this->selected_setting) {
 				case 0:
-					if($default_auto_timeout != -1)
+					if($this->state == "lobby")
 					{
-						$this->auto_timeout = $string;
-						$this->used_auto_timeout = false;
-						status($this->clientid, "You will now automatically use a timeout, if you have one, when you hit " . $this->auto_timeout . " HP.");
+						$this->name = preg_replace('/\s+/', '', $string);
+						status($this->clientid, "Your name has been set.");
 					} else {
-						status($this->clientid, "Auto timeout is disabled on this server.");
+						status($this->clientid, "You can only set your name in the lobby.");
+					}
+					break;
+				case 1:
+					if(is_numeric($string))
+					{
+						if($default_auto_timeout != -1)
+						{
+							$this->auto_timeout = $string;
+							$this->used_auto_timeout = false;
+							status($this->clientid, "You will now automatically use a suspension, if you have one, when you hit " . $this->auto_timeout . " HP.");
+						} else {
+							status($this->clientid, "Auto suspend is disabled on this server.");
+						}
+					} else {
+						status($this->clientid, "Please enter a valid number.");
 					}
 					break;
 				
@@ -921,9 +951,7 @@ class Player
 					status($this->clientid, "Setting 2.");
 					break;
 			}
-		} else {
-			status($this->clientid, "Please enter a valid number.");
-		}
+
 		return true;
 	}
 
@@ -931,7 +959,8 @@ class Player
 	{
 		$strings = [];
 		$options = [];
-		array_push($options, ["text" => "Auto timeout at [" . $this->auto_timeout . "] HP."]);
+		array_push($options, ["text" => "Name: " . $this->name]);
+		array_push($options, ["text" => "Auto suspend at " . $this->auto_timeout . " HP."]);
 
 		$i = 0;
 		foreach ($options as $key => $value) {

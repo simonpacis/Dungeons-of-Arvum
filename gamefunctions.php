@@ -27,15 +27,59 @@ function keypress($clientID, $key)
 			}
 		}
 	}
-
-	if($key == "VK_1" or $key == "VK_2" or $key == "VK_3" or $key == "VK_4" or $key == "VK_5" or $key == "VK_6" or $key == "VK_7" or $key == "VK_8" or $key == "VK_9")
+	if(!$players[$clientID]->show_settings)
 	{
-		if(!$players[$clientID]->inTimeout())
+		if($key == "VK_1" or $key == "VK_2" or $key == "VK_3" or $key == "VK_4" or $key == "VK_5" or $key == "VK_6" or $key == "VK_7" or $key == "VK_8" or $key == "VK_9")
 		{
-			$players[$clientID]->useInventory(substr($key, -1));
-		} else {
-			status($clientID, "You're unable to use items when you're in a timeout.");
+			if(!$players[$clientID]->inTimeout())
+			{
+				$players[$clientID]->useInventory(substr($key, -1));
+			} else {
+				status($clientID, "You're unable to use items when you're suspended.");
+			}
 		}
+
+
+
+		if($key == "VK_R")
+		{
+			if(!$players[$clientID]->inTimeout())
+			{
+				$players[$clientID]->setTimeout();
+			} else {
+				$players[$clientID]->unsetTimeout();
+			}
+		}
+
+
+		if($key == "VK_C")
+		{
+			$players[$clientID]->request('swap');
+		}
+
+		if($key == "VK_Q")
+		{
+			$players[$clientID]->useHealthpot();
+		}
+
+		if($key == "VK_E")
+		{
+			$players[$clientID]->useManapot();
+		}
+
+		if($key == "VK_Z")
+		{
+			$players[$clientID]->request('describe');
+		}
+		if($key == "VK_X")
+		{
+			$players[$clientID]->request('drop');
+		}
+	}
+	
+	if($key == "VK_ESCAPE")
+	{
+		$players[$clientID]->escape();
 	}
 
 	if($key == "VK_SPACE")
@@ -46,48 +90,16 @@ function keypress($clientID, $key)
 		}
 	}
 
-	if($key == "VK_R")
+	if($key == "VK_H")
 	{
-		if(!$players[$clientID]->inTimeout())
+		if(!$players[$clientID]->show_settings)
 		{
-			$players[$clientID]->setTimeout();
+			$players[$clientID]->displaySettings();
 		} else {
-			$players[$clientID]->unsetTimeout();
+			$players[$clientID]->escape();
 		}
 	}
 
-	if($key == "VK_C")
-	{
-		$players[$clientID]->request('swap');
-	}
-
-	if($key == "VK_Q")
-	{
-		$players[$clientID]->useHealthpot();
-	}
-
-	if($key == "VK_E")
-	{
-		$players[$clientID]->useManapot();
-	}
-
-	if($key == "VK_ESCAPE")
-	{
-		$players[$clientID]->escape();
-	}
-
-	if($key == "VK_Z")
-	{
-		$players[$clientID]->request('describe');
-	}
-	if($key == "VK_X")
-	{
-		$players[$clientID]->request('drop');
-	}
-	if($key == "VK_H")
-	{
-		$players[$clientID]->displaySettings();
-	}
 	bigBroadcast();
 }
 
@@ -375,11 +387,16 @@ function checkMobs()
 					{
 						if($map[$ix][$i]->type() == "npc")
 						{
+							if($player->timeout_started_at != 0)
+							{
+								$map[$ix][$i]->lastattack = $map[$ix][$i]->lastattack + 5000;
+							}
 							$map[$ix][$i]->tick();
 						}
 					}
 				}
 			}
+			$player->timeout_started_at = 0;
 		}
 	}
 	return true;
@@ -436,13 +453,13 @@ function getState($clientID)
 	return $state;
 }
 
-function status($clientID, $stat, $color = "#ffffff", $expectresponse = false)
+function status($clientID, $stat, $color = "#ffff00", $expectresponse = false)
 {
 	global $Server, $status;
 	$Server->wsSend($clientID, json_encode(['type' => 'status', 'status' => $stat, 'color' => $color, 'expectresponse' => $expectresponse]));
 }
 
-function statusBroadcast($message, $color = "#ffffff", $include_self = true, $player_clientid = null)
+function statusBroadcast($message, $color = "#ffff00", $include_self = true, $player_clientid = null)
 {
 	global $Server;
 	foreach($Server->wsClients as $id => $client)

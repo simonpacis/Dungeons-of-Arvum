@@ -14,8 +14,30 @@ $generate_new_map = false; //Set to false if you want to load a map from pre-exi
 	In-game specific configuratons
 */
 
-$default_auto_timeout = 4; //The default HP at which a player will automatically use a timeout. Can be changed by the individual player. Set to 0 to disable as default, or -1 to disable the auto timeout functionality completely, so that no player can enable it for themselves.
+$default_timeout_duration = 5; //The amount of seconds a timeout/suspension lasts for.
+$default_auto_timeout = 5; //The default HP at which a player will automatically use a timeout. Can be changed by the individual player. Set to 0 to disable as default, or -1 to disable the auto timeout functionality completely, so that no player can enable it for themselves.
 
+/*
+	Key mappings. Have to match the "VK_KEY" provided by the client. Not implemented yet.
+
+
+$move_up_1 = "VK_W";
+$move_down_1 = "VK_S";
+$move_left_1 = "VK_A";
+$move_right_1 = "VK_D";
+$move_up_2 = "VK_UP";
+$move_down_2 = "VK_DOWN";
+$move_left_2 = "VK_LEFT";
+$move_right_2 = "VK_RIGHT";
+
+$enter_timeout = "VK_R";
+$swap_items = "VK_C";
+$use_healthpot = "VK_Q";
+$use_manapot = "VK_E";
+$describe_item = "VK_Z";
+$drop_item = "VK_X";
+$display_settings = "VK_H";
+*/
 
 // Obscure configurations below
 
