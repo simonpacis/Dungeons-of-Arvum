@@ -128,7 +128,6 @@ class Player
 	public function levelUp()
 	{
 		$this->level++;
-		$this->maxtimeout++;
 		$this->curtimeout = $this->maxtimeout;
 		// Calc new maxhp.
 		$this->curhp = $this->maxhp;
