@@ -93,6 +93,9 @@ setPlayerInfo = function(playerinfo)
 	$(".curtimeout").text(playerinfo['curtimeout']);
 	$(".maxtimeout").text(playerinfo['maxtimeout']);
 	$(".playerarmor").html("<span style='color:"+playerinfo['armor']['color']+" !important;'>" + playerinfo['armor']['name'] + "</span>");
+	for (var i = 0; i <= 3; i++) {
+		$(".s" + (i+1)).html("<span style='color:"+playerinfo['spells'][i]['color']+" !important;'>" + playerinfo['spells'][i]['text'] + "</span>");
+	}
 	for (var i = 0; i <= 8; i++) {
 		$(".i" + (i+1)).html("<span style='color:"+playerinfo['inventory'][i]['color']+" !important;'>" + playerinfo['inventory'][i]['text'] + "</span>");
 	}

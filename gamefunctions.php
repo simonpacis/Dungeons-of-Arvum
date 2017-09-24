@@ -39,7 +39,15 @@ function keypress($clientID, $key)
 			}
 		}
 
-
+		if($key == "VK_U" or $key == "VK_I" or $key == "VK_O" or $key == "VK_P")
+		{
+			if(!$players[$clientID]->inTimeout())
+			{
+				$players[$clientID]->useSpell($key);
+			} else {
+				status($clientID, "You're unable to use spells when you're suspended");
+			}
+		}
 
 		if($key == "VK_R")
 		{
@@ -487,6 +495,7 @@ function newPlayer($clientID)
 			setLobby($clientID);
 			$players[$clientID]->request('name');
 			$players[$clientID]->addToInventory(new dagger(), false, false);
+			$players[$clientID]->addToSpells(new fireBall(), false, false);
 			//requestName($clientID);
 		} else {
 			bigBroadcast();

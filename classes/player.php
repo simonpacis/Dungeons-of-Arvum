@@ -30,6 +30,7 @@ class Player
 	public $radiustiles;
 	public $radius;
 	public $usedItem;
+	public $usedSpell;
 	public $wieldedArmor;
 	public $healthpots;
 	public $manapots;
@@ -75,6 +76,7 @@ class Player
 		$this->radiustiles = [];
 		$this->radius = false;
 		$this->usedItem = null;
+		$this->usedSpell = null;
 		$this->wieldedArmor = null;
 		$this->healthpots = 1;
 		$this->manapots = 0;
@@ -271,7 +273,7 @@ class Player
 
 	public function parse()
 	{
-		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout];
+		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout];
 	}
 
 	public function parseArmor()
@@ -378,6 +380,69 @@ class Player
 			return true;
 		}
 		return true;
+	}
+
+	public function useSpell($key)
+	{
+		$index = 0;
+		if($key == "VK_U")
+		{
+			$index = 0;
+		} else if($key == "VK_I")
+		{
+			$index = 1;
+		} else if($key == "VK_O")
+		{
+			$index = 2;
+		} else if($key == "VK_P")
+		{
+			$index = 3;
+		}
+		if(!$this->dead)
+		{
+			$index--;
+			if(isset($this->spells[$index]))
+			{
+				if($this->usedSpell != -1)
+				{
+					if($this->usedSpell == $index && $this->radius == true)
+					{
+						$this->spells[$index]->useRadius($this);
+					} else {
+						$this->usedSpell = $index;
+						$this->spells[$index]->use($this);
+					}
+				} else {
+					$this->usedSpell = null;
+				}
+			}
+		} else {
+			status($this->clientid, "You're dead and cannot use spells.");
+		}
+	}
+
+	public function addToSpells($spell, $faux = false, $notify = true)
+	{
+		$spellcount = count($this->spellcount);
+		$item = clone $spell;
+		if($spellcount < 4 OR $faux == true)
+		{
+			if($faux == false)
+			{
+				array_push($this->spells, $item);
+			}
+			if($notify) {
+				status($this->clientid, "You picked up \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\".", "#ffff00");
+			}
+			if($item->rarity == "legendary")
+			{
+				if($notify) {
+					statusBroadcast($this->name . " picked up \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\"!", "#ffff00", false, $this->clientid);
+				}
+			}
+		} else {
+			$this->request('inventoryFull', $item);
+		}
 	}
 
 	public function useInventory($index)
@@ -555,6 +620,24 @@ class Player
 		return $inv;
 	}
 
+
+	public function parseSpells()
+	{
+		$inven = $this->spells;
+		$inv = [];
+		for ($i=0; $i <4; $i++) {
+			if(!isset($inven[$i]))
+			{
+				$inv[$i]['color'] = "rgba(255,255,255,0.7) ";
+				$inv[$i]['text'] = "(none)";
+			} else {
+				$inv[$i]['color'] = $inven[$i]->color;
+				$inv[$i]['text'] = $inven[$i]->name;
+			}
+			
+		}
+		return $inv;
+	}
 	public function hasHook($hook)
 	{
 		foreach($this->inventory as $item)
