@@ -496,7 +496,6 @@ function newPlayer($clientID)
 			$players[$clientID]->request('name');
 			$players[$clientID]->addToInventory(new dagger(), false, false);
 			$players[$clientID]->addToSpells(new fireBall(), false, false);
-			//requestName($clientID);
 		} else {
 			bigBroadcast();
 		}

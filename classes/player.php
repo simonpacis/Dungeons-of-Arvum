@@ -400,7 +400,6 @@ class Player
 		}
 		if(!$this->dead)
 		{
-			$index--;
 			if(isset($this->spells[$index]))
 			{
 				if($this->usedSpell != -1)
@@ -1092,6 +1091,34 @@ class Player
 					status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");
 					//return true;
 				}		
+			} else if(strtolower($string) == "u" or strtolower($string) == "i" or strtolower($string) == "o" or strtolower($string) == "p")
+			{
+				$orgstring = strtoupper($string);
+				if(strtolower($string) == "u")
+				{
+					$string = 0;
+				} else if(strtolower($string) == "i")
+				{
+					$string = 1;
+				} else if(strtolower($string) == "o")
+				{
+					$string = 2;
+				} else if(strtolower($string) == "p")
+				{
+					$string = 3;
+				}
+				if(isset($this->spells[$string]))
+				{
+					if(method_exists($this->spells[$string], "describe")) {
+						$this->spells[$string]->describe($this->clientid);
+					} else {
+						status($this->clientid, "<span style='color:".$this->spells[$string]->color." !important;'>" . $this->spells[$string]->name . "</span>: " .$this->spells[$string]->description . " Rarity: " . ucfirst($this->spells[$string]->rarity) . ". Level: " . $this->spells[$string]->level . ".", "#ffff00");
+					}
+					//return true;
+				} else {
+					status($this->clientid, "You do not have an spell at slot " . ($orgstring) . " in your spells.", "#ffff00");
+					//return true;
+				}	
 			}
 		}
 		return true;
