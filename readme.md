@@ -3,7 +3,7 @@
 Dungeons of Arvum is a roguelike-inspired realtime multiplayer browser game currently under "hobby development".
 
 ## Game footage
-![doa](https://user-images.githubusercontent.com/7118482/30783768-e7b49744-a148-11e7-8e91-0c2a5cb537cf.gif)
+![doa](https://user-images.githubusercontent.com/7118482/30783785-3955baf6-a149-11e7-97f3-832a509420b7.gif)
 
 Essentially, Dungeons of Arvum allows you to play with your friends in a possibly huge single floor dungeon. You fight mobs, level up, gather items, spells and potions. 
 
