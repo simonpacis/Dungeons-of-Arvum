@@ -2728,7 +2728,7 @@ ROT.Map.Digger.prototype.create = function(callback) {
 	var args = system.args;
     var fs = require('fs');
 
-	var path = args[3] + '/libs/rooms.txt';
+	var path = args[3] + '/libs/rooms.doafile';
 	var content = JSON.stringify(this._rooms);
 	fs.write(path, content, 'w');
 	return this;
@@ -5381,7 +5381,7 @@ Game._generateMap = function() {
     digger.create(digCallback.bind(this));
     var fs = require('fs');
 
-	var path = args[3] + '/libs/map.txt';
+	var path = args[3] + '/libs/map.doafile';
 	var content = JSON.stringify(this.map);
 	fs.write(path, content, 'w');
 	phantom.exit();

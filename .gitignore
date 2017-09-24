@@ -5,5 +5,7 @@ libs/phantom.zip
 libs/configged
 libs/rooms.txt
 libs/map.txt
+libs/rooms.doafile
+libs/map.doafile
 libs/.DS_Store
 .DS_Store

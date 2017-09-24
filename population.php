@@ -99,6 +99,7 @@ $spawnable_mobs =[
 
 function populateMap()
 {
+	global $ip, $port;
 
 	/*
 		Rules of room distribution.
@@ -130,7 +131,18 @@ function populateMap()
 		}
 
 	}
-	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                by: Simon Klit-Johnson                  |\n|                                                        |\n----------------------------------------------------------\n\nReady to connect!\n\n";
+	if($ip == "0.0.0.0")
+	{
+		$public_ip = json_decode(file_get_contents('http://ifconfig.co/port/8080'), true)['ip'];
+	}
+	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                by: Simon Klit-Johnson                  |\n|                                                        |\n----------------------------------------------------------\n\n";
+	if($ip == "0.0.0.0")
+	{
+		echo "Ready to connect at: ".$public_ip.":".$port."!\n";
+	} else {
+		echo "Ready to connect!";
+	}
+
 }
 
 function vacantRoom($room)

@@ -32,8 +32,8 @@ function newMap()
 	}
 	echo "Map generation done.\n\n";
 
-	$mapfile = json_decode(file_get_contents("libs/map.txt"), true);
-	$roomsfile = json_decode(file_get_contents("libs/rooms.txt"), true);
+	$mapfile = json_decode(file_get_contents("libs/map.doafile"), true);
+	$roomsfile = json_decode(file_get_contents("libs/rooms.doafile"), true);
 
 	foreach($mapfile as $key => $value) {
 	    $parts = explode(",", $key);

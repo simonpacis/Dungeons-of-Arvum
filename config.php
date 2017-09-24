@@ -1,14 +1,14 @@
 <?php
 
-$ip = "0.0.0.0"; //Leave this as-is for almost all use cases. Change it if you know what you're doing.
+$ip = "0.0.0.0"; //0.0.0.0 exposes the server at your public-facing IP address. Change this only if you know what you're doing.
 $port = 9300;
 
-$max_players = 4;
+$max_players = 4; //Roadmap: Additional players will be added as spectators.
 
 $map_width = 400;
 $map_height = 400;
 
-$generate_new_map = true; //Set to false if you want to load a map from pre-existing map.txt and rooms.txt files in the "libs" folder.
+$generate_new_map = true; //Set to false if you want to load a map from pre-existing map.doafile and rooms.doafile files in the "libs" folder.
 
 /*
 	In-game specific configuratons
