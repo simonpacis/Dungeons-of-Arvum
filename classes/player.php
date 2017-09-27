@@ -44,6 +44,11 @@ class Player
 	public $max_settings;
 	public $used_auto_timeout;
 	public $timeout_started_at;
+	public $mana_regen;
+	public $last_mana_regen;
+	public $hp_regen;
+	public $last_hp_regen;
+	public $describe_function;
 
 	public function __construct($Clientid)
 	{
@@ -53,8 +58,8 @@ class Player
 		$this->level = 1;
 		$this->curhp = 20;
 		$this->maxhp = 20;
-		$this->curmana = 0;
-		$this->maxmana = 0;
+		$this->curmana = 20;
+		$this->maxmana = 20;
 		$this->curxp = 0;
 		$this->maxxp = 14;
 		$this->x = 0;
@@ -95,6 +100,11 @@ class Player
 		$this->max_settings = 1;
 		$this->used_auto_timeout = false;
 		$this->timeout_started_at = 0;
+		$this->mana_regen = 0.30; //Mana regenerated per second;
+		$this->last_mana_regen = 0;
+		$this->hp_regen = 0.15; //HP regenerated per second;
+		$this->last_hp_regen = 0;
+		$this->describe_function = false;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -129,13 +139,37 @@ class Player
 
 	public function levelUp()
 	{
+		global $players, $mobs;
 		$this->level++;
 		$this->curtimeout = $this->maxtimeout;
 		// Calc new maxhp.
-		$this->curhp = $this->maxhp;
+		$additionalhp = round(pow(($this->level-1),1.15));
+		$this->maxhp = $this->maxhp + $additionalhp;
+		if($this->curhp < round($this->maxhp/2))
+		{
+			$this->curhp = round($this->maxhp/2);
+		}
 		if($this->curhp > $this->auto_timeout)
 		{
 			$this->used_auto_timeout = false;
+		}
+		$highestlvl = $this->level;
+		foreach($players as $curplayer)
+		{
+			if($curplayer->level > $highestlvl)
+			{
+				$highestlvl = $curplayer->level;
+			}
+		}
+		if($highestlvl == $this->level)
+		{
+			foreach($mobs as $curmob)
+			{
+				if($curmob->curhp == $curmob->maxhp && $curmob->target == null && $curmob->level < $this->level) // Not in combat
+				{
+					$curmob->levelUp();
+				}
+			}
 		}
 		status($this->clientid, "You've gained a level!", "#ff33cc");
 		statusBroadcast($this->name . " reached level " . $this->level . "!", "#ff33cc", false, $this->clientid);
@@ -144,6 +178,34 @@ class Player
 		    $a += floor($x+80*pow(2, ($x/7)));
 		}
 		$this->maxxp = floor($a/4);
+	}
+
+	public function regenerate()
+	{
+		if($this->last_mana_regen == 0)
+		{
+			$this->last_mana_regen = time();
+			$this->last_hp_regen = time();
+		}
+
+		$seconds_per_mana = round(1/$this->mana_regen);
+		if(($this->last_mana_regen+$seconds_per_mana) <= time())
+		{
+			if($this->curmana < $this->maxmana)
+			{
+				$this->curmana++;
+			}
+			$this->last_mana_regen = time();
+		}
+		$seconds_per_hp = round(1/$this->hp_regen);
+		if(($this->last_hp_regen+$seconds_per_hp) <= time())
+		{
+			if($this->curhp < $this->maxhp)
+			{
+				$this->curhp++;
+			}
+			$this->last_hp_regen = time();
+		}
 	}
 
 	public function inTimeout()
@@ -164,6 +226,7 @@ class Player
 		} else {
 			return false;
 		}
+		
 	}
 
 	public function unsetTimeout()
@@ -406,10 +469,36 @@ class Player
 				{
 					if($this->usedSpell == $index && $this->radius == true)
 					{
-						$this->spells[$index]->useRadius($this);
+						if($this->level >= $this->spells[$index]->level)
+						{
+							if($this->curmana >= $this->spells[$index]->mana_use)
+							{
+								if($this->spells[$index]->useRadius($this)) {
+									$this->curmana = $this->curmana - $this->spells[$index]->mana_use;
+								}
+							} else {
+								status($this->clientid, "You do not have enough mana.");
+							}
+						} else {
+							status($this->clientid, "You need to be level " . $this->spells[$index]->level . " to use " . $this->spells[$index]->name . ".");
+						}
 					} else {
-						$this->usedSpell = $index;
-						$this->spells[$index]->use($this);
+						if($this->level >= $this->spells[$index]->level)
+						{
+							if($this->curmana >= $this->spells[$index]->mana_use)
+							{
+								if($this->spells[$index]->use($this)) {
+									$this->usedSpell = $index;
+									$this->curmana = $this->curmana - $this->spells[$index]->mana_use;
+								} else {
+									$this->usedSpell = $index;
+								}
+							} else {
+								status($this->clientid, "You do not have enough mana.");
+							}
+						} else {
+							status($this->clientid, "You need to be level " . $this->spells[$index]->level . " to use " . $this->spells[$index]->name . ".");
+						}
 					}
 				} else {
 					$this->usedSpell = null;
@@ -422,21 +511,41 @@ class Player
 
 	public function addToSpells($spell, $faux = false, $notify = true)
 	{
-		$spellcount = count($this->spellcount);
+		$spellcount = count($this->spells);
 		$item = clone $spell;
 		if($spellcount < 4 OR $faux == true)
 		{
-			if($faux == false)
+			if($spellcount != 0)
 			{
-				array_push($this->spells, $item);
+				foreach($this->spells as $spell)
+				{
+					if($item->id == $spell->id)
+					{
+						if($faux == false)
+						{
+							$spell->duplicate($this, $notify);
+						}
+					} else {
+						if($faux == false)
+						{
+							array_push($this->spells, $item);
+						}
+					}
+				}
+			} else {
+				if($faux == false)
+				{
+					array_push($this->spells, $item);
+				}
 			}
+
 			if($notify) {
-				status($this->clientid, "You picked up \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\".", "#ffff00");
+				status($this->clientid, "You obtained \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\".", "#ffff00");
 			}
 			if($item->rarity == "legendary")
 			{
 				if($notify) {
-					statusBroadcast($this->name . " picked up \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\"!", "#ffff00", false, $this->clientid);
+					statusBroadcast($this->name . " obtained \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\"!", "#ffff00", false, $this->clientid);
 				}
 			}
 		} else {
@@ -455,32 +564,42 @@ class Player
 				{
 					if($this->usedItem == $index && $this->radius == true)
 					{
-						if($this->inventory[$index]->useRadius($this))
+						if($this->level >= $this->inventory[$index]->level)
 						{
-							$this->inventory[$index]->curuses--;
-					
-							if($this->inventory[$index]->curuses == 0)
+							if($this->inventory[$index]->useRadius($this))
 							{
-								status($this->clientid, $this->inventory[$index]->name . " broke.", "#ffff00");
-								unset($this->inventory[$index]);
-								$this->inventory = array_values($this->inventory);
-								bigBroadcast();
+								$this->inventory[$index]->curuses--;
+						
+								if($this->inventory[$index]->curuses == 0)
+								{
+									status($this->clientid, $this->inventory[$index]->name . " broke.", "#ffff00");
+									unset($this->inventory[$index]);
+									$this->inventory = array_values($this->inventory);
+									bigBroadcast();
+								}
 							}
+						} else {
+							status($this->clientid, "You need to be level " . $this->inventory[$index]->level . " to use " . $this->inventory[$index]->name . ".");
 						}
 					} else {
 						$this->usedItem = $index;
-						if($this->inventory[$index]->use($this))
+						if($this->level >= $this->inventory[$index]->level)
 						{
-
-							$this->inventory[$index]->curuses--;
-					
-							if($this->inventory[$index]->curuses == 0)
+							if($this->inventory[$index]->use($this))
 							{
-								status($this->clientid, $this->inventory[$index]->name . " broke.", "#ffff00");
-								unset($this->inventory[$index]);
-								$this->inventory = array_values($this->inventory);
-								bigBroadcast();
+
+								$this->inventory[$index]->curuses--;
+						
+								if($this->inventory[$index]->curuses == 0)
+								{
+									status($this->clientid, $this->inventory[$index]->name . " broke.", "#ffff00");
+									unset($this->inventory[$index]);
+									$this->inventory = array_values($this->inventory);
+									bigBroadcast();
+								}
 							}
+						} else {
+							status($this->clientid, "You need to be level " . $this->inventory[$index]->level . " to use " . $this->inventory[$index]->name . ".");
 						}
 					}
 				} else {
@@ -631,7 +750,7 @@ class Player
 				$inv[$i]['text'] = "(none)";
 			} else {
 				$inv[$i]['color'] = $inven[$i]->color;
-				$inv[$i]['text'] = $inven[$i]->name;
+				$inv[$i]['text'] = $inven[$i]->name . " <span style='color:#6495ED !important;'>(" . $inven[$i]->mana_use . ")</span> " .$inven[$i]->panelText();
 			}
 			
 		}
@@ -865,7 +984,7 @@ class Player
 
 	public function swapRequest()
 	{
-		status($this->clientid, "What two items would you like to swap?", "#ffff00", true);
+		status($this->clientid, "What would you like to swap?", "#ffff00", true);
 		return true;
 	}
 
@@ -887,8 +1006,53 @@ class Player
 				status($this->clientid, "It was not possible to swap these items", "#ffff00");
 			}
 
+		} else if(strtolower($item1) == "u" or strtolower($item1) == "i" or strtolower($item1) == "o" or strtolower($item1) == "p" or strtolower($item2) == "u" or strtolower($item2) == "i" or strtolower($item2) == "o" or strtolower($item2) == "p" and !is_numeric($item1) and !is_numeric($item2)) {
+			$item1index = -1;
+			if(strtolower($item1) == "u")
+			{
+				$item1index = 0;
+			} else if(strtolower($item1) == "i")
+			{
+				$item1index = 1;
+			} else if(strtolower($item1) == "o")
+			{
+				$item1index = 2;
+			} else if(strtolower($item1) == "p")
+			{
+				$item1index = 3;
+			}
+			$item2index = -1;
+			if(strtolower($item2) == "u")
+			{
+				$item2index = 0;
+			} else if(strtolower($item2) == "i")
+			{
+				$item2index = 1;
+			} else if(strtolower($item2) == "o")
+			{
+				$item2index = 2;
+			} else if(strtolower($item2) == "p")
+			{
+				$item2index = 3;
+			}
+			if($item1index != -1 && $item2index != -1)
+			{
+				if(isset($this->spells[$item1index]) && isset($this->spells[$item2index]))
+				{
+					$itemm1 = $this->spells[$item1index];
+					$itemm2 = $this->spells[$item2index];
+					$this->spells[$item1index] = $itemm2;
+					$this->spells[$item2index] = $itemm1;
+					status($this->clientid, "You swapped \"<span style='color:".$itemm1->color." !important;'>" . $itemm1->name . "</span>\" with \"<span style='color:".$itemm2->color." !important;'>" . $itemm2->name . "</span>\".", "#ffff00");
+					bigBroadcast();
+				} else {
+					status($this->clientid, "It was not possible to swap these spells.", "#ffff00");
+				}
+			} else {
+					status($this->clientid, "It was not possible to swap these spells.", "#ffff00");
+			}
 		} else {
-			status($this->clientid, "You did not swap items.", "#ffff00");
+			status($this->clientid, "You did not swap.", "#ffff00");
 			return false;
 		}
 	}
@@ -963,10 +1127,6 @@ class Player
 	public function displaySettings()
 	{
 		$this->show_settings = true;
-		/*status($this->clientid, "Type \"!settings show\" to display this again.");
-		status($this->clientid, "Type \"!autotimeout NUMBER_HERE\" to change. Type 0 to disable.");
-		status($this->clientid, "*) autotimeout at " . $this->auto_timeout . " HP.");
-		status($this->clientid, "Your settings are:");*/
 	}
 
 	public function changeSetting()
@@ -986,7 +1146,10 @@ class Player
 				status($this->clientid, "Please enter the HP at which you would like to auto suspend. Type 0 to disable auto suspend.", "#ffff00", true);
 				$this->request('setting');
 				break;
-			
+			case 2:
+				status($this->clientid, "Please enter 1 to enable, and 0 to disable", "#ffff00", true);
+				$this->request('setting');
+				break;
 			default:
 				status($this->clientid, "Setting 2.");
 				$this->request('setting');
@@ -1027,7 +1190,19 @@ class Player
 						status($this->clientid, "Please enter a valid number.");
 					}
 					break;
-				
+				case 2:
+					if(is_numeric($string))
+					{
+						if($string == 1)
+						{
+							$this->describe_function = true;
+							status($this->clientid, "Functional describes enabled");
+						} else {
+							$this->describe_function = false;
+							status($this->clientid, "Functional describes disabled");
+						}
+					}
+					break;
 				default:
 					status($this->clientid, "Setting 2.");
 					break;
@@ -1042,6 +1217,13 @@ class Player
 		$options = [];
 		array_push($options, ["text" => "Name: " . $this->name]);
 		array_push($options, ["text" => "Auto suspend at " . $this->auto_timeout . " HP."]);
+		if($this->describe_function)
+		{
+			$funcdesc = "true";
+		} else {
+			$funcdesc = "false";
+		}
+		//array_push($options, ["text" => "Show function next to name: " . $funcdesc]);
 
 		$i = 0;
 		foreach ($options as $key => $value) {

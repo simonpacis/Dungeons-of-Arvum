@@ -10,6 +10,8 @@ $limited_items=[
 	new shardOfFjallrung1(),
 	new shardOfFjallrung2(),
 	new shardOfFjallrung3(),
+	new boneBow(),
+	new boneBow()
 ];
 $generic_items=[
 	new permanentHealthboost(1),
@@ -21,7 +23,9 @@ $generic_items=[
 	new skullArmor(),
 	new platemail(),
 	new chainmail(),
-	new longSword()
+	new longSword(),
+	new frostBoltScroll(),
+	new fireBallScroll()
 ];
 
 // Shuffle item arrays for extra randomization.

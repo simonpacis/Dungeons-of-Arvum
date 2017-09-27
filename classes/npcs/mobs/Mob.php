@@ -2,7 +2,26 @@
 
 class Mob 
 {
+
+	public $frozen = false;
+	public $frozen_duration = 0;
+	public $frozen_time = 0;
 	public $playercolors = [];
+	public $level = 1;
+
+	public function levelUp()
+	{
+		$this->level++;
+		$additionalhp = round(pow(($this->level-1),1.15));
+		$this->maxhp = $this->maxhp + $additionalhp;
+		if($this->curhp < round($this->maxhp/2))
+		{
+			$this->curhp = round($this->maxhp/2);
+		}
+
+		$additionaldmg = round(pow(($this->level-1),1.25));
+		$this->basedamage = $this->basedamage + $additionaldmg;	
+	}
 
 	public function acquireTarget($x, $y, $viewrange, $map)
 	{
@@ -94,193 +113,196 @@ class Mob
 		//echo "Last move was: " . $this->lastmove . "\n";
 		//echo "Current move is: " . $curtime . "\n";
 		//echo "Difference is: " . ($curtime - $this->lastmove);
-		if(($this->target->x >= ($this->x - ($this->range)) and $this->target->x <= ($this->x + ($this->range))) and $this->target->y >= ($this->y - ($this->range)) and $this->target->y <= ($this->y + ($this->range)))
+		if(!$this->isFrozen())
 		{
-			if($this->lastattack == 0 or ($curtime - $this->lastattack) >= $seconds_per_attack)
+			if(($this->target->x >= ($this->x - ($this->range)) and $this->target->x <= ($this->x + ($this->range))) and $this->target->y >= ($this->y - ($this->range)) and $this->target->y <= ($this->y + ($this->range)))
 			{
-				$this->doAttack();
-				$this->lastattack = round(microtime(true) * 1000);
-			}
-		} elseif($allowed_to_move) {
-		
-			if($this->target == null)
-			{
-				$found_direction = false;
-				$oldx = $this->x;
-				$oldy = $this->y;
-				$newx = $this->x;
-				$newy = $this->y;
-				while(!$found_direction)
+				if($this->lastattack == 0 or ($curtime - $this->lastattack) >= $seconds_per_attack)
 				{
-					$direction = rand(1,4);
-					switch ($direction) {
-						case 1:
-							if($map[($this->x + 1)][$this->y]->representation() == ".")
-							{
-								$found_direction = true;
-								$newx++;
-								continue;
-							}
-							break;
-						case 2:
-							if($map[($this->x - 1)][$this->y]->representation() == ".")
-							{
-								$found_direction = true;
-								$newx--;
-								continue;
-							}
-							break;
-						case 3:
-							if($map[($this->x)][($this->y + 1)]->representation() == ".")
-							{
-								$found_direction = true;
-								$newy++;
-								continue;
-							}
-
-							break;
-						case 4:
-							if($map[($this->x)][($this->y - 1)]->representation() == ".")
-							{
-								$found_direction = true;
-								$newy--;
-								continue;
-							}
-							break;
-					}
+					$this->doAttack();
+					$this->lastattack = round(microtime(true) * 1000);
 				}
-				setTile($oldx, $oldy, new Tile(new Floor()));
-				setTile($newx, $newy, $this);
-				$this->x = $newx;
-				$this->y = $newy;
-			} else {
-				// Here we have to chase the player.
-				$ran = 0;
-				$moved = false;
-				$attack = false;
-					
-				$gox = null;
-				$goy = null;
-				if(($this->target->x < ($this->x - ($this->viewrange*2)) or $this->target->x > ($this->x + ($this->viewrange*2))) or $this->target->y < ($this->y - ($this->viewrange*2)) or $this->target->y > ($this->y + ($this->viewrange*2)))
+			} elseif($allowed_to_move) {
+			
+				if($this->target == null)
 				{
+					$found_direction = false;
+					$oldx = $this->x;
+					$oldy = $this->y;
+					$newx = $this->x;
+					$newy = $this->y;
+					while(!$found_direction)
+					{
+						$direction = rand(1,4);
+						switch ($direction) {
+							case 1:
+								if($map[($this->x + 1)][$this->y]->representation() == ".")
+								{
+									$found_direction = true;
+									$newx++;
+									continue;
+								}
+								break;
+							case 2:
+								if($map[($this->x - 1)][$this->y]->representation() == ".")
+								{
+									$found_direction = true;
+									$newx--;
+									continue;
+								}
+								break;
+							case 3:
+								if($map[($this->x)][($this->y + 1)]->representation() == ".")
+								{
+									$found_direction = true;
+									$newy++;
+									continue;
+								}
+
+								break;
+							case 4:
+								if($map[($this->x)][($this->y - 1)]->representation() == ".")
+								{
+									$found_direction = true;
+									$newy--;
+									continue;
+								}
+								break;
+						}
+					}
+					setTile($oldx, $oldy, new Tile(new Floor()));
+					setTile($newx, $newy, $this);
+					$this->x = $newx;
+					$this->y = $newy;
+				} else {
+					// Here we have to chase the player.
+					$ran = 0;
 					$moved = false;
 					$attack = false;
-					$this->target = null;
-					$ran = 0;
-					return;
-				}
-				if($this->target->x > $this->x)
-				{
-					$gox = "right";
-				}elseif($this->target->x < $this->x) {
-					$gox = "left";
-				} else{
-					$gox = "still";
-				}
-				if($this->target->y > $this->y)
-				{
-					$goy = "down";
-				}elseif($this->target->y < $this->y) {
-					$goy = "up";
-				} else{
-					$goy = "still";
-				}
-
-				if($goy != "still" && $gox != "still")
-				{
-					$yorx = rand(1,2);
-					if($yorx == 1) //Y
+						
+					$gox = null;
+					$goy = null;
+					if(($this->target->x < ($this->x - ($this->viewrange*2)) or $this->target->x > ($this->x + ($this->viewrange*2))) or $this->target->y < ($this->y - ($this->viewrange*2)) or $this->target->y > ($this->y + ($this->viewrange*2)))
 					{
-						if($goy == "up")
+						$moved = false;
+						$attack = false;
+						$this->target = null;
+						$ran = 0;
+						return;
+					}
+					if($this->target->x > $this->x)
+					{
+						$gox = "right";
+					}elseif($this->target->x < $this->x) {
+						$gox = "left";
+					} else{
+						$gox = "still";
+					}
+					if($this->target->y > $this->y)
+					{
+						$goy = "down";
+					}elseif($this->target->y < $this->y) {
+						$goy = "up";
+					} else{
+						$goy = "still";
+					}
+
+					if($goy != "still" && $gox != "still")
+					{
+						$yorx = rand(1,2);
+						if($yorx == 1) //Y
 						{
-							if($map[$this->x][($this->y-1)]->representation() == ".")
+							if($goy == "up")
 							{
-								$this->doMove(0,-1);
-								$moved = true;
-							} else {
-								//continue;
+								if($map[$this->x][($this->y-1)]->representation() == ".")
+								{
+									$this->doMove(0,-1);
+									$moved = true;
+								} else {
+									//continue;
+								}
+							}elseif($goy == "down")
+							{
+								if($map[$this->x][($this->y+1)]->representation() == ".")
+								{
+									$this->doMove(0,1);
+									$moved = true;
+								} else {
+									//continue;
+								}
 							}
-						}elseif($goy == "down")
+						}elseif($yorx == 2) //X
 						{
-							if($map[$this->x][($this->y+1)]->representation() == ".")
+							if($gox == "left")
 							{
-								$this->doMove(0,1);
-								$moved = true;
-							} else {
-								//continue;
+								if($map[($this->x-1)][($this->y)]->representation() == ".")
+								{
+									$this->doMove(-1,0);
+									$moved = true;
+								} else {
+									//continue;
+								}
+							}elseif($gox == "right")
+							{
+								if($map[($this->x+1)][($this->y)]->representation() == ".")
+								{
+									$this->doMove(1,0);
+									$moved = true;
+								} else {
+									//continue;
+								}
 							}
 						}
-					}elseif($yorx == 2) //X
+					}elseif($goy == "still" && $gox != "still")
 					{
 						if($gox == "left")
 						{
-							if($map[($this->x-1)][($this->y)]->representation() == ".")
-							{
-								$this->doMove(-1,0);
-								$moved = true;
-							} else {
-								//continue;
-							}
+								if($map[($this->x-1)][($this->y)]->representation() == ".")
+								{
+									$this->doMove(-1,0);
+									$moved = true;
+								} else {
+									//continue;
+								}
 						}elseif($gox == "right")
 						{
-							if($map[($this->x+1)][($this->y)]->representation() == ".")
-							{
-								$this->doMove(1,0);
-								$moved = true;
-							} else {
-								//continue;
-							}
+								if($map[($this->x+1)][($this->y)]->representation() == ".")
+								{
+									$this->doMove(1,0);
+									$moved = true;
+								} else {
+									//continue;
+								}
 						}
+					}elseif($goy != "still" && $gox == "still")
+					{
+						if($goy == "up")
+						{
+								if($map[$this->x][($this->y-1)]->representation() == ".")
+								{
+									$this->doMove(0,-1);
+									$moved = true;
+								} else {
+									//continue;
+								}
+						}elseif($goy == "down")
+						{
+								if($map[$this->x][($this->y+1)]->representation() == ".")
+								{
+									$this->doMove(0,1);
+									$moved = true;
+								} else {
+									//continue;
+								}
+						}
+					} else {
+						$moved = true;
+						//continue;
 					}
-				}elseif($goy == "still" && $gox != "still")
-				{
-					if($gox == "left")
-					{
-							if($map[($this->x-1)][($this->y)]->representation() == ".")
-							{
-								$this->doMove(-1,0);
-								$moved = true;
-							} else {
-								//continue;
-							}
-					}elseif($gox == "right")
-					{
-							if($map[($this->x+1)][($this->y)]->representation() == ".")
-							{
-								$this->doMove(1,0);
-								$moved = true;
-							} else {
-								//continue;
-							}
-					}
-				}elseif($goy != "still" && $gox == "still")
-				{
-					if($goy == "up")
-					{
-							if($map[$this->x][($this->y-1)]->representation() == ".")
-							{
-								$this->doMove(0,-1);
-								$moved = true;
-							} else {
-								//continue;
-							}
-					}elseif($goy == "down")
-					{
-							if($map[$this->x][($this->y+1)]->representation() == ".")
-							{
-								$this->doMove(0,1);
-								$moved = true;
-							} else {
-								//continue;
-							}
-					}
-				} else {
-					$moved = true;
-					//continue;
+				
+					$ran = 0;
+					$moved = false;
 				}
-			
-				$ran = 0;
-				$moved = false;
 			}
 		}
 		
@@ -328,6 +350,37 @@ class Mob
 		$this->x = $newx;
 		$this->y = $newy;
 		
+	}
+
+	public function isFrozen()
+	{
+		if($this->frozen_time == 0)
+		{
+			$this->frozen_time = time();
+		}
+		if($this->frozen && ($this->frozen_time + $this->frozen_duration) <= time())
+		{
+			$this->frozen = false;
+			return false;
+		}
+
+		if(!$this->frozen)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public function freeze($duration, $thisplayer)
+	{
+		if(!$this->frozen)
+		{
+			$this->frozen_duration = $duration;
+			$this->frozen_time = time();
+			$this->frozen = true;
+			status($thisplayer->clientid, "You froze " . $this->name . " for " . $duration . " seconds.", "#42eef4");
+		}
 	}
 
 	public function representation()

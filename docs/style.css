@@ -1,3 +1,6 @@
+
+html, body { overflow:hidden !important; }
+
 body {
 	background-color: black;
 	font-family: inconsolata, monospace;

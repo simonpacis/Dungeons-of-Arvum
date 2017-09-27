@@ -1,6 +1,7 @@
 <?php
 $ready = false;
 $players = [];
+$mobs = [];
 $map = [];
 $bigbroadcast = false;
 $status = [];

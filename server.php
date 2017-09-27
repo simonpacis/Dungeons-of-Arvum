@@ -2,7 +2,7 @@
 error_reporting(0);
 ini_set('memory_limit', '-1');
 $predefinedClasses = get_declared_classes();
-//error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL & ~E_NOTICE);
 //require_once( 'libs/Thread.php' );
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);

@@ -5,6 +5,7 @@ function keypress($clientID, $key)
 {
 	global $players;
 	checkMobs();
+	$players[$clientID]->regenerate();
 	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")
 	{
 		if(!$players[$clientID]->show_settings)
@@ -363,7 +364,9 @@ function bigBroadcast()
 
 function spawnMob($mob, $x, $y)
 {
-	global $map;
+	global $map, $mobs;
+	array_push($mobs, $mob);
+	$mob = end($mobs);
 	$mob->x = $x;
 	$mob->y = $y;
 	setTile($x, $y, $mob);
@@ -495,7 +498,6 @@ function newPlayer($clientID)
 			setLobby($clientID);
 			$players[$clientID]->request('name');
 			$players[$clientID]->addToInventory(new dagger(), false, false);
-			$players[$clientID]->addToSpells(new fireBall(), false, false);
 		} else {
 			bigBroadcast();
 		}
