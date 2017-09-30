@@ -23,7 +23,7 @@ class frostBall extends Spell
 		$this->rarity = "common";
 		$this->description = "Slows enemies in radius 50% for 3 secs.";
 		$this->damage_type = "magical";
-		$this->panel_value = "50% slow, 3 secs";
+		$this->panel_value = "slow by 50%, 3 secs";
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 7;
 		$this->radius_var_2 = 7;
@@ -31,6 +31,7 @@ class frostBall extends Spell
 		$this->mana_use = 5;
 		$this->freeze_duration = 3;
 		$this->dupe_level = 1;
+		$this->chance = 50;
 	}
 
 	public function panelValue()
@@ -54,7 +55,7 @@ class frostBall extends Spell
 		if($this->dupe_level == 2)
 		{
 			$this->description = "Has 50% chance to freeze enemies for 3 secs.";
-			$this->panel_value = "50% frz, 3 secs";
+			$this->panel_value = "50% chnc frz, 3 secs";
 			$this->mana_use = 10;
 			if(!$notify)
 			{
@@ -66,8 +67,9 @@ class frostBall extends Spell
 		if($this->dupe_level == 3)
 		{
 			$this->description = "Freezes enemies for 3 secs.";
-			$this->panel_value = "100% frz, 3 secs";
+			$this->panel_value = "frz, 3 secs";
 			$this->mana_use = 25;
+			$this->chance = 100;
 			if(!$notify)
 			{
 				status($thisplayer->clientid, "You obtained another " . $this->name . ". It now has a 100% chance to freeze enemies for 3 seconds.");
@@ -85,7 +87,16 @@ class frostBall extends Spell
 
 	public function useRadius($thisplayer)
 	{
-		parent::freeze_in_radius(round($this->freeze_duration), $this->damage_type, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, 50);
+		if($this->dupe_level == 1)
+		{
+			parent::do_in_radius("slow", [round($this->freeze_duration), 50, $thisplayer], 50, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);			
+		} else if($this->dupe_level == 2)
+		{
+			parent::do_in_radius("freeze", [round($this->freeze_duration), $thisplayer], 50, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);			
+		} else {
+			parent::do_in_radius("freeze", [round($this->freeze_duration), $thisplayer], 100, $thisplayer, $this->
+				radius_type, $this->radius_var_1, $this->radius_var_2);	
+		}
 		parent::unset_radius($thisplayer);
 		return true;
 	}

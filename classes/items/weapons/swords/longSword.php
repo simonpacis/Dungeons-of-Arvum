@@ -23,7 +23,7 @@ class longSword extends Weapon
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 1;
 		$this->radius_var_2 = 1;
-		$this->level = 3;
+		$this->level = 8;
 	}
 
 	public function use($thisplayer)
@@ -38,7 +38,7 @@ class longSword extends Weapon
 
 	public function useRadius($thisplayer)
 	{
-		parent::damage_in_radius(6, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+		parent::damage_in_radius(5, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
 		parent::unset_radius($thisplayer);
 	}
 }

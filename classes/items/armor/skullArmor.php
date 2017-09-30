@@ -23,9 +23,9 @@ class skullArmor extends Armor
 		$this->rarity = "legendary";
 		$this->wielded = false;
 		$this->hook = ["before_damage", "after_kill"];
-		$this->resistance_percentage = 0;
+		$this->resistance_percentage = 0.1;
 		$this->wield_type = "armor";
-		$this->level = 6;
+		$this->level = 12;
 	}
 
 	public function use($thisplayer)

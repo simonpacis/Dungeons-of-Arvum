@@ -16,6 +16,8 @@ $limited_items=[
 $generic_items=[
 	new permanentHealthboost(1),
 	new shortBow(),
+	new ironSpear(),
+	new thranSpear(),
 	new shortSword(),
 	new longBow(),
 	new chainBreastplate(),
@@ -101,6 +103,10 @@ $spawnable_mobs =[
 	new bannerBear()
 ];
 
+$limited_mobs = [
+	new skullMan()
+];
+
 function populateMap()
 {
 	global $ip, $port;
@@ -114,7 +120,7 @@ function populateMap()
 
 	*/
 
-	global $map, $rooms, $predefinedClasses, $spawnable_mobs;
+	global $map, $rooms, $limited_mobs, $vacant_rooms, $predefinedClasses, $spawnable_mobs;
 	echo "Populating map.\n";
 	$i = 0;
 	foreach($rooms as &$room)
@@ -129,13 +135,21 @@ function populateMap()
 				mobRoom($room);
 			}
 			treasureRoom($room);
-		} elseif($dist > 20 && $dist <= 90)
+		} elseif($dist > 20 && $dist <= 50)
 		{
 			mobRoom($room);
 		} else {
 			vacantRoom($room);
 		}
 		$i++;
+	}
+	foreach($limited_mobs as $mob)
+	{
+		$room = $vacant_rooms[array_rand($vacant_rooms, 1)];
+		$xcoord = rand($room["_x1"], $room["_x2"]);
+		$ycoord = rand($room["_y1"], $room["_y2"]);
+		spawnMob($mob, $xcoord, $ycoord);
+		unset($mob);
 	}
 	if($ip == "0.0.0.0")
 	{
@@ -214,6 +228,7 @@ function treasureRoom($room)
 
 function mobRoom($room)
 {
+	echo "mob rooming\n";
 	global $map, $rooms, $predefinedClasses, $spawnable_mobs;
 		$mob_selected = false;
 		while(!$mob_selected)
@@ -221,7 +236,6 @@ function mobRoom($room)
 			$mobtype = rand(0,100);
 			if($mobtype <= 45) // Common
 			{
-				
 				$curmob = $spawnable_mobs[array_rand($spawnable_mobs, 1)];
 				$ran = 0;
 				while ($curmob->rarity != "common" and $ran < 30){
@@ -231,6 +245,7 @@ function mobRoom($room)
 				$curmobclass = get_class($curmob);
 				mobclass;
 				$curmob = new $curmobclass;
+				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
 			} elseif($mobtype <= 70 && $mobtype > 45) // Uncommon
 			{
@@ -244,6 +259,7 @@ function mobRoom($room)
 				$curmobclass = get_class($curmob);
 				mobclass;
 				$curmob = new $curmobclass;
+				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
 			} elseif($mobtype >= 70 && $mobtype < 85) // Strong
 			{
@@ -257,6 +273,7 @@ function mobRoom($room)
 				$curmobclass = get_class($curmob);
 				mobclass;
 				$curmob = new $curmobclass;
+								$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
 			} elseif($mobtype >= 85 && $mobtype <= 95) // Epic
 			{
@@ -270,12 +287,14 @@ function mobRoom($room)
 				$curmobclass = get_class($curmob);
 				mobclass;
 				$curmob = new $curmobclass;
+				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
 			}elseif($mobtype <= 100 && $mobtype > 95) // Legendary
 			{
-	            
 				$curmob = $spawnable_mobs[array_rand($spawnable_mobs, 1)];
+				//$curmob = $spawnable_mobs[array_rand($spawnable_mobs, 1)];
 				$ran = 0;
+				$curmobkey = -1;
 				while ($curmob->rarity != "legendary" and $ran < 30){
 					$curmob = $spawnable_mobs[array_rand($spawnable_mobs, 1)];
 					$ran++;
@@ -283,6 +302,7 @@ function mobRoom($room)
 				$curmobclass = get_class($curmob);
 				mobclass;
 				$curmob = new $curmobclass;
+				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
 			}
 			$mob_selected = true;

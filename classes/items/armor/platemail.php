@@ -22,7 +22,7 @@ class platemail extends Armor
 		$this->id = "0011";
 		$this->rarity = "strong";
 		$this->description = "Reduces melee damage by 40%.";
-		$this->maxuses = 700;
+		$this->maxuses = 100;
 		$this->curuses = $this->maxuses;
 		$this->wielded = false;
 		$this->hook = "before_damage";

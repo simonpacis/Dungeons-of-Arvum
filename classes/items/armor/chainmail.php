@@ -22,7 +22,7 @@ class chainmail extends Armor
 		$this->id = "0012";
 		$this->rarity = "strong";
 		$this->description = "Reduces ranged damage by 40%.";
-		$this->maxuses = 700;
+		$this->maxuses = 100;
 		$this->curuses = $this->maxuses;
 		$this->wielded = false;
 		$this->hook = "before_damage";

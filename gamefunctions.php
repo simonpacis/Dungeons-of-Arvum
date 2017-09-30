@@ -370,6 +370,7 @@ function spawnMob($mob, $x, $y)
 	$mob->x = $x;
 	$mob->y = $y;
 	setTile($x, $y, $mob);
+
 }
 
 function checkMobs()
@@ -498,8 +499,6 @@ function newPlayer($clientID)
 			setLobby($clientID);
 			$players[$clientID]->request('name');
 			$players[$clientID]->addToInventory(new dagger(), false, false);
-			$players[$clientID]->addToSpells(new frostBall(), false, false);
-			$players[$clientID]->addToSpells(new frostBall(), false, false);
 
 		} else {
 			bigBroadcast();

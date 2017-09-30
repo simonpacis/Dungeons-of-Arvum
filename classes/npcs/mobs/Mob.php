@@ -11,18 +11,22 @@ class Mob
 	public $slowmovementspeed = 0;
 	public $slowed_at = 0;
 	public $slow_for = 0;
+	public $room = 0;
 
 	public function levelUp()
 	{
 		$this->level++;
-		$additionalhp = round(pow($this->basehp,0.2));
+		$additionalhp = round(pow(($this->level + $this->basehp),0.2));
 		$this->maxhp = $this->maxhp + $additionalhp;
-		if($this->curhp < round($this->maxhp/2))
-		{
-			$this->curhp = round($this->maxhp/2);
-		}
+		$this->curhp = $this->maxhp;
 
-		$additionaldmg = round(pow(($this->basedamage+($this->level)),0.1));
+		//$additionaldmg = round(pow(($this->basedamage+($this->level)),0.04));
+		if($this->basedamage < 3 && $this->level < 10)
+		{
+			$additionaldmg = round((($this->basedamage/5)*($this->level/3))*(0.3*$this->level));
+		} else {
+			$additionaldmg = round(($this->basedamage/5)*(0.2*$this->level));
+		}
 		$this->damage = $this->damage + $additionaldmg;	
 	}
 
@@ -68,6 +72,7 @@ class Mob
 
 	public function die($player)
 	{
+		global $vacant_rooms, $rooms;
 		status($player->clientid, "You killed " . $this->name . ".", "#5CCC6B");
 		$player->killed($this);
 		if(isset($this->loot) && $this->loot != null)
@@ -86,6 +91,9 @@ class Mob
 		} else {
 			setTile($this->x, $this->y, new Tile(new Floor()));
 		}
+		$room = $vacant_rooms[array_rand($vacant_rooms, 1)];
+		mobRoom($room);
+		array_push($vacant_rooms, $rooms[$this->room]);
 		unset($this);
 	}
 
@@ -351,7 +359,7 @@ class Mob
 		}*/
 		if(isset($this->damage))
 		{
-			$this->target->damage($this->damage, $this->damage_type, $this);
+			$this->target->damage(round($this->damage), $this->damage_type, $this);
 		} else {
 			$this->target->damage($this->basedamage, $this->damage_type, $this);
 		}
@@ -402,6 +410,11 @@ class Mob
 		}
 	}
 
+	public function freezeFailed($thisplayer)
+	{
+		status($thisplayer->clientid, "You failed to freeze " . $this->name . ".", "#42eef4");
+	}
+
 	public function slow($duration, $percentage, $thisplayer)
 	{
 		$perc = $percentage / 100;
@@ -409,6 +422,11 @@ class Mob
 		$this->slowed_at = time();
 		$this->slow_for = $duration;
 		status($thisplayer->clientid, "You slowed " . $this->name . " by " . $percentage . "% for " . $duration . " seconds.", "#42eef4");
+	}
+
+	public function slowFailed($thisplayer)
+	{
+		status($thisplayer->clientid, "You failed to slow " . $this->name . ".", "#42eef4");
 	}
 
 	public function representation()

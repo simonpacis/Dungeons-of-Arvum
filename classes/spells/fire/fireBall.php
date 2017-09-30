@@ -39,10 +39,12 @@ class fireBall extends Spell
 	public function duplicate($thisplayer, $notify = true)
 	{
 		$this->damage = $this->damage * 1.3;
+		$this->mana_use = round($this->mana_use * 1.5);
 		if(!$notify)
 		{
-			status($thisplayer->clientid, "You obtained another " . $this->name . ", which increased the damage to " . round($this->damage));
+			status($thisplayer->clientid, "You obtained another " . $this->name . ", which increased the damage to " . round($this->damage) . ", and the mana usage to " . $this->mana_use . ".");
 		}
+		return true;
 	}
 
 	public function use($thisplayer)
@@ -52,7 +54,7 @@ class fireBall extends Spell
 
 	public function useRadius($thisplayer)
 	{
-		parent::damage_in_radius(round($this->damage), $this->damage_type, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+		parent::do_in_radius("damage", [round($this->damage), $this->damage_type, $thisplayer], 100, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
 		parent::unset_radius($thisplayer);
 		return true;
 	}

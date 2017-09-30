@@ -84,7 +84,7 @@ class Player
 		$this->usedSpell = null;
 		$this->wieldedArmor = null;
 		$this->healthpots = 1;
-		$this->manapots = 0;
+		$this->manapots = 1;
 		$this->last_timeout = 0;
 		$this->in_timeout = false;
 		$this->curtimeout = 3;
@@ -151,10 +151,7 @@ class Player
 		}
 		$additionalmana = round(pow(($this->level-1),1.10));
 		$this->maxmana = $this->maxmana + $additionalmana;
-		if($this->curmana < round($this->maxmana/2))
-		{
-			$this->curmana = round($this->maxmana/2);
-		}
+		$this->curmana = $this->maxmana;
 		if($this->curhp > $this->auto_timeout)
 		{
 			$this->used_auto_timeout = false;
@@ -167,7 +164,6 @@ class Player
 				$highestlvl = $curplayer->level;
 			}
 		}
-		echo "highest level is: " . $highestlvl;
 
 		if($highestlvl == $this->level)
 		{
@@ -176,10 +172,8 @@ class Player
 			{
 				if($curmob->target == null && $curmob->level < $this->level) // Not in combat
 				{
-					echo "leveling u";
 					$curmob->levelUp();
 					$i++;
-					echo $i . " \n";
 				}
 			}
 		}
@@ -315,7 +309,7 @@ class Player
 		{
 			status($this->clientid, "You do not need to use a \"<span style='color:#6495ED !important;'>Mana Potion</span>\".", "#ffff00");
 			return false;
-		}elseif($this->manapots > 0 && $this->curmana != $this->curmana)
+		}elseif($this->manapots > 0 && $this->maxmana != $this->curmana)
 		{
 			$this->addMana(5);
 			$this->manapots = $this->manapots - 1;
@@ -525,6 +519,7 @@ class Player
 	{
 		$spellcount = count($this->spells);
 		$item = clone $spell;
+		$duped = false;
 		if($spellcount < 4 OR $faux == true)
 		{
 			if($spellcount != 0)
@@ -533,19 +528,18 @@ class Player
 				{
 					if($item->id == $spell->id)
 					{
+						$duped = true;
 						if($faux == false)
 						{
 							$spell->duplicate($this, $notify);
 							break;
 						}
-					} else {
-						if($faux == false)
-						{
-							array_push($this->spells, $item);
-						}
 					}
 				}
-			} else {
+			}
+
+			if(!$duped)
+			{
 				if($faux == false)
 				{
 					array_push($this->spells, $item);
@@ -881,6 +875,7 @@ class Player
 		$this->x = 1000;
 		$this->y = 1000;
 		$this->hold = true;
+		$this->force_hold = true;
 		statusBroadcast($this->name . " has died a horrible death. There's " . $playersalive . " contestants left.", "#ff5c5c");
 	}
 
@@ -924,7 +919,7 @@ class Player
 		$diff = $newcur - $oldcur;
 		if($notify)
 		{
-			status($this->clientid, "You gained " . $amount . " mana.", "#000066");
+			status($this->clientid, "You gained " . $amount . " mana.", "#6495ED");
 		}
 	}
 
