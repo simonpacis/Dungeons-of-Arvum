@@ -25,6 +25,7 @@ class wolfbat extends Mob
 	{
 		$this->name = "Wolfbat";
 		$this->basedamage = 2;
+		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
 		$this->basehp = 5;
 		$this->maxhp = $this->basehp;

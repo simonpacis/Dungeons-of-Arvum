@@ -25,6 +25,7 @@ class wyvern extends Mob
 	{
 		$this->name = "Wyvern";
 		$this->basedamage = 4;
+		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
 		$this->basehp = 12;
 		$this->maxhp = $this->basehp;

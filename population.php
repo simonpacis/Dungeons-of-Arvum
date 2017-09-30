@@ -24,7 +24,7 @@ $generic_items=[
 	new platemail(),
 	new chainmail(),
 	new longSword(),
-	new frostBoltScroll(),
+	new frostBallScroll(),
 	new fireBallScroll()
 ];
 
@@ -116,8 +116,10 @@ function populateMap()
 
 	global $map, $rooms, $predefinedClasses, $spawnable_mobs;
 	echo "Populating map.\n";
+	$i = 0;
 	foreach($rooms as &$room)
 	{
+		$room['id'] = $i;
 		$dist = rand(0,100);
 		if($dist <= 20)
 		{
@@ -133,7 +135,7 @@ function populateMap()
 		} else {
 			vacantRoom($room);
 		}
-
+		$i++;
 	}
 	if($ip == "0.0.0.0")
 	{
@@ -159,18 +161,20 @@ function vacantRoom($room)
 function treasureRoom($room)
 {
 	$itemdist = rand(0,100);
-	if($itemdist < 60)
+	if($itemdist < 50)
 	{
 		$xcoord = rand($room["_x1"], $room["_x2"]);
 		$ycoord = rand($room["_y1"], $room["_y2"]);
 		$spotorpot = rand(0,10);
-		if($spotorpot >= 5)
+		if($spotorpot >= 4)
 		{
-			setTile($xcoord, $ycoord, new Tile(new Treasure()));
+			//setTile($xcoord, $ycoord, new Tile(new Treasure()));
+			setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,3), $room['id'])));
 		} else {
-			setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,3))));
+			setTile($xcoord, $ycoord, new Tile(new manapotTile(rand(1,2), $room['id'])));
+			//setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,3))));
 		}
-	} elseif($itemdist > 60 && $itemdist < 75)
+	} elseif($itemdist > 50 && $itemdist < 85)
 	{
 		$xcoord = rand($room["_x1"], $room["_x2"]);
 		$ycoord = rand($room["_y1"], $room["_y2"]);
@@ -179,10 +183,17 @@ function treasureRoom($room)
 		{
 			setTile($xcoord, $ycoord, new Tile(new Healspot()));
 		} else {
-			setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,5))));
+			$manaorhp = rand(0,10);
+			if($manaorhp >= 4)
+			{
+				setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,5), $room['id'])));
+			} else {
+				setTile($xcoord, $ycoord, new Tile(new manapotTile(rand(1,3), $room['id'])));
+			}
+
 		}
 	} 
-	elseif($itemdist >= 75)
+	elseif($itemdist >= 85)
 	{
 		$xcoord = rand($room["_x1"], $room["_x2"]);
 		$ycoord = rand($room["_y1"], $room["_y2"]);
@@ -191,8 +202,13 @@ function treasureRoom($room)
 		{
 			setTile($xcoord, $ycoord, new Tile(new Greattreasure()));
 		} else {
-			setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,10))));
-		}
+			$manaorhp = rand(0,10);
+			if($manaorhp >= 4)
+			{
+				setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,10), $room['id'])));
+			} else {
+				setTile($xcoord, $ycoord, new Tile(new manapotTile(rand(1,5), $room['id'])));
+			}		}
 	}
 }
 

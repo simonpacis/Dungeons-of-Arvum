@@ -1,6 +1,6 @@
 <?php
 
-class frostBoltScroll
+class frostBallScroll
 {
 	public $name;
 	public $id;
@@ -10,16 +10,16 @@ class frostBoltScroll
 	public $additional_health;
 	public function __construct()
 	{
-		$this->name = "Scroll of Frostbolt";
+		$this->name = "Scroll of Frostball";
 		$this->color = "#fff";
 		$this->rarity = "uncommon";
 		$this->id = "0019";
-		$this->description = "This " . $this->name . " grants you the Frostbolt spell.";
+		$this->description = "This " . $this->name . " grants you the Frostball spell.";
 	}
 
 	public function use($thisplayer)
 	{
-		$thisplayer->addToSpells(new frostBolt());
+		$thisplayer->addToSpells(new frostBall());
 		return true;
 	}
 }

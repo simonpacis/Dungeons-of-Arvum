@@ -25,6 +25,7 @@ class oakOwl extends Mob
 	{
 		$this->name = "Oak Owl";
 		$this->basedamage = 2;
+		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
 		$this->basehp = 2;
 		$this->maxhp = $this->basehp;

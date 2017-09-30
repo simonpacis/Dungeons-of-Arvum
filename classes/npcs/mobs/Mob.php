@@ -8,19 +8,22 @@ class Mob
 	public $frozen_time = 0;
 	public $playercolors = [];
 	public $level = 1;
+	public $slowmovementspeed = 0;
+	public $slowed_at = 0;
+	public $slow_for = 0;
 
 	public function levelUp()
 	{
 		$this->level++;
-		$additionalhp = round(pow(($this->level-1),1.15));
+		$additionalhp = round(pow($this->basehp,0.2));
 		$this->maxhp = $this->maxhp + $additionalhp;
 		if($this->curhp < round($this->maxhp/2))
 		{
 			$this->curhp = round($this->maxhp/2);
 		}
 
-		$additionaldmg = round(pow(($this->level-1),1.25));
-		$this->basedamage = $this->basedamage + $additionaldmg;	
+		$additionaldmg = round(pow(($this->basedamage+($this->level)),0.1));
+		$this->damage = $this->damage + $additionaldmg;	
 	}
 
 	public function acquireTarget($x, $y, $viewrange, $map)
@@ -90,7 +93,18 @@ class Mob
 	{
 		global $map;
 		$allowed_to_move = false;
-		$seconds_per_square = 1000/$this->movementspeed;
+		if(($this->slowed_at + $this->slow_for) >= time())
+		{
+			$this->slowmovementspeed = 0;
+			$this->slowed_at = 0;
+			$this->slow_for = 0;
+		}
+		if($this->slowmovementspeed != 0)
+		{	
+			$seconds_per_square = 1000/$this->slowmovementspeed;
+		} else {
+			$seconds_per_square = 1000/$this->movementspeed;
+		}
 		$curtime = round(microtime(true) * 1000);
 		//echo "Seconds per square is: " . $seconds_per_square . "\n";
 		//echo "Last move was: " . $this->lastmove . "\n";
@@ -335,7 +349,12 @@ class Mob
 			$wall = false;
 			$floor = false;
 		}*/
-		$this->target->damage($this->basedamage, $this->damage_type, $this);
+		if(isset($this->damage))
+		{
+			$this->target->damage($this->damage, $this->damage_type, $this);
+		} else {
+			$this->target->damage($this->basedamage, $this->damage_type, $this);
+		}
 	}
 
 	public function doMove($x, $y)
@@ -381,6 +400,15 @@ class Mob
 			$this->frozen = true;
 			status($thisplayer->clientid, "You froze " . $this->name . " for " . $duration . " seconds.", "#42eef4");
 		}
+	}
+
+	public function slow($duration, $percentage, $thisplayer)
+	{
+		$perc = $percentage / 100;
+		$this->slowmovementspeed = round($this->movementspeed*$perc);
+		$this->slowed_at = time();
+		$this->slow_for = $duration;
+		status($thisplayer->clientid, "You slowed " . $this->name . " by " . $percentage . "% for " . $duration . " seconds.", "#42eef4");
 	}
 
 	public function representation()

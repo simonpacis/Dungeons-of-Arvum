@@ -25,6 +25,7 @@ class Bandit extends Mob
 	{
 		$this->name = "Bandit";
 		$this->basedamage = 1;
+		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
 		$this->basehp = 5;
 		$this->maxhp = $this->basehp;

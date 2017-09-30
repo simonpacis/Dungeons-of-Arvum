@@ -16,7 +16,12 @@ class Treasure
 
 	public function pickup($player)
 	{
-		$player->addToInventory($this->loot);
-
+		$rand = rand(0,100);
+		if($rand > 80)
+		{
+			$player->addHealthpot(rand(1,5));
+		} else {
+			$player->addToInventory($this->loot);
+		}
 	}
 }

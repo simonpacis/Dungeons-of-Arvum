@@ -124,7 +124,7 @@ class Player
 		{
 			$this->runHook("after_kill", $enemy, $this);
 		}
-		$exp = $enemy->basedamage + ($enemy->basehp/1.5) + (pow($enemy->level,1.5));
+		$exp = $enemy->damage + ($enemy->basehp/1.3) + (pow($enemy->level,1.3));
 		$this->gainExp($exp);
 	}
 
@@ -149,6 +149,12 @@ class Player
 		{
 			$this->curhp = round($this->maxhp/2);
 		}
+		$additionalmana = round(pow(($this->level-1),1.10));
+		$this->maxmana = $this->maxmana + $additionalmana;
+		if($this->curmana < round($this->maxmana/2))
+		{
+			$this->curmana = round($this->maxmana/2);
+		}
 		if($this->curhp > $this->auto_timeout)
 		{
 			$this->used_auto_timeout = false;
@@ -161,13 +167,19 @@ class Player
 				$highestlvl = $curplayer->level;
 			}
 		}
+		echo "highest level is: " . $highestlvl;
+
 		if($highestlvl == $this->level)
 		{
+			$i = 0;
 			foreach($mobs as $curmob)
 			{
-				if($curmob->curhp == $curmob->maxhp && $curmob->target == null && $curmob->level < $this->level) // Not in combat
+				if($curmob->target == null && $curmob->level < $this->level) // Not in combat
 				{
+					echo "leveling u";
 					$curmob->levelUp();
+					$i++;
+					echo $i . " \n";
 				}
 			}
 		}
@@ -524,6 +536,7 @@ class Player
 						if($faux == false)
 						{
 							$spell->duplicate($this, $notify);
+							break;
 						}
 					} else {
 						if($faux == false)

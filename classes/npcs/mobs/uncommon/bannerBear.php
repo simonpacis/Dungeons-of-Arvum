@@ -25,6 +25,7 @@ class bannerBear extends Mob
 	{
 		$this->name = "Banner Bear";
 		$this->basedamage = 5;
+		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
 		$this->basehp = 10;
 		$this->maxhp = $this->basehp;
