@@ -723,20 +723,29 @@ class Player
 				$inv[$i]['text'] = "(empty)";
 			} else {
 				$inv[$i]['color'] = $inven[$i]->color;
-				if(isset($inven[$i]->displayuses))
+				if(method_exists($inven[$i], panelValue))
 				{
-					if($inven[$i]->displayuses)
-					{
-						$inv[$i]['text'] = $inven[$i]->name . " (" . $inven[$i]->curuses . " left)";
-					} else {
-						$inv[$i]['text'] = $inven[$i]->name;	
-					}
+					$inv[$i]['text'] = $inven[$i]->name;
+					$panel_string = "<span style='color:";
+					$ptext = $inven[$i]->panelValue()[0];
+					$pcolor = $inven[$i]->panelValue()[1];
+					$inv[$i]['text'] = $inven[$i]->name . " " . $panel_string . $pcolor . " !important;'>(" . $ptext . ")</span>";
 				} else {
-					if($inven[$i]->maxuses > 1)
+					if(isset($inven[$i]->displayuses))
 					{
-						$inv[$i]['text'] = $inven[$i]->name . " (" . $inven[$i]->curuses . " left)";
+						if($inven[$i]->displayuses)
+						{
+							$inv[$i]['text'] = $inven[$i]->name . " (" . $inven[$i]->curuses . " left)";
+						} else {
+							$inv[$i]['text'] = $inven[$i]->name;	
+						}
 					} else {
-						$inv[$i]['text'] = $inven[$i]->name;
+						if($inven[$i]->maxuses > 1)
+						{
+							$inv[$i]['text'] = $inven[$i]->name . " (" . $inven[$i]->curuses . " left)";
+						} else {
+							$inv[$i]['text'] = $inven[$i]->name;
+						}
 					}
 				}
 			}

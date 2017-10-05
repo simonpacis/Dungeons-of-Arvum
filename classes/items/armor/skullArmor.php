@@ -28,6 +28,11 @@ class skullArmor extends Armor
 		$this->level = 12;
 	}
 
+	public function panelValue()
+	{
+		return [($this->resistance_percentage * 100) . "%", $this->color];
+	}
+
 	public function use($thisplayer)
 	{
 		$thisplayer->wield($this, $this->wield_type);
@@ -55,7 +60,10 @@ class skullArmor extends Armor
 				return [false, $damage];
 			}
 		} elseif($hook == "after_kill") {
-			$this->resistance_percentage = $this->resistance_percentage + 0.005;
+			if($this->resistance_percentage < 0.6)
+			{
+				$this->resistance_percentage = $this->resistance_percentage + 0.005;
+			}
 			return true;
 		}
 	}

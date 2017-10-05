@@ -74,6 +74,10 @@ class Mob
 	{
 		global $vacant_rooms, $rooms;
 		status($player->clientid, "You killed " . $this->name . ".", "#5CCC6B");
+		if($this->rarity == "legendary")
+		{
+			statusBroadcast($player->name . " has just killed " . $this->name . "!", "#ff8000", false, $player->clientid);
+		}
 		$player->killed($this);
 		if(isset($this->loot) && $this->loot != null)
 		{

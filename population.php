@@ -27,7 +27,9 @@ $generic_items=[
 	new chainmail(),
 	new longSword(),
 	new frostBallScroll(),
-	new fireBallScroll()
+	new fireBallScroll(),
+	new brandistock(),
+	new pike()
 ];
 
 // Shuffle item arrays for extra randomization.
@@ -228,7 +230,6 @@ function treasureRoom($room)
 
 function mobRoom($room)
 {
-	echo "mob rooming\n";
 	global $map, $rooms, $predefinedClasses, $spawnable_mobs;
 		$mob_selected = false;
 		while(!$mob_selected)
