@@ -15,11 +15,11 @@ PHP 7.0 is required. The server only runs on 7.0 at the moment, and not any othe
 ## Getting started
 Simply download this repository and start up the server by either opening the "run" file or typing "php server.php" from the terminal. Make sure the requirements are met beforehand, and that you've set your IP, port and wanted dungeon size in config.php.
 
-Then ask your players to head on over to [http://simonklitjohnson.github.io/Dungeons-of-Arvum](http://simonklitjohnson.github.io/Dungeons-of-Arvum), and tell them your public-facing IP address and port number.
+Then ask your players to head on over to [http://simonpacis.github.io/Dungeons-of-Arvum](http://simonpacis.github.io/Dungeons-of-Arvum), and tell them your public-facing IP address and port number.
 
 In case you're looking for a simple way to install and run Dungeons of Arvum on a Ubuntu system, here's a oneliner that will set everything needed up for you, and run the server.
 ```
-sudo apt-get install php7.0 libfontconfig && git clone https://github.com/simonklitjohnson/Dungeons-of-Arvum && cd Dungeons-of-Arvum && ./run
+sudo apt-get install php7.0 libfontconfig && git clone https://github.com/simonpacis/Dungeons-of-Arvum && cd Dungeons-of-Arvum && ./run
 ```
 
 With this you can whip up a VPS on something like DigitalOcean, run the oneliner, give people your IP-address, and play away!
