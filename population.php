@@ -122,7 +122,7 @@ function populateMap()
 
 	*/
 
-	global $map, $rooms, $limited_mobs, $vacant_rooms, $predefinedClasses, $spawnable_mobs;
+	global $map, $rooms, $limited_mobs, $vacant_rooms, $predefinedClasses, $spawnable_mobs, $safe_rooms;
 	echo "Populating map.\n";
 	$i = 0;
 	foreach($rooms as &$room)
@@ -140,7 +140,7 @@ function populateMap()
 		} elseif($dist > 20 && $dist <= 50)
 		{
 			mobRoom($room);
-		} elseif($dist > 50 && $dist < 80) {
+		} elseif($dist > 50 && $dist < 90) {
 			vacantRoom($room);
 		} else {
 			safeRoom($room);
@@ -171,11 +171,18 @@ function populateMap()
 
 function safeRoom($room)
 {
+	global $safe_rooms;
 	foreach($room['_doors'] as $door => $value)
 	{
 		$door_coords = explode(",", $door, 2);
 		setTile($door_coords[0], $door_coords[1], new Tile(new Door()));
 	}
+
+	$xcoord = rand($room["_x1"], $room["_x2"]);
+	$ycoord = rand($room["_y1"], $room["_y2"]);
+	setTile($xcoord, $ycoord, new Tile(new Healspot()));
+	array_push($safe_rooms, $room);
+	return true;
 }
 
 function vacantRoom($room)

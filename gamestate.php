@@ -9,4 +9,5 @@ $mapset = false;
 $broadcasting = false;
 $rooms = [];
 $vacant_rooms = [];
+$safe_rooms = [];
 ?>
