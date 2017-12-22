@@ -64,4 +64,19 @@ class Tile
 		}
 		return true;
 	}
+
+	public function setOnTile()
+	{
+		if(isset($this->object->set_on_tile))
+		{
+			if($this->object->set_on_tile)
+			{
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
 }

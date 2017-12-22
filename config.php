@@ -5,8 +5,8 @@ $port = 9300;
 
 $max_players = 4; //Roadmap: Additional players will be added as spectators.
 
-$map_width = 400;
-$map_height = 400;
+$map_width = 600;
+$map_height = 600;
 
 $generate_new_map = false; //Set to false if you want to load a map from pre-existing map.doafile and rooms.doafile files in the "libs" folder.
 

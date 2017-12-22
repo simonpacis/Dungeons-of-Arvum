@@ -82,7 +82,17 @@ function movePlayerTile($oldx, $oldy, $newx, $newy, &$object)
 		{
 			if(!$map[$newx][$newy]->solid()) //If not solid.
 			{
-				$blanktile = new Tile(new Floor());
+				if($tile->on_tile == null)
+				{
+					$blanktile = new Tile(new Floor());
+				} else {
+					$blanktile = $tile->on_tile;
+					$tile->on_tile = null;
+				}
+				if($map[$newx][$newy]->setOnTile())
+				{
+					$tile->on_tile = $map[$newx][$newy];
+				}
 				$oldtile = $map[$newx][$newy];
 				setTile($oldx, $oldy, $blanktile);
 				setTile($newx, $newy, $tile);

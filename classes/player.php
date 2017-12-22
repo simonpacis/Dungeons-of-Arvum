@@ -105,6 +105,7 @@ class Player
 		$this->hp_regen = 0.15; //HP regenerated per second;
 		$this->last_hp_regen = 0;
 		$this->describe_function = false;
+		$this->on_tile = null;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -136,7 +137,6 @@ class Player
 			$this->levelUp();
 		}
 	}
-
 	public function levelUp()
 	{
 		global $players, $mobs;

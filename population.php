@@ -140,8 +140,10 @@ function populateMap()
 		} elseif($dist > 20 && $dist <= 50)
 		{
 			mobRoom($room);
-		} else {
+		} elseif($dist > 50 && $dist < 80) {
 			vacantRoom($room);
+		} else {
+			safeRoom($room);
 		}
 		$i++;
 	}
@@ -155,9 +157,9 @@ function populateMap()
 	}
 	if($ip == "0.0.0.0")
 	{
-		$public_ip = json_decode(file_get_contents('http://ifconfig.co/port/8080'), true)['ip'];
+		$public_ip = getHostByName(getHostName());
 	}
-	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                by: Simon Klit-Johnson                  |\n|                                                        |\n----------------------------------------------------------\n\n";
+	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                by: Simon Pacis                         |\n|                                                        |\n----------------------------------------------------------\n\n";
 	if($ip == "0.0.0.0")
 	{
 		echo "Ready to connect at: ".$public_ip.":".$port."!\n";
@@ -165,6 +167,15 @@ function populateMap()
 		echo "Ready to connect!";
 	}
 
+}
+
+function safeRoom($room)
+{
+	foreach($room['_doors'] as $door => $value)
+	{
+		$door_coords = explode(",", $door, 2);
+		setTile($door_coords[0], $door_coords[1], new Tile(new Door()));
+	}
 }
 
 function vacantRoom($room)
@@ -181,14 +192,12 @@ function treasureRoom($room)
 	{
 		$xcoord = rand($room["_x1"], $room["_x2"]);
 		$ycoord = rand($room["_y1"], $room["_y2"]);
-		$spotorpot = rand(0,10);
-		if($spotorpot >= 4)
+		$manaorhp = rand(0,10);
+		if($manaorhp >= 4)
 		{
-			//setTile($xcoord, $ycoord, new Tile(new Treasure()));
 			setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,3), $room['id'])));
 		} else {
 			setTile($xcoord, $ycoord, new Tile(new manapotTile(rand(1,2), $room['id'])));
-			//setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,3))));
 		}
 	} elseif($itemdist > 50 && $itemdist < 85)
 	{
