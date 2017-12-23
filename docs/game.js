@@ -88,6 +88,8 @@ setPlayerInfo = function(playerinfo)
 	$(".playermaxmana").text(playerinfo['maxmana']);
 	$(".playerx").text(playerinfo['x']);
 	$(".playery").text(playerinfo['y']);
+	$(".waypoint_x").text(playerinfo['waypoint_x']);
+	$(".waypoint_y").text(playerinfo['waypoint_y']);
 	$(".healthpotions").text(playerinfo['healthpots']);
 	$(".manapotions").text(playerinfo['manapots']);
 	$(".curtimeout").text(playerinfo['curtimeout']);
