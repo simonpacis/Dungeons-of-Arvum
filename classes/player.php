@@ -53,6 +53,7 @@ class Player
 	public $coins;
 	public $waypoint_x;
 	public $waypoint_y;
+	public $in_shop;
 
 	public function __construct($Clientid)
 	{
@@ -113,6 +114,7 @@ class Player
 		$this->coins = 0;
 		$this->waypoint_x = -1;
 		$this->waypoint_y = -1;
+		$this->in_shop = false;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -354,19 +356,13 @@ class Player
 
 	public function parse()
 	{
-		$waypoint_x = 0;
-		$waypoint_y = 0;
-		if($this->x > $this->waypoint_x)
+		if($this->waypoint_x < 0)
 		{
-			$waypoint_x = ($this->waypoint_x - $this->x);
+			$waypoint_x = 0;
+			$waypoint_y = 0;
 		} else {
 			$waypoint_x = ($this->x - $this->waypoint_x);
-		}
-		if($this->y > $this->waypoint_y)
-		{
 			$waypoint_y = ($this->waypoint_y - $this->y);
-		} else {
-			$waypoint_y = ($this->y - $this->waypoint_y);
 		}
 		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => $this->coins, "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y];
 	}
@@ -1171,6 +1167,11 @@ class Player
 			}
 		}
 		return true;		
+	}
+
+	public function performAction()
+	{
+		/* Add shop functionality to non-mobs here. */
 	}
 
 	public function displaySettings()

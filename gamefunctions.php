@@ -8,7 +8,7 @@ function keypress($clientID, $key)
 	$players[$clientID]->regenerate();
 	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")
 	{
-		if(!$players[$clientID]->show_settings)
+		if(!$players[$clientID]->show_settings || !$players[$clientID]->in_shop)
 		{
 			$players[$clientID]->escape();
 			movePlayer($clientID, $key);
@@ -28,7 +28,7 @@ function keypress($clientID, $key)
 			}
 		}
 	}
-	if(!$players[$clientID]->show_settings)
+	if($players[$clientID]->show_settings == false || $players[$clientID]->in_shop == false)
 	{
 		if($key == "VK_1" or $key == "VK_2" or $key == "VK_3" or $key == "VK_4" or $key == "VK_5" or $key == "VK_6" or $key == "VK_7" or $key == "VK_8" or $key == "VK_9")
 		{
@@ -84,6 +84,14 @@ function keypress($clientID, $key)
 		{
 			$players[$clientID]->request('drop');
 		}
+		if($key == "VK_F")
+		{
+			$players[$clientID]->performAction();
+		}
+		if($key == "VK_G")
+		{
+			$players[$clientID]->setWaypoint();
+		}
 	}
 	
 	if($key == "VK_ESCAPE")
@@ -107,11 +115,6 @@ function keypress($clientID, $key)
 		} else {
 			$players[$clientID]->escape();
 		}
-	}
-
-	if($key == "VK_F")
-	{
-		$players[$clientID]->setWaypoint();
 	}
 
 	bigBroadcast();
@@ -442,7 +445,12 @@ function broadcastState($clientID)
 	 if ($players[$clientID]->show_settings) {
 		$msg = ["type" => "settings", "line" => $players[$clientID]->getSettings()];
 		$Server->wsSend($clientID, json_encode($msg));
-	} else if($players[$clientID]->state == "lobby")
+	} else if($players[$clientID]->in_shop)
+	{
+		$msg = ["type" => "settings", "line" => $players[$clientID]->getShop()];
+		$Server->wsSend($clientID, json_encode($msg));
+	}
+	else if($players[$clientID]->state == "lobby")
 	{
 		setLobby($clientID);
 	} else {
