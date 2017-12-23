@@ -8,7 +8,7 @@ function keypress($clientID, $key)
 	$players[$clientID]->regenerate();
 	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")
 	{
-		if(!$players[$clientID]->show_settings || !$players[$clientID]->in_shop)
+		if(!$players[$clientID]->show_settings && !$players[$clientID]->in_shop)
 		{
 			$players[$clientID]->escape();
 			movePlayer($clientID, $key);

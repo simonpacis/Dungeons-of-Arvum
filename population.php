@@ -147,6 +147,13 @@ function populateMap()
 		}
 		$i++;
 	}
+
+	echo("Room overview:\n");
+	echo("Amount of rooms: " . count($rooms) . "\n");
+	echo("Amount of vacant rooms: " . count($vacant_rooms) . "\n");
+	echo("Amount of saferooms: " . count($safe_rooms) . "\n");
+	echo("Amount of mob or treasure rooms: " . (count($rooms) - count($safe_rooms) - count($vacant_rooms)) . "\n");
+
 	foreach($limited_mobs as $mob)
 	{
 		$room = $vacant_rooms[array_rand($vacant_rooms, 1)];
@@ -155,17 +162,8 @@ function populateMap()
 		spawnMob($mob, $xcoord, $ycoord);
 		unset($mob);
 	}
-	if($ip == "0.0.0.0")
-	{
-		$public_ip = getHostByName(getHostName());
-	}
-	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                by: Simon Pacis                         |\n|                                                        |\n----------------------------------------------------------\n\n";
-	if($ip == "0.0.0.0")
-	{
-		echo "Ready to connect at: ".$public_ip.":".$port."!\n";
-	} else {
-		echo "Ready to connect!";
-	}
+	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                   by: Simon Pacis                      |\n|                                                        |\n----------------------------------------------------------\n\n";
+	echo "Ready to connect!\n";
 
 }
 
@@ -178,9 +176,48 @@ function safeRoom($room)
 		setTile($door_coords[0], $door_coords[1], new Tile(new Door()));
 	}
 
-	$xcoord = rand($room["_x1"], $room["_x2"]);
-	$ycoord = rand($room["_y1"], $room["_y2"]);
-	setTile($xcoord, $ycoord, new Tile(new Healspot()));
+	$xcoordsurround = true;
+	$ycoordsurround = true;
+	$xcoord = 0;
+	$ycoord = 0;
+	while($xcoordsurround == true || $ycoordsurround == true)
+	{
+		$xcoordsurround = true;
+		$ycoordsurround = true;
+		$xcoord = rand($room["_x1"], $room["_x2"]);
+		$ycoord = rand($room["_y1"], $room["_y2"]);	
+		foreach($room['_doors'] as $door => $value)
+		{
+			$door_coords = explode(",", $door, 2);
+			$door_coords[0] = (int) $door_coords[0];
+			$door_coords[1] = (int) $door_coords[1];
+			if((($xcoord + 1) != $door_coords[0]))
+			{
+				if((($xcoord - 1) != $door_coords[0]))
+				{
+					$xcoordsurround = false;
+				} else {
+					$xcoordsurround = true;
+				}
+			}
+			if((($ycoord + 1) != $door_coords[1]))
+			{
+				if((($ycoord - 1) != $door_coords[1]))
+				{
+					$ycoordsurround = false;
+				} else {
+					$ycoordsurround = true;
+				}
+			}
+
+			if(!$xcoordsurround && !$ycoordsurround)
+			{
+				break;
+			}
+
+		}	
+	}
+	setTile($xcoord, $ycoord, new Tile(new generalStore()));
 	array_push($safe_rooms, $room);
 	return true;
 }

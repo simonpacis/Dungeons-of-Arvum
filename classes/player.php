@@ -54,6 +54,7 @@ class Player
 	public $waypoint_x;
 	public $waypoint_y;
 	public $in_shop;
+	public $action_text;
 
 	public function __construct($Clientid)
 	{
@@ -115,6 +116,7 @@ class Player
 		$this->waypoint_x = -1;
 		$this->waypoint_y = -1;
 		$this->in_shop = false;
+		$this->action_text = "No action";
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -124,8 +126,39 @@ class Player
 			if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
 				$this->x = $this->x + $x_veloc;
 				$this->y = $this->y + $y_veloc;
+				$check_for_action = $this->checkForAction();
+				if($check_for_action['relevant'] == true)
+				{
+					$this->action_text = ($check_for_action['object']->action_text);
+				} else {
+					$this->action_text = "No action.";
+				}
 			}
 		}
+	}
+
+	public function checkForAction()
+	{
+		global $map;
+
+		$ystart = $this->y + 1;
+		$yend = $this->y - 1;
+		$xstart = $this->x - 1;
+		$xend = $this->x + 1;
+
+		for ($i=$yend; $i <= $ystart; $i++) {
+			for($ix = $xstart; $ix <= $xend; $ix++)
+			{
+				if($map[$ix][$i] != null)
+				{
+					if($map[$ix][$i]->type() == "character")
+					{
+						return ["relevant" => true, "object" => $map[$ix][$i]];
+					}
+				}
+			}
+		}
+		return ["relevant" => false];
 	}
 
 	public function killed($enemy)
@@ -364,7 +397,7 @@ class Player
 			$waypoint_x = ($this->x - $this->waypoint_x);
 			$waypoint_y = ($this->waypoint_y - $this->y);
 		}
-		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y];
+		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text];
 	}
 
 	public function setWaypoint()

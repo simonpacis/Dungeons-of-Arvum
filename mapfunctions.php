@@ -28,9 +28,12 @@ function newMap()
 				echo("\nphantomjs installed. Let's hope it works. Proceeding with map generation.\n");
 			}
 		}
+		echo "This might take a while...\n";
 		exec(realpath(dirname(__FILE__)) . "/libs/phantomjs " . realpath(dirname(__FILE__)) . "/libs/dig.js ".$map_width." " .$map_height . " " . realpath(dirname(__FILE__)));	
+		echo "Map generation done.\n\n";
+	} else {
+		echo "Loading map from file.\n\n";
 	}
-	echo "Map generation done.\n\n";
 
 	$mapfile = json_decode(file_get_contents("libs/map.doafile"), true);
 	$roomsfile = json_decode(file_get_contents("libs/rooms.doafile"), true);
