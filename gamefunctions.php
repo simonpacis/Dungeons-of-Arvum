@@ -109,6 +109,11 @@ function keypress($clientID, $key)
 		}
 	}
 
+	if($key == "VK_F")
+	{
+		$players[$clientID]->setWaypoint();
+	}
+
 	bigBroadcast();
 }
 

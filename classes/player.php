@@ -371,6 +371,12 @@ class Player
 		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => $this->coins, "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y];
 	}
 
+	public function setWaypoint()
+	{
+		$this->waypoint_x = $this->x;
+		$this->waypoint_y = $this->y;
+	}
+
 	public function parseArmor()
 	{
 		if($this->wieldedArmor != null)
