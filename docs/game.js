@@ -78,23 +78,23 @@ drawText = function(text)
 
 setPlayerInfo = function(playerinfo)
 {
-	$(".playername").text(playerinfo['name']);
-	$(".playerlevel").text(playerinfo['level']);
-	$(".playercurxp").text(playerinfo['curxp']);
-	$(".playermaxxp").text(playerinfo['maxxp']);
-	$(".playercurhp").text(playerinfo['curhp']);
-	$(".playermaxhp").text(playerinfo['maxhp']);
-	$(".playercurmana").text(playerinfo['curmana']);
-	$(".playermaxmana").text(playerinfo['maxmana']);
-	$(".playerx").text(playerinfo['x']);
-	$(".playery").text(playerinfo['y']);
-	$(".waypoint_x").text(playerinfo['waypoint_x']);
-	$(".waypoint_y").text(playerinfo['waypoint_y']);
-	$(".healthpotions").text(playerinfo['healthpots']);
-	$(".manapotions").text(playerinfo['manapots']);
-	$(".curtimeout").text(playerinfo['curtimeout']);
-	$(".maxtimeout").text(playerinfo['maxtimeout']);
-	$('.playercoins').text(playerinfo['coins']);
+	$(".playername").html(playerinfo['name']);
+	$(".playerlevel").html(playerinfo['level']);
+	$(".playercurxp").html(playerinfo['curxp']);
+	$(".playermaxxp").html(playerinfo['maxxp']);
+	$(".playercurhp").html(playerinfo['curhp']);
+	$(".playermaxhp").html(playerinfo['maxhp']);
+	$(".playercurmana").html(playerinfo['curmana']);
+	$(".playermaxmana").html(playerinfo['maxmana']);
+	$(".playerx").html(playerinfo['x']);
+	$(".playery").html(playerinfo['y']);
+	$(".waypoint_x").html(playerinfo['waypoint_x']);
+	$(".waypoint_y").html(playerinfo['waypoint_y']);
+	$(".healthpotions").html(playerinfo['healthpots']);
+	$(".manapotions").html(playerinfo['manapots']);
+	$(".curtimeout").html(playerinfo['curtimeout']);
+	$(".maxtimeout").html(playerinfo['maxtimeout']);
+	$('.playercoins').html(playerinfo['coins']);
 	$(".playerarmor").html("<span style='color:"+playerinfo['armor']['color']+" !important;'>" + playerinfo['armor']['name'] + "</span>");
 	for (var i = 0; i <= 3; i++) {
 		$(".s" + (i+1)).html("<span style='color:"+playerinfo['spells'][i]['color']+" !important;'>" + playerinfo['spells'][i]['text'] + "</span>");
