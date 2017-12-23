@@ -21,9 +21,9 @@ class Tile
 
 	public function type()
 	{
-		if(isset($this->object->type))
+		if(method_exists($this->object, 'type'))
 		{
-			return $this->object->type;
+			return $this->object->type();
 		} else {
 			return "unknown";
 		}

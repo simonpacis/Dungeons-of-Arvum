@@ -40,7 +40,7 @@ class skullArmor extends Armor
 
 	public function describe($clientid)
 	{
-		status($clientid, "Reduces all damage by " . $this->resistance_percentage * 100 . "%. Adds 0.5% to this, for every kill you get. Rarity: " . ucfirst($this->rarity) . ". Level: " . $this->level . ".", "#ffff00");
+		status($clientid, "<span style='color:".$this->color." !important;'>" . $this->name . "</span>: Reduces all damage by " . $this->resistance_percentage * 100 . "%. Adds 0.5% to this, for every kill you get. Rarity: " . ucfirst($this->rarity) . ". Level: " . $this->level . ".", "#ffff00");
 	}
 
 	public function runHook()

@@ -217,7 +217,7 @@ function safeRoom($room)
 
 		}	
 	}
-	setTile($xcoord, $ycoord, new Tile(new generalStore()));
+	setTile($xcoord, $ycoord, new Tile(new dwarvenMarket()));
 	array_push($safe_rooms, $room);
 	return true;
 }

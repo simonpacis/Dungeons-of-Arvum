@@ -55,6 +55,7 @@ class Player
 	public $waypoint_y;
 	public $in_shop;
 	public $action_text;
+	public $action_target;
 
 	public function __construct($Clientid)
 	{
@@ -116,7 +117,8 @@ class Player
 		$this->waypoint_x = -1;
 		$this->waypoint_y = -1;
 		$this->in_shop = false;
-		$this->action_text = "No action";
+		$this->action_text = "(No action)";
+		$this->action_target = null;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -127,20 +129,23 @@ class Player
 				$this->x = $this->x + $x_veloc;
 				$this->y = $this->y + $y_veloc;
 				$check_for_action = $this->checkForAction();
+
 				if($check_for_action['relevant'] == true)
 				{
-					$this->action_text = ($check_for_action['object']->action_text);
+					$this->action_text = ($check_for_action['object']->object->action_text);
+					$this->action_target = $check_for_action['object']->object;
 				} else {
-					$this->action_text = "No action.";
+					$this->action_text = "(No action)";
+					$this->action_target = null;
 				}
 			}
 		}
+
 	}
 
 	public function checkForAction()
 	{
 		global $map;
-
 		$ystart = $this->y + 1;
 		$yend = $this->y - 1;
 		$xstart = $this->x - 1;
@@ -402,6 +407,7 @@ class Player
 
 	public function setWaypoint()
 	{
+		status($this->clientid, "Waypoint set.");
 		$this->waypoint_x = $this->x;
 		$this->waypoint_y = $this->y;
 	}
@@ -471,6 +477,7 @@ class Player
 		$this->usedItem = null;
 		$this->radius = null;
 		$this->show_settings = false;
+		$this->in_shop = false;
 		return true;
 	}
 
@@ -1205,6 +1212,76 @@ class Player
 	public function performAction()
 	{
 		/* Add shop functionality to non-mobs here. */
+		if($this->action_target != null)
+		{
+			$this->selected_setting = 0;
+			$this->action_target->action($this);
+		}
+
+	}
+
+	public function getShop()
+	{
+		$shop = $this->action_target;
+		$strings = [];
+		$options = [];
+
+		//array_push($options, ["text" => "Show function next to name: " . $funcdesc]);
+
+		$i = 0;
+		$this->max_settings = count($shop->stock)-1;
+		if(count($shop->stock) == 0)
+		{
+			$options[$i]["text"] = "No items in stock.";
+		} else {
+			foreach($shop->stock as $key => $item)
+			{
+				if($this->selected_setting == $key)
+				{
+					$options[$i]["text"] = "[X] " . $item->name . " (" . $item->price . ",-)";
+				} else {
+					$options[$i]["text"] = "[ ] " . $item->name . " (" . $item->price . ",-)";
+				}
+				$i++;
+			}
+		}
+
+		array_push($strings, ["text" => $shop->name]);
+		array_push($strings, ["text" => " "]);
+		$lines = array_merge($strings, $options);
+		array_push($lines, ["text" => " "]);
+		array_push($lines, ["text" => "Use the arrows to move up and down"]);
+		array_push($lines, ["text" => "and press \"space\" to purchase."]);
+		array_push($lines, ["text" => " "]);
+		array_push($lines, ["text" => "Press \"escape\" to leave shop."]);
+
+		return $lines;
+
+		foreach($this->action_target->stock as $item)
+		{
+
+		}
+	}
+
+	public function purchaseFromShop()
+	{
+		$shop = $this->action_target;
+		if($this->coins >= $shop->stock[$this->selected_setting]->price)
+		{
+			$this->addToInventory($shop->stock[$this->selected_setting]);
+			$this->coins -= $shop->stock[$this->selected_setting]->price;
+			unset($shop->stock[$this->selected_setting]);
+			$shop->stock = array_values($this->action_target->stock);
+
+			$this->selected_setting = 0;
+			$this->max_settings--;
+			$this->in_shop = false;
+			broadcastState($this->clientid);
+			$this->in_shop = true;
+			broadcastState($this->clientid);
+		} else {
+			status($this->clientid, "You cannot afford this item.");
+		}
 	}
 
 	public function displaySettings()
@@ -1344,18 +1421,34 @@ class Player
 		{
 			if(is_numeric($string) && $string > 0 && $string < 10)
 			{
-				if(isset($this->inventory[$string-1]))
+				if(!$this->in_shop)
 				{
-					if(method_exists($this->inventory[$string-1], "describe")) {
-						$this->inventory[$string-1]->describe($this->clientid);
+					if(isset($this->inventory[$string-1]))
+					{
+						if(method_exists($this->inventory[$string-1], "describe")) {
+							$this->inventory[$string-1]->describe($this->clientid);
+						} else {
+							status($this->clientid, "<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>: " .$this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". Level: " . $this->inventory[$string-1]->level . ".", "#ffff00");
+						}
+						//return true;
 					} else {
-						status($this->clientid, "<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>: " .$this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". Level: " . $this->inventory[$string-1]->level . ".", "#ffff00");
-					}
-					//return true;
+						status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");
+						//return true;
+					}	
 				} else {
-					status($this->clientid, "You do not have an item at slot " . ($string) . " in your inventory.", "#ffff00");
-					//return true;
-				}		
+					if(isset($this->action_target->stock[$string-1]))
+					{
+						if(method_exists($this->action_target->stock[$string-1], "describe")) {
+							$this->action_target->stock[$string-1]->describe($this->clientid);
+						} else {
+							status($this->clientid, "<span style='color:".$this->action_target->stock[$string-1]->color." !important;'>" . $this->action_target->stock[$string-1]->name . "</span>: " .$this->action_target->stock[$string-1]->description . " Rarity: " . ucfirst($this->action_target->stock[$string-1]->rarity) . ". Level: " . $this->action_target->stock[$string-1]->level . ".", "#ffff00");
+						}
+						//return true;
+					} else {
+						status($this->clientid, "This shop does not have an item at slot " . ($string) . ".", "#ffff00");
+						//return true;
+					}	
+				}
 			} else if(strtolower($string) == "u" or strtolower($string) == "i" or strtolower($string) == "o" or strtolower($string) == "p")
 			{
 				$orgstring = strtoupper($string);

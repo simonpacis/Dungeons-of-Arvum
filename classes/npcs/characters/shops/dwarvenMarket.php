@@ -1,6 +1,6 @@
 <?php
 
-class generalStore extends Shop
+class dwarvenMarket extends Shop
 {
 
 	public $name;
@@ -15,15 +15,19 @@ class generalStore extends Shop
 
 	public function __construct()
 	{
-		$this->name = "General Store";
-		$this->representation = "G";
+		$this->name = "Dwarven Market";
+		$this->representation = "D";
 		$this->solid = true;
 		$this->color = "#ffd700";
 		$this->x = 0;
 		$this->y = 0;
 		$this->stock = [];
-		$this->selection = ["leatherArmor", "shortBow", "fireBallScroll", "frostBallScroll", "longBow"];
-		$this->amount_of_items = rand(1,5);
+		$this->selection = ["brandistock", "pike", "ironSpear"];
+		if(rand(1,100) > 90)
+		{
+			array_push($this->selection, "skullArmor");
+		}
+		$this->amount_of_items = rand(1,3);
 
 	}
 

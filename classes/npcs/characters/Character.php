@@ -3,7 +3,7 @@
 class Character 
 {
 
-	public $room = 0;
+	public $action_text = "No action";
 
 	public function representation()
 	{

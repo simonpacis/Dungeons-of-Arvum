@@ -18,6 +18,7 @@ function keypress($clientID, $key)
 				if($players[$clientID]->selected_setting < $players[$clientID]->max_settings)
 				{
 					$players[$clientID]->selected_setting++;
+
 				}
 			} else if($key == "VK_UP")
 			{
@@ -104,6 +105,10 @@ function keypress($clientID, $key)
 		if($players[$clientID]->show_settings)
 		{
 			$players[$clientID]->changeSetting();
+		}
+		if($players[$clientID]->in_shop)
+		{
+			$players[$clientID]->purchaseFromShop();
 		}
 	}
 
@@ -287,12 +292,12 @@ function setLobby($clientID)
 
 function unsetLobby()
 {
-	global $Server, $players, $ready, $vacant_rooms;
+	global $Server, $players, $ready, $vacant_rooms, $safe_rooms;
 	$ready = true;
 	foreach($players as $player)
 	{
 		$player->state = "game";
-		$room = $vacant_rooms[array_rand($vacant_rooms, 1)];
+		$room = $safe_rooms[array_rand($safe_rooms, 1)];
 		$xcoord = rand($room["_x1"], $room["_x2"]);
 		$ycoord = rand($room["_y1"], $room["_y2"]);
 		setTile($xcoord, $ycoord, $player);

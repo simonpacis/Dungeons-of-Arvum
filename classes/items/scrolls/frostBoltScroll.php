@@ -8,6 +8,9 @@ class frostBallScroll
 	public $rarity;
 	public $description;
 	public $additional_health;
+	public $minprice;
+	public $maxprice;
+	public $price;
 	public function __construct()
 	{
 		$this->name = "Scroll of Frostball";
@@ -15,6 +18,8 @@ class frostBallScroll
 		$this->rarity = "uncommon";
 		$this->id = "0019";
 		$this->description = "This " . $this->name . " grants you the Frostball spell.";
+		$this->minprice = 50;
+		$this->maxprice = 70;
 	}
 
 	public function use($thisplayer)
