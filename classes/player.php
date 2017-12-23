@@ -128,6 +128,7 @@ class Player
 		{
 			$this->runHook("after_kill", $enemy, $this);
 		}
+		$coins = floor($enemy->damage + ($enemy->basehp/1.3) + (pow($enemy->level,1.3))/2);
 		$exp = $enemy->damage + ($enemy->basehp/1.3) + (pow($enemy->level,1.3));
 		$this->gainExp($exp);
 	}

@@ -110,7 +110,7 @@
 			//Log any messages sent from server
 			Server.bind('message', function( payload ) {
 				payload = JSON.parse(payload);
-				console.log(payload);
+				/*console.log(payload);*/
 				if(inRequest != true)
 				{
 					if(payload['type'] == "message")
