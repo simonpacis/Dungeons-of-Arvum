@@ -49,6 +49,8 @@ class Player
 	public $hp_regen;
 	public $last_hp_regen;
 	public $describe_function;
+	public $on_tile;
+	public $coins;
 
 	public function __construct($Clientid)
 	{
@@ -106,6 +108,7 @@ class Player
 		$this->last_hp_regen = 0;
 		$this->describe_function = false;
 		$this->on_tile = null;
+		$this->coins = 0;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -342,7 +345,7 @@ class Player
 
 	public function parse()
 	{
-		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout];
+		return ["name" => $this->name, "curhp" => $this->curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => $this->coins];
 	}
 
 	public function parseArmor()
