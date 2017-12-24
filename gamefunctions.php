@@ -108,7 +108,7 @@ function keypress($clientID, $key)
 		}
 		if($players[$clientID]->in_shop)
 		{
-			$players[$clientID]->purchaseFromShop();
+			$players[$clientID]->performMenuAction();
 		}
 	}
 
@@ -452,7 +452,7 @@ function broadcastState($clientID)
 		$Server->wsSend($clientID, json_encode($msg));
 	} else if($players[$clientID]->in_shop)
 	{
-		$msg = ["type" => "settings", "line" => $players[$clientID]->getShop()];
+		$msg = ["type" => "settings", "line" => $players[$clientID]->getCharacterMenu()];
 		$Server->wsSend($clientID, json_encode($msg));
 	}
 	else if($players[$clientID]->state == "lobby")

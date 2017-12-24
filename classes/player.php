@@ -175,7 +175,7 @@ class Player
 		$random = rand(0,100);
 		if($random > 50)
 		{
-			$this->coins += floor(($enemy->damage + ($enemy->basehp/1.3) + (pow($enemy->level,1.3)))/2.7);
+			$this->coins += floor(($enemy->damage + ($enemy->basehp/1.3) + (pow($enemy->level,1.2))));
 		}
 		$exp = $enemy->damage + ($enemy->basehp/1.3) + (pow($enemy->level,1.3));
 		$this->gainExp($exp);
@@ -1220,67 +1220,25 @@ class Player
 
 	}
 
-	public function getShop()
+	public function getCharacterMenu()
 	{
-		$shop = $this->action_target;
-		$strings = [];
-		$options = [];
-
-		//array_push($options, ["text" => "Show function next to name: " . $funcdesc]);
-
-		$i = 0;
-		$this->max_settings = count($shop->stock)-1;
-		if(count($shop->stock) == 0)
+		if($this->in_shop)
 		{
-			$options[$i]["text"] = "No items in stock.";
-		} else {
-			foreach($shop->stock as $key => $item)
+			if(method_exists($this->action_target, 'getMenu'))
 			{
-				if($this->selected_setting == $key)
-				{
-					$options[$i]["text"] = "[X] " . $item->name . " (" . $item->price . ",-)";
-				} else {
-					$options[$i]["text"] = "[ ] " . $item->name . " (" . $item->price . ",-)";
-				}
-				$i++;
+				return $this->action_target->getMenu($this);
 			}
-		}
-
-		array_push($strings, ["text" => $shop->name]);
-		array_push($strings, ["text" => " "]);
-		$lines = array_merge($strings, $options);
-		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Use the arrows to move up and down"]);
-		array_push($lines, ["text" => "and press \"space\" to purchase."]);
-		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Press \"escape\" to leave shop."]);
-
-		return $lines;
-
-		foreach($this->action_target->stock as $item)
-		{
-
 		}
 	}
 
-	public function purchaseFromShop()
+	public function performMenuAction()
 	{
-		$shop = $this->action_target;
-		if($this->coins >= $shop->stock[$this->selected_setting]->price)
+		if($this->in_shop)
 		{
-			$this->addToInventory($shop->stock[$this->selected_setting]);
-			$this->coins -= $shop->stock[$this->selected_setting]->price;
-			unset($shop->stock[$this->selected_setting]);
-			$shop->stock = array_values($this->action_target->stock);
-
-			$this->selected_setting = 0;
-			$this->max_settings--;
-			$this->in_shop = false;
-			broadcastState($this->clientid);
-			$this->in_shop = true;
-			broadcastState($this->clientid);
-		} else {
-			status($this->clientid, "You cannot afford this item.");
+			if(method_exists($this->action_target, 'performMenuAction'))
+			{
+				return $this->action_target->performMenuAction($this);
+			}
 		}
 	}
 
