@@ -27,6 +27,8 @@ class waypointTeleporter extends Character
 	public function action($thisplayer)
 	{
 		$thisplayer->in_shop = true;
+		status($thisplayer->clientid, $this->name . ": \"I can perform many magical miracles for you, good sir. What will it be?\"", "#fff");
+
 	}
 
 
@@ -40,16 +42,11 @@ class waypointTeleporter extends Character
 		$thisplayer->max_settings = 0;
 		array_push($lines, ["text" => $this->name]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "\"I can perform many magical miracles"]);
-		array_push($lines, ["text" => "\"for you, good sir. What would it be?\""]);
+		array_push($lines, ["text" => "%c{white}[X] Teleport to my waypoint (100gp)"]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "%c{white}[X] Teleport to my waypoint (100,-)"]);
-		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Use the arrows to move up and down"]);
-		array_push($lines, ["text" => "and press \"space\" to teleport."]);
+		array_push($lines, ["text" => "Press \"space\" to select."]);
 		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "Press \"escape\" to leave."]);
-
 		return $lines;
 	}
 
@@ -64,8 +61,7 @@ class waypointTeleporter extends Character
 					$thisplayer->x = $thisplayer->waypoint_x;
 					$thisplayer->y = $thisplayer->waypoint_y;
 					$thisplayer->escape();
-					$thisplayer->action_target = null;
-					$thisplayer->action_text = "";
+					$thisplayer->unsetActionTarget();
 					status($thisplayer->clientid, $this->name . " magically teleports you to your waypoint.", "#ff33cc");
 					$thisplayer->coins -= 100;
 				} else {

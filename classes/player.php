@@ -135,12 +135,17 @@ class Player
 					$this->action_text = ($check_for_action['object']->object->action_text);
 					$this->action_target = $check_for_action['object']->object;
 				} else {
-					$this->action_text = "(No action)";
-					$this->action_target = null;
+					$this->unsetActionTarget();
 				}
 			}
 		}
 
+	}
+
+	public function unsetActionTarget()
+	{
+		$this->action_text = "(No action)";
+		$this->action_target = null;
 	}
 
 	public function checkForAction()
