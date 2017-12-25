@@ -44,27 +44,23 @@ class Shop extends Character
 		$strings = [];
 		$options = [];
 
-		//array_push($options, ["text" => "Show function next to name: " . $funcdesc]);
-
 		$i = 0;
 		$thisplayer->max_settings = count($shop->stock)-1;
-		if(count($shop->stock) == 0)
+		for($i = (ceil(($thisplayer->selected_setting+1)/5)); $i < (ceil(($thisplayer->selected_setting+1)/5)) + 5; $i++)
 		{
-			$options[$i]["text"] = "No items in stock.";
-		} else {
-			foreach($shop->stock as $key => $item)
+			if(($i-1) <= $thisplayer->max_settings)
 			{
-				if($thisplayer->selected_setting == $key)
-				{
-					$options[$i]["text"] = "%c{white}[X] %c{" . $item->color . "}" . $item->name . "%c{white} (" . $item->price . "gp)";
-				} else {
-					$options[$i]["text"] = "%c{white}[ ] %c{" . $item->color . "}" . $item->name . "%c{white} (" . $item->price . "gp)";
+					if($thisplayer->selected_setting == ($i-1))
+					{
+						$options[$i]["text"] = "%c{white}[X] %c{" . $this->stock[$i-1]->color . "}" . $this->stock[$i-1]->name . "%c{white} (" . $this->stock[$i-1]->price . "gp)";
+					} else {
+						$options[$i]["text"] = "%c{white}[ ] %c{" . $this->stock[$i-1]->color . "}" . $this->stock[$i-1]->name . "%c{white} (" . $this->stock[$i-1]->price . "gp)";
+					}
 				}
-				$i++;
-			}
 		}
 
 		array_push($strings, ["text" => $shop->name]);
+		array_push($strings, ["text" => "Item " . ($thisplayer->selected_setting+1) . " of " . count($shop->stock) . "."]);
 		array_push($strings, ["text" => " "]);
 		$lines = array_merge($strings, $options);
 		array_push($lines, ["text" => " "]);

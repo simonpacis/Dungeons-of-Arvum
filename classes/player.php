@@ -724,46 +724,58 @@ class Player
 		return false;
 	}
 
-	public function removeFromInventory($item_to_remove, $use_id = true, $reset_index = true, $use_item = false)
+	public function removeFromInventory($item_to_remove, $use_id = true, $reset_index = true, $use_item = false, $use_index = false)
 	{
 		if(!$use_item)
 		{
-			if($use_id)
+			if(!$use_index)
 			{
-				$i = 0;
-				foreach($this->inventory as $item)
+				if($use_id)
 				{
-						if($item->id == $item_to_remove)
-						{
-							if($this->inventory[$i] == $this->wieldedArmor)
+					$i = 0;
+					foreach($this->inventory as $item)
+					{
+							if($item->id == $item_to_remove)
 							{
-								$this->wieldedArmor = null;
+								if($this->inventory[$i] == $this->wieldedArmor)
+								{
+									$this->wieldedArmor = null;
+								}
+							if(isset($this->inventory[$i]->wielded))
+							{
+								$this->inventory[$i]->wielded = false;
 							}
-						if(isset($this->inventory[$i]->wielded))
-						{
-							$this->inventory[$i]->wielded = false;
-						}
-							unset($this->inventory[$i]);
-							$this->inventory = array_values($this->inventory);
-							bigBroadcast();
-							return true;
-						}
-					$i++;
+								unset($this->inventory[$i]);
+								$this->inventory = array_values($this->inventory);
+								bigBroadcast();
+								return true;
+							}
+						$i++;
+					}
+				} else {
+					if($this->inventory[$item_to_remove] == $this->wieldedArmor)
+					{
+						$this->wieldedArmor = null;
+					}
+							if(isset($this->inventory[$item_to_remove]->wielded))
+							{
+								$this->inventory[$item_to_remove]->wielded = false;
+							}
+					unset($this->inventory[$item_to_remove]);
+					if($reset_index)
+					{
+						$this->inventory = array_values($this->inventory);
+					}
+					bigBroadcast();
+					return true;
 				}
 			} else {
-				if($this->inventory[$item_to_remove] == $this->wieldedArmor)
+				if(isset($this->inventory[$item_to_remove]->wielded))
 				{
-					$this->wieldedArmor = null;
+					$this->inventory[$item_to_remove]->wielded = false;
 				}
-						if(isset($this->inventory[$item_to_remove]->wielded))
-						{
-							$this->inventory[$item_to_remove]->wielded = false;
-						}
 				unset($this->inventory[$item_to_remove]);
-				if($reset_index)
-				{
-					$this->inventory = array_values($this->inventory);
-				}
+				$this->inventory = array_values($this->inventory);
 				bigBroadcast();
 				return true;
 			}

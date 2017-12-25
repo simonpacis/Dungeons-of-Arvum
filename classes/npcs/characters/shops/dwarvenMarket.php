@@ -22,12 +22,12 @@ class dwarvenMarket extends Shop
 		$this->x = 0;
 		$this->y = 0;
 		$this->stock = [];
-		$this->selection = ["brandistock", "pike", "ironSpear"];
+		$this->selection = ["brandistock", "pike", "ironSpear", "leatherArmor", "fireBallScroll", "frostBallScroll"];
 		if(rand(1,100) > 90)
 		{
 			array_push($this->selection, "skullArmor");
 		}
-		$this->amount_of_items = rand(1,3);
+		$this->amount_of_items = 6;
 
 	}
 

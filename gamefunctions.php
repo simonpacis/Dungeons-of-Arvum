@@ -13,18 +13,35 @@ function keypress($clientID, $key)
 			$players[$clientID]->escape();
 			movePlayer($clientID, $key);
 		} else {
-			if($key == "VK_DOWN")
+			if(($key == "VK_DOWN" OR $key == "VK_S"))
 			{
 				if($players[$clientID]->selected_setting < $players[$clientID]->max_settings)
 				{
 					$players[$clientID]->selected_setting++;
 
 				}
-			} else if($key == "VK_UP")
+			} else if(($key == "VK_UP" OR $key == "VK_W"))
 			{
 				if($players[$clientID]->selected_setting > 0)
 				{
 					$players[$clientID]->selected_setting--;	
+				}
+			} else if($key == "VK_LEFT")
+			{
+				if($players[$clientID]->selected_setting > 5)
+				{
+					$players[$clientID]->selected_setting = 5;
+				} else {
+					if($players[$clientID]->selected_setting > 0)
+					{
+						$players[$clientID]->selected_setting--;
+					}
+				}
+			} else if($key == "VK_RIGHT")
+			{
+				if(ceil($players[$clientID]->selected_setting/5) < ceil($players[$clientID]->max_settings/5))
+				{
+					$players[$clientID]->selected_setting = (((ceil($players[$clientID]->selected_setting/5)*5)));
 				}
 			}
 		}
@@ -79,7 +96,12 @@ function keypress($clientID, $key)
 
 		if($key == "VK_Z")
 		{
-			$players[$clientID]->request('describe');
+			if(!$players[$clientID]->in_shop)
+			{
+				$players[$clientID]->request('describe');
+			} else {
+				$players[$clientID]->describeResponse($players[$clientID]->selected_setting+1);
+			}
 		}
 		if($key == "VK_X")
 		{
@@ -517,7 +539,8 @@ function newPlayer($clientID)
 			setLobby($clientID);
 			$players[$clientID]->request('name');
 			$players[$clientID]->addToInventory(new dagger(), false, false);
-			//$players[$clientID]->addToInventory(new brandistock(), false, false);
+			$players[$clientID]->addToInventory(new fireBallScroll(), false, false);
+			$players[$clientID]->addToInventory(new shortSword(), false, false);
 			//$players[$clientID]->levelUp();
 			//$players[$clientID]->levelUp();
 			//$players[$clientID]->levelUp();

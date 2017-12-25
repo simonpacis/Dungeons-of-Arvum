@@ -13,6 +13,8 @@ class shortSword extends Weapon
 	public $radius_var_1;
 	public $radius_var_2;
 	public $level;
+	public $price;
+	
 	public function __construct()
 	{
 		$this->name = "Shortsword";
@@ -24,6 +26,8 @@ class shortSword extends Weapon
 		$this->radius_var_1 = 1;
 		$this->radius_var_2 = 1;
 		$this->level = 2;
+		$this->minprice = 30;
+		$this->maxprice = 40;
 	}
 
 	public function use($thisplayer)

@@ -217,7 +217,7 @@ function safeRoom($room)
 
 		}	
 	}
-	setTile($xcoord, $ycoord, new Tile(new waypointTeleporter()));
+	setTile($xcoord, $ycoord, new Tile(new seller()));
 	array_push($safe_rooms, $room);
 	return true;
 }

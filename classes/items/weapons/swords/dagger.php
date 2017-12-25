@@ -13,6 +13,8 @@ class dagger extends Weapon
 	public $radius_var_1;
 	public $radius_var_2;
 	public $level;
+	public $no_sell;
+	
 	public function __construct()
 	{
 		$this->name = "Dagger";
@@ -24,6 +26,7 @@ class dagger extends Weapon
 		$this->radius_var_1 = 1;
 		$this->radius_var_2 = 1;
 		$this->level = 1;
+		$this->no_sell = true;
 	}
 
 	public function use($thisplayer)
