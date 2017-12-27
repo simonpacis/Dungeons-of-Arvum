@@ -20,6 +20,7 @@ class wolfbat extends Mob
 	public $lastmove;
 	public $loot;
 	public $rarity;
+	public $movementspeed;
 
 	public function __construct()
 	{

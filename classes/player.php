@@ -56,6 +56,8 @@ class Player
 	public $in_shop;
 	public $action_text;
 	public $action_target;
+	public $movementspeed;
+	public $lastmove;
 
 	public function __construct($Clientid)
 	{
@@ -119,23 +121,39 @@ class Player
 		$this->in_shop = false;
 		$this->action_text = "(No action)";
 		$this->action_target = null;
+		$this->movementspeed = 6;
+		$this->lastmove = 0;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
 	{
-		if(!$this->hold && !$this->radius && !$this->force_hold)
+		$allowed_to_move = false;
+		$seconds_per_square = 1000/$this->movementspeed;
+		$curtime = round(microtime(true) * 1000);
+		if($this->lastmove == 0 or ($curtime - $this->lastmove) >= $seconds_per_square)
 		{
-			if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
-				$this->x = $this->x + $x_veloc;
-				$this->y = $this->y + $y_veloc;
-				$check_for_action = $this->checkForAction();
+			$allowed_to_move = true;
+			$this->lastmove = round(microtime(true) * 1000);
+		} else {
+			$allowed_to_move = false;
+		}
 
-				if($check_for_action['relevant'] == true)
-				{
-					$this->action_text = ($check_for_action['object']->object->action_text);
-					$this->action_target = $check_for_action['object']->object;
-				} else {
-					$this->unsetActionTarget();
+		if($allowed_to_move)
+		{
+			if(!$this->hold && !$this->radius && !$this->force_hold)
+			{
+				if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
+					$this->x = $this->x + $x_veloc;
+					$this->y = $this->y + $y_veloc;
+					$check_for_action = $this->checkForAction();
+
+					if($check_for_action['relevant'] == true)
+					{
+						$this->action_text = ($check_for_action['object']->object->action_text);
+						$this->action_target = $check_for_action['object']->object;
+					} else {
+						$this->unsetActionTarget();
+					}
 				}
 			}
 		}
@@ -335,7 +353,7 @@ class Player
 	{
 		if($this->healthpots > 0 && $this->curhp != $this->maxhp)
 		{
-			$this->heal(5);
+			$this->heal(round($this->maxhp*0.2));
 			$this->healthpots = $this->healthpots - 1;
 			return true;
 		} elseif($this->healthpots == 0 && $this->curhp != $this->maxhp) {
@@ -413,7 +431,7 @@ class Player
 		} else {
 			$curhp = "<span style='color:#5CCC6B;'>" . $this->curhp . "</span>";
 		}
-		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text];
+		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $this->movementspeed];
 	}
 
 	public function setWaypoint()

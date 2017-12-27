@@ -5,6 +5,6 @@
 
 Ingen damage tekst
 
-Health Potion scalerm, giver 20% af HP
+Health Potion scalerm, giver 20% af HP – done
 
 Attack power/Spell power
