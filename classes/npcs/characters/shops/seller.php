@@ -15,7 +15,7 @@ class seller extends Shop
 
 	public function __construct()
 	{
-		$this->name = "Kamdrio Pawnhear";
+		$this->name = "Friendly and Rich Wayfarer";
 		$this->representation = "S";
 		$this->solid = true;
 		$this->color = "#ffd700";

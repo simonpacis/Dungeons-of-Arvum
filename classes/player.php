@@ -57,6 +57,7 @@ class Player
 	public $action_text;
 	public $action_target;
 	public $movementspeed;
+	public $currentmovementspeed;
 	public $lastmove;
 
 	public function __construct($Clientid)
@@ -122,21 +123,35 @@ class Player
 		$this->action_text = "(No action)";
 		$this->action_target = null;
 		$this->movementspeed = 6;
+		$this->currentmovementspeed = $this->movementspeed;
+
 		$this->lastmove = 0;
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
 	{
-		$allowed_to_move = false;
-		$seconds_per_square = 1000/$this->movementspeed;
-		$curtime = round(microtime(true) * 1000);
-		if($this->lastmove == 0 or ($curtime - $this->lastmove) >= $seconds_per_square)
+
+		global $enable_player_movement_speed;
+
+		$this->currentmovementspeed = $this->movementspeed;
+
+		if($enable_player_movement_speed)
 		{
-			$allowed_to_move = true;
-			$this->lastmove = round(microtime(true) * 1000);
-		} else {
 			$allowed_to_move = false;
+			$seconds_per_square = 1000/$this->currentmovementspeed;
+			$curtime = round(microtime(true) * 1000);
+			if($this->lastmove == 0 or ($curtime - $this->lastmove) >= $seconds_per_square)
+			{
+				$allowed_to_move = true;
+				$this->lastmove = round(microtime(true) * 1000);
+			} else {
+				$allowed_to_move = false;
+			}
+		} else {
+			$allowed_to_move = true;
 		}
+
+
 
 		if($allowed_to_move)
 		{
@@ -417,6 +432,7 @@ class Player
 
 	public function parse()
 	{
+		global $enable_player_movement_speed;
 		if($this->waypoint_x < 0)
 		{
 			$waypoint_x = 0;
@@ -431,7 +447,14 @@ class Player
 		} else {
 			$curhp = "<span style='color:#5CCC6B;'>" . $this->curhp . "</span>";
 		}
-		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $this->movementspeed];
+
+		if($enable_player_movement_speed)
+		{
+			$movementspeed = $this->currentmovementspeed;
+		} else {
+			$movementspeed = "Not enabled";
+		}
+		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed];
 	}
 
 	public function setWaypoint()

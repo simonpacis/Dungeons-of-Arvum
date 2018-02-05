@@ -10,6 +10,8 @@ $map_height = 600;
 
 $generate_new_map = false; //Set to false if you want to load a map from pre-existing map.doafile and rooms.doafile files in the "libs" folder.
 
+$enable_player_movement_speed = false; // EXPERIMENTAL: Player movement speed is experimental and does not function all too well because of the tiles of the game. This will be enabled per default as soon as I get it fixed to function properly.
+
 /*
 	In-game specific configuratons
 */

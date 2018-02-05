@@ -1,13 +1,13 @@
 <?php
 error_reporting(0);
 ini_set('memory_limit', '-1');
-$predefinedClasses = get_declared_classes();
 error_reporting(E_ALL & ~E_NOTICE);
 //require_once( 'libs/Thread.php' );
 //ini_set('display_errors', 1);
 //ini_set('display_startup_errors', 1);
 //error_reporting(E_ALL);
 include('config.php');
+
 include('helpers.php');
 include('classes/bootstrap.php');
 include('population.php');
@@ -15,7 +15,6 @@ include('gamestate.php');
 include('gamefunctions.php');
 // prevent the server from timing out
 set_time_limit(0);
-
 // include the web sockets server script (the server is started at the far bottom of this file)
 require 'class.PHPWebSocket.php';
 

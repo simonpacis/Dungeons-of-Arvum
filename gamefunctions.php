@@ -4,6 +4,7 @@ include('mapfunctions.php');
 function keypress($clientID, $key)
 {
 	global $players;
+	
 	checkMobs();
 	$players[$clientID]->regenerate();
 	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")

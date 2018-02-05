@@ -109,9 +109,22 @@ $limited_mobs = [
 	new skullMan()
 ];
 
+
+$spawnable_characters = [
+	new seller(),
+	new dwarvenMarket(),
+	new generalStore()
+];
+
+$limited_characters = [
+	new waypointTeleporter(),
+	new waypointTeleporter(),
+	new waypointTeleporter()
+];
+
 function populateMap()
 {
-	global $ip, $port;
+	global $ip, $port, $limited_characters;
 
 	/*
 		Rules of room distribution.
@@ -162,6 +175,16 @@ function populateMap()
 		spawnMob($mob, $xcoord, $ycoord);
 		unset($mob);
 	}
+
+	foreach($limited_characters as $character)
+	{
+		$room = $safe_rooms[array_rand($safe_rooms, 1)];
+		$xcoord = rand($room["_x1"], $room["_x2"]);
+		$ycoord = rand($room["_y1"], $room["_y2"]);
+		setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($character));
+		unset($character);
+	}
+
 	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                   by: Simon Pacis                      |\n|                                                        |\n----------------------------------------------------------\n\n";
 	echo "Ready to connect!\n";
 
@@ -169,7 +192,7 @@ function populateMap()
 
 function safeRoom($room)
 {
-	global $safe_rooms;
+	global $safe_rooms, $spawnable_characters;
 	foreach($room['_doors'] as $door => $value)
 	{
 		$door_coords = explode(",", $door, 2);
@@ -215,9 +238,16 @@ function safeRoom($room)
 				break;
 			}
 
-		}	
+		}
 	}
-	setTile($xcoord, $ycoord, new Tile(new seller()));
+
+	$curchar = $spawnable_characters[array_rand($spawnable_characters, 1)];
+	$curmobclass = get_class($curchar);
+	mobclass;
+	$curmob = new $curmobclass;
+	$curmob->room = $room['id'];
+	setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($curmob));
+
 	array_push($safe_rooms, $room);
 	return true;
 }
