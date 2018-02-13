@@ -84,6 +84,8 @@ setPlayerInfo = function(playerinfo)
 	$(".playermaxxp").html(playerinfo['maxxp']);
 	$(".playercurhp").html(playerinfo['curhp']);
 	$(".playermaxhp").html(playerinfo['maxhp']);
+	$(".playercurshield").html(playerinfo['curshield']);
+	$(".playermaxshield").html(playerinfo['maxshield']);
 	$(".playercurmana").html(playerinfo['curmana']);
 	$(".playermaxmana").html(playerinfo['maxmana']);
 	$(".playerx").html(playerinfo['x']);

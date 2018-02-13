@@ -7,6 +7,8 @@ class Player
 	public $level;
 	public $curhp;
 	public $maxhp;
+	public $curshield;
+	public $maxshield;
 	public $curmana;
 	public $maxmana;
 	public $curxp;
@@ -68,6 +70,8 @@ class Player
 		$this->level = 1;
 		$this->curhp = 20;
 		$this->maxhp = 20;
+		$this->curshield = 0;
+		$this->maxshield = 0;
 		$this->curmana = 20;
 		$this->maxmana = 20;
 		$this->curxp = 0;
@@ -454,7 +458,7 @@ class Player
 		} else {
 			$movementspeed = "Not enabled";
 		}
-		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed];
+		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield];
 	}
 
 	public function setWaypoint()

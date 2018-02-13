@@ -111,7 +111,7 @@ $limited_mobs = [
 
 
 $spawnable_characters = [
-	new seller(),
+	new waypointTeleporter(),
 	new dwarvenMarket(),
 	new generalStore()
 ];
