@@ -25,6 +25,8 @@ class skullbringersAxe extends Weapon
 		$this->radius_var_2 = 1;
 		$this->level = 1;
 		$this->damage = 10;
+		$this->minprice = 3000;
+		$this->maxprice = 10000;
 	}
 
 	public function use($thisplayer)

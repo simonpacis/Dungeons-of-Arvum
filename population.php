@@ -22,53 +22,66 @@ $generic_items=[
 	new pike(),
 	new longSword(),
 	new frostBallScroll(),
-	new fireBallScroll(),
-	new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),
-	new healthJug(),
-	new healthJug(),
-	new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),
-	new majorManaPotion(),
-	new majorManaPotion(),
-	new majorManaPotion(),
-	new majorManaPotion(),
-	new manaJug(),
-	new manaJug(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new mediumShield(),
-	new mediumShield(),
-	new mediumShield(),
-	new mediumShield(),
-	new mediumShield(),
-	new majorShield(),
-	new majorShield(),
-	new majorShield()		
+	new fireBallScroll(),	
 ];
+$potion_items = [
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthJug(),
+	new healthJug(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new majorManaPotion(),
+	new majorManaPotion(),
+	new majorManaPotion(),
+	new majorManaPotion(),
+	new manaJug(),
+	new manaJug(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new majorShield(),
+	new majorShield(),
+	new majorShield()
+];
+
+foreach($potion_items as $item)
+{
+	array_push($generic_items, $item);
+}
 
 // Shuffle item arrays for extra randomization.
 shuffle($limited_items);
 shuffle($generic_items);
 
-function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_only = false, $generic_only = false, $loot_chance = 1)
+function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_only = false, $generic_only = false, $loot_chance = 1, $potions_only = false)
 {
-	global $generic_items, $limited_items, $rarity_ladder;
-
+	global $generic_items, $limited_items, $rarity_ladder, $potion_items;
+	$gen_items = $generic_items;
+	$lim_items = $lim_items;
+	if($potions_only)
+	{
+		$gen_items = $potion_items;
+		$lim_items = $potion_items;
+	}
 	$min_rarity_key = array_search($min_rarity, $rarity_ladder);
 	$max_rarity_key = array_search($max_rarity, $rarity_ladder);
 	if($limited_only)
@@ -80,47 +93,60 @@ function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_onl
 	} else {
 		$limited_or_generic = rand(0,100); // 40% chance of limited items, 60% chance of generic items.
 	}
-	
-	if($limited_or_generic > 60 && count($limited_items) != 0)
+	if(!$potions_only)
 	{
-		$item_key = array_rand($limited_items, 1);
-		$rarity_key = array_search($limited_items[$item_key]->rarity, $rarity_ladder);
-
-		while($rarity_key < $min_rarity_key OR $rarity_key > $max_rarity_key)
+		if($limited_or_generic > 60 && count($lim_items) != 0)
 		{
 			$item_key = array_rand($limited_items, 1);
 			$rarity_key = array_search($limited_items[$item_key]->rarity, $rarity_ladder);
+
+			while($rarity_key < $min_rarity_key OR $rarity_key > $max_rarity_key)
+			{
+				$item_key = array_rand($limited_items, 1);
+				$rarity_key = array_search($limited_items[$item_key]->rarity, $rarity_ladder);
+			}
+			if(isset($limited_items[$item_key]))
+			{
+				$item = $limited_items[$item_key];
+			} else {
+				return getItem($min_rarity, $max_rarity, false, true);
+			}
+			unset($limited_items[$item_key]);
+			$limited_items = array_values($limited_items);
+		} elseif($limited_or_generic <= 60 || count($limited_items) == 0) {
+			$item_key = array_rand($gen_items, 1);
+			$rarity_key = array_search($gen_items[$item_key]->rarity, $rarity_ladder);
+
+			while($rarity_key < $min_rarity_key OR $rarity_key > $max_rarity_key)
+			{
+				$item_key = array_rand($gen_items, 1);
+				$rarity_key = array_search($gen_items[$item_key]->rarity, $rarity_ladder);
+			}
+			
+			$item = $gen_items[$item_key];
 		}
-		if(isset($limited_items[$item_key]))
+		if($loot_chance != 1)
 		{
-			$item = $limited_items[$item_key];
-		} else {
-			return getItem($min_rarity, $max_rarity, false, true);
+			$chance = rand(1,100);
+			$chance = $chance/100;
+			if($chance <= $loot_chance)
+			{
+				return clone $item;
+			} else {
+				return null;
+			}
 		}
-		unset($limited_items[$item_key]);
-		$limited_items = array_values($limited_items);
-	} elseif($limited_or_generic <= 60 || count($limited_items) == 0) {
-		$item_key = array_rand($generic_items, 1);
-		$rarity_key = array_search($generic_items[$item_key]->rarity, $rarity_ladder);
+	} else {
+		$item_key = array_rand($gen_items, 1);
+		$rarity_key = array_search($gen_items[$item_key]->rarity, $rarity_ladder);
 
 		while($rarity_key < $min_rarity_key OR $rarity_key > $max_rarity_key)
 		{
-			$item_key = array_rand($generic_items, 1);
-			$rarity_key = array_search($generic_items[$item_key]->rarity, $rarity_ladder);
+			$item_key = array_rand($gen_items, 1);
+			$rarity_key = array_search($gen_items[$item_key]->rarity, $rarity_ladder);
 		}
 		
-		$item = $generic_items[$item_key];
-	}
-	if($loot_chance != 1)
-	{
-		$chance = rand(1,100);
-		$chance = $chance/100;
-		if($chance <= $loot_chance)
-		{
-			return clone $item;
-		} else {
-			return null;
-		}
+		$item = $gen_items[$item_key];
 	}
 	return clone $item;
 }
@@ -144,13 +170,13 @@ $limited_mobs = [
 $spawnable_characters = [
 	new waypointTeleporter(),
 	new dwarvenMarket(),
-	new generalStore()
+	new generalStore(),
+	new seller()
 ];
 
 $limited_characters = [
 	new waypointTeleporter(),
 	new waypointTeleporter(),
-	new waypointTeleporter()
 ];
 
 function populateMap()
@@ -298,12 +324,13 @@ function treasureRoom($room)
 		$xcoord = rand($room["_x1"], $room["_x2"]);
 		$ycoord = rand($room["_y1"], $room["_y2"]);
 		$manaorhp = rand(0,10);
-		if($manaorhp >= 4)
+		/*if($manaorhp >= 4)
 		{
 			setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,3), $room['id'])));
 		} else {
 			setTile($xcoord, $ycoord, new Tile(new manapotTile(rand(1,2), $room['id'])));
-		}
+		}*/
+		setTile($xcoord, $ycoord, new Tile(new potTreasure()));
 	} elseif($itemdist > 50 && $itemdist < 85)
 	{
 		$xcoord = rand($room["_x1"], $room["_x2"]);
@@ -314,12 +341,13 @@ function treasureRoom($room)
 			setTile($xcoord, $ycoord, new Tile(new Healspot()));
 		} else {
 			$manaorhp = rand(0,10);
-			if($manaorhp >= 4)
+			/*if($manaorhp >= 4)
 			{
 				setTile($xcoord, $ycoord, new Tile(new healthpotTile(rand(1,5), $room['id'])));
 			} else {
 				setTile($xcoord, $ycoord, new Tile(new manapotTile(rand(1,3), $room['id'])));
-			}
+			}*/
+			setTile($xcoord, $ycoord, new Tile(new Treasure()));
 
 		}
 	} 

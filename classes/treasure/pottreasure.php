@@ -1,6 +1,6 @@
 <?php
 
-class Treasure
+class potTreasure
 {
 	public $solid;
 	public $representation;
@@ -11,7 +11,7 @@ class Treasure
 		$this->solid = false;
 		$this->representation = "$";
 		$this->color = "#ffd700";
-		$this->loot = getItem("common", "uncommon", false, true);
+		$this->loot = getItem("common", "strong", false, true, 1, true);
 	}
 
 	public function pickup($player)

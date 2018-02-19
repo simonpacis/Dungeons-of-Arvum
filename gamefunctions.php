@@ -60,14 +60,40 @@ function keypress($clientID, $key)
 			}
 		}
 
+		if($key == "VK_U" or $key == "VK_I" or $key == "VK_O" or $key == "VK_P")
+		{
+			switch ($key) {
+				case 'VK_U':
+					keypress($clientID, "VK_1");
+					continue;
+					break;
+				case 'VK_I':
+					keypress($clientID, "VK_2");
+					continue;
+					break;				
+				case 'VK_O':
+					keypress($clientID, "VK_3");
+					continue;
+					break;
+				case 'VK_P':
+					keypress($clientID, "VK_4");
+					continue;
+					break;
+				default:
+					
+					break;
+			}
+			
+		}
+
 		if($key == "VK_E" or $key == "VK_Q")
 		{
-			if($key == "VK_E")
+			if($key == "VK_Q")
 			{
 				$key = "VK_U";
 			}
 
-			if($key == "VK_Q")
+			if($key == "VK_E")
 			{
 				$key = "VK_I";
 			}

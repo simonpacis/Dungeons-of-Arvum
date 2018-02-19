@@ -71,7 +71,7 @@ class Player
 		$this->curhp = 20;
 		$this->maxhp = 20;
 		$this->curshield = 0;
-		$this->maxshield = 1000;
+		$this->maxshield = 100;
 		$this->curmana = 20;
 		$this->maxmana = 20;
 		$this->curxp = 0;
@@ -242,6 +242,8 @@ class Player
 		// Calc new maxhp.
 		$additionalhp = 5;
 		$this->maxhp = $this->maxhp + $additionalhp;
+		$additionalshield = 100;
+		$this->maxshield = $this->maxshield + $additionalshield;
 		/*if($this->curhp < round($this->maxhp/2))
 		{
 			$this->curhp = round($this->maxhp/2);
