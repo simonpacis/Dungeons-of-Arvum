@@ -60,8 +60,17 @@ function keypress($clientID, $key)
 			}
 		}
 
-		if($key == "VK_U" or $key == "VK_I" or $key == "VK_O" or $key == "VK_P")
+		if($key == "VK_E" or $key == "VK_Q")
 		{
+			if($key == "VK_E")
+			{
+				$key = "VK_U";
+			}
+
+			if($key == "VK_Q")
+			{
+				$key = "VK_I";
+			}
 			if(!$players[$clientID]->inTimeout())
 			{
 				$players[$clientID]->useSpell($key);
@@ -86,15 +95,6 @@ function keypress($clientID, $key)
 			$players[$clientID]->request('swap');
 		}
 
-		if($key == "VK_Q")
-		{
-			$players[$clientID]->useHealthpot();
-		}
-
-		if($key == "VK_E")
-		{
-			$players[$clientID]->useManapot();
-		}
 
 		if($key == "VK_Z")
 		{
@@ -128,7 +128,7 @@ function keypress($clientID, $key)
 	{
 		if($players[$clientID]->show_settings)
 		{
-			$players[$clientID]->ecangeSetting();
+			$players[$clientID]->changeSetting();
 		}
 		if($players[$clientID]->in_shop)
 		{
