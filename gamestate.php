@@ -10,4 +10,5 @@ $broadcasting = false;
 $rooms = [];
 $vacant_rooms = [];
 $safe_rooms = [];
+$mob_checking = false;
 ?>

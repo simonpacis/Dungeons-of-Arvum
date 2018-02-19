@@ -33,6 +33,7 @@ class Tile
 	{
 		if($player != null)
 		{
+			$player = $player->clientid;
 			if($this->playercolors[$player] != null)
 			{
 				return $this->playercolors[$player];

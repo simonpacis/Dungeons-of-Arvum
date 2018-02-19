@@ -1,5 +1,35 @@
 <?php
 
+function is_between_coords($pos_x, $pos_y, $check_x, $check_y, $xrange, $yrange = null)
+{
+    if($yrange == null)
+    {
+        $yrange = $xrange;
+    }
+    $ystart = floor($check_y + $yrange);
+    $yend = floor($check_y - $yrange);
+    $xstart = floor($check_x - $xrange);
+    $xend = floor($check_x + $xrange);
+    if($ystart < 0)
+    {
+        $ystart = 0;
+    }
+    if($xstart < 0)
+    {
+        $xstart = 0;
+    }
+
+    $in_x = ($pos_x <= $xend && $pos_x >= $xstart);
+    $in_y = ($pos_y >= $yend && $pos_y <= $ystart);
+
+    if($in_y && $in_x)
+    {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 function in_2d_array($array, $key, $val) {
     foreach ($array as $item)
         if (isset($item[$key]) && $item[$key] == $val)

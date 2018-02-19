@@ -30,7 +30,7 @@ class oakOwl extends Mob
 		$this->basehp = 2;
 		$this->maxhp = $this->basehp;
 		$this->curhp = $this->basehp;
-		$this->level = 1;
+		$this->level = 3;
 		$this->target = null;
 		$this->range = 1;
 		$this->viewrange = 5;
@@ -43,18 +43,8 @@ class oakOwl extends Mob
 		$this->attackspeed = 0.5; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
-		$this->loot = getItem("common", "common", false, true, 0.1);
+		$this->loot = getItem("common", "common", false, true, 1);
 		$this->rarity = "common";
-	}
-
-	public function tick()
-	{
-		global $map;
-		parent::move();
-		if($this->target == null)
-		{
-			$this->target = parent::acquireTarget($this->x, $this->y, $this->viewrange, $map);
-		}
 	}
 
 }

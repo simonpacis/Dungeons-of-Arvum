@@ -23,7 +23,7 @@ class Bandit extends Mob
 
 	public function __construct()
 	{
-		$this->name = "Bandit";
+		$this->name = "Thief";
 		$this->basedamage = 1;
 		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
@@ -34,7 +34,7 @@ class Bandit extends Mob
 		$this->target = null;
 		$this->range = 1;
 		$this->viewrange = 5;
-		$this->representation = "B";
+		$this->representation = "T";
 		$this->solid = true;
 		$this->color = "#00ff00";
 		$this->x = 0;
@@ -43,18 +43,9 @@ class Bandit extends Mob
 		$this->attackspeed = 1; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
-		$this->loot = getItem("common","common",false,true,0.4);
+		$this->loot = getItem("common","common",false,true,0.8);
 		$this->rarity = "common";
 	}
 
-	public function tick()
-	{
-		global $map;
-		parent::move();
-		if($this->target == null)
-		{
-			$this->target = parent::acquireTarget($this->x, $this->y, $this->viewrange, $map);
-		}
-	}
 
 }

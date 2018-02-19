@@ -18,6 +18,33 @@ set_time_limit(0);
 // include the web sockets server script (the server is started at the far bottom of this file)
 require 'class.PHPWebSocket.php';
 
+// Call this at each point of interest, passing a descriptive string
+function prof_flag($str)
+{
+    global $prof_timing, $prof_names;
+    $prof_timing[] = microtime(true);
+    $prof_names[] = $str;
+}
+
+// Call this when you're done and want to see the results
+function prof_print()
+{
+    global $prof_timing, $prof_names, $profiling;
+    $size = count($prof_timing);
+    for($i=0;$i<$size - 1; $i++)
+    {
+    	if($profiling)
+    	{
+        	echo "{$prof_names[$i]}\n";
+        	echo sprintf("   %f\n", $prof_timing[$i+1]-$prof_timing[$i]);
+    	}
+    }
+    if($profiling)
+    {
+    	echo "{$prof_names[$size-1]}\n";
+	}
+}
+
 // when a client sends data to the server
 function wsOnReceive($clientID, $message, $messageLength, $binary) {
 	global $Server;

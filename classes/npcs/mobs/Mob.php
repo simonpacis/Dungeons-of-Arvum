@@ -12,6 +12,58 @@ class Mob
 	public $slowed_at = 0;
 	public $slow_for = 0;
 	public $room = 0;
+	public $checked = 0;
+
+	public function tick($players, $player)
+	{
+			global $map;
+			$this->move();
+			$this->showAggroColor($players);
+			if($this->target == null)
+			{
+				if($player->level <= $this->level)
+				{
+					$this->target = $this->acquireTarget($this->x, $this->y, $this->viewrange, $map, $player);
+				}
+			}
+			$this->checked = microtime(true);
+
+	}
+
+	public function showAggroColor($players, $all_players = true)
+	{
+		if($all_players)
+		{
+			foreach($players as $player)
+			{
+				$this->resetColor($player->clientid);
+				$should_aggro = $player->level <= $this->level;
+				if($this->target == $player)
+				{
+					$should_aggro = true;
+				}
+				if($should_aggro)
+				{
+					$this->setColor($player->clientid, "#ff0000");			
+				} else {
+					$this->setColor($player->clientid, "#00ff00");
+				}
+			}
+		} else {
+				$this->resetColor($players->clientid);
+				$should_aggro = $players->level <= $this->level;
+				if($this->target == $players)
+				{
+					$should_aggro = true;
+				}
+				if($should_aggro)
+				{
+					$this->setColor($players->clientid, "#ff0000");			
+				} else {
+					$this->setColor($players->clientid, "#00ff00");
+				}
+		}
+	}
 
 	public function levelUp()
 	{
@@ -30,38 +82,23 @@ class Mob
 		$this->damage = $this->damage + $additionaldmg;	
 	}
 
-	public function acquireTarget($x, $y, $viewrange, $map)
+	public function acquireTarget($x, $y, $viewrange, $map, $player)
 	{
-		$ystart = $y + $viewrange;
-		$yend = $y - $viewrange;
-		$xstart = $x - $viewrange;
-		$xend = $x + $viewrange;
-		if($ystart < 0)
+
+		if(is_between_coords($player->x, $player->y, $x, $y, $viewrange))
 		{
-			$ystart = 0;
-		}
-		if($xstart < 0)
-		{
-			$xstart = 0;
+			return $map[$player->x][$player->y];
 		}
 
-		for ($i=$yend; $i <= $ystart; $i++) {
-			for($ix = $xstart; $ix <= $xend; $ix++)
-			{
-				if($map[$ix][$i] != null)
-				{
-					if($map[$ix][$i]->type() == "player")
-					{
-						return $map[$ix][$i];
-					}
-				}
-			}
-		}
 		return null;
 	}
 
 	public function damage($amount, $type, $player)
 	{
+		if($this->target == null)
+		{
+			$this->target = $player;
+		}
 		$this->curhp = $this->curhp - $amount;
 		status($player->clientid, "You dealt " . $amount . " " . $type . " damage to " . $this->name . ".", "#5CCC6B");
 		if($this->curhp <= 0)
@@ -457,14 +494,20 @@ class Mob
 	{
 		if($player != null)
 		{
-			if($this->playercolors[$player] != null)
+			$this->resetColor($player->clientid);
+			$this->showAggroColor($player, false);
+			if($this->playercolors[$player->clientid] != null)
 			{
-				return $this->playercolors[$player];
+				$color = $this->playercolors[$player->clientid];
+
+				return $color;
 			} else {
-				return $this->color;
+				$color = $this->playercolors[$player->clientid];
+				return $color;
 			}
 		} else {
-			return $this->color;
+
+			return "#ff0000";
 		}
 	}
 

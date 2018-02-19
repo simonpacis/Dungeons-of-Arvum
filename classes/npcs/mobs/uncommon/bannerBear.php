@@ -30,7 +30,7 @@ class bannerBear extends Mob
 		$this->basehp = 10;
 		$this->maxhp = $this->basehp;
 		$this->curhp = $this->basehp;
-		$this->level = 1;
+		$this->level = 4;
 		$this->target = null;
 		$this->range = 1;
 		$this->viewrange = 5;
@@ -43,18 +43,9 @@ class bannerBear extends Mob
 		$this->attackspeed = 0.05; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
-		$this->loot = getItem("common", "uncommon", false, true, 0.25);
+		$this->loot = getItem("common", "uncommon", false, true, 0.70);
 		$this->rarity = "uncommon";
 	}
 
-	public function tick()
-	{
-		global $map;
-		parent::move();
-		if($this->target == null)
-		{
-			$this->target = parent::acquireTarget($this->x, $this->y, $this->viewrange, $map);
-		}
-	}
 
 }

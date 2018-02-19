@@ -5,6 +5,7 @@ function keypress($clientID, $key)
 {
 	global $players;
 
+
 	checkMobs();
 	$players[$clientID]->regenerate();
 	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")
@@ -127,7 +128,7 @@ function keypress($clientID, $key)
 	{
 		if($players[$clientID]->show_settings)
 		{
-			$players[$clientID]->changeSetting();
+			$players[$clientID]->ecangeSetting();
 		}
 		if($players[$clientID]->in_shop)
 		{
@@ -411,41 +412,58 @@ function spawnMob($mob, $x, $y)
 
 function checkMobs()
 {
-	global $map, $players;
-	foreach($players as $player)
+	global $map, $players, $mob_checking;
+	if(!$mob_checking)
 	{
-		$ystart = $player->y + 20;
-		$yend = $player->y - 20;
-		$xstart = $player->x - 20;
-		$xend = $player->x + 20;
-		if($ystart < 0)
+		$mob_checking = true;
+		foreach($players as $player)
 		{
-			$ystart = 0;
-		}
-		if($xstart < 0)
-		{
-			$xstart = 0;
-		}
-		if(!$player->inTimeout())
-		{
-			for ($i=$yend; $i <= $ystart; $i++) {
-				for($ix = $xstart; $ix <= $xend; $ix++)
-				{
-					if($map[$ix][$i] != null)
+			$ystart = $player->y + 20;
+			$yend = $player->y - 20;
+			$xstart = $player->x - 20;
+			$xend = $player->x + 20;
+			if($ystart < 0)
+			{
+				$ystart = 0;
+			}
+			if($xstart < 0)
+			{
+				$xstart = 0;
+			}
+			if(!$player->inTimeout())
+			{
+				prof_flag("Monster tick");
+				for ($i=$yend; $i <= $ystart; $i++) {
+					for($ix = $xstart; $ix <= $xend; $ix++)
 					{
-						if($map[$ix][$i]->type() == "npc")
+						if($map[$ix][$i] != null)
 						{
-							if($player->timeout_started_at != 0)
+							if($map[$ix][$i]->type() == "npc")
 							{
-								$map[$ix][$i]->lastattack = $map[$ix][$i]->lastattack + 5000;
+								if($player->timeout_started_at != 0)
+								{
+									$map[$ix][$i]->lastattack = $map[$ix][$i]->lastattack + 5000;
+								}
+								$time_passed = microtime(true) - $map[$ix][$i]->checked;
+								$time_passed = $time_passed > 0.33;
+								if($map[$ix][$i]->checked == 0)
+								{
+									$time_passed = true;
+								}
+								if($time_passed)
+								{
+									$map[$ix][$i]->tick($players, $player);
+								}
 							}
-							$map[$ix][$i]->tick();
 						}
 					}
 				}
+				prof_flag("Done");
+				prof_print();
+				$player->timeout_started_at = 0;
 			}
-			$player->timeout_started_at = 0;
 		}
+		$mob_checking = false;
 	}
 	return true;
 }
@@ -540,6 +558,11 @@ function newPlayer($clientID)
 			setLobby($clientID);
 			$players[$clientID]->request('name');
 			$players[$clientID]->addToInventory(new dagger(), false, false);
+			$players[$clientID]->levelUp();
+			$players[$clientID]->addToInventory(new noxzirahsKiss(), false, false);
+			$players[$clientID]->addToInventory(new skullbringersAxe(), false, false);
+
+
 			//$players[$clientID]->levelUp();
 			//$players[$clientID]->levelUp();
 			//$players[$clientID]->levelUp();

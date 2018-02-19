@@ -158,7 +158,7 @@ function parseMap($clientid)
 		foreach ($y as $tile) {
 			if($tile != null)
 			{
-				$tilecolor = $tile->color($clientid);
+				$tilecolor = $tile->color($player);
 				
 				if(isset($tile->clientid)) //If player is not me, paint it RED!
 				{

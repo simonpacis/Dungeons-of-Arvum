@@ -24,13 +24,13 @@ class wyvern extends Mob
 	public function __construct()
 	{
 		$this->name = "Wyvern";
-		$this->basedamage = 4;
+		$this->basedamage = 5;
 		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
 		$this->basehp = 12;
 		$this->maxhp = $this->basehp;
 		$this->curhp = $this->basehp;
-		$this->level = 1;
+		$this->level = 5;
 		$this->target = null;
 		$this->range = 1;
 		$this->viewrange = 7;
@@ -43,18 +43,8 @@ class wyvern extends Mob
 		$this->attackspeed = 0.75; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
-		$this->loot = getItem("uncommon", "strong", false, true, 0.40);
+		$this->loot = getItem("uncommon", "strong", false, true, 0.7);
 		$this->rarity = "strong";
-	}
-
-	public function tick()
-	{
-		global $map;
-		parent::move();
-		if($this->target == null)
-		{
-			$this->target = parent::acquireTarget($this->x, $this->y, $this->viewrange, $map);
-		}
 	}
 
 }

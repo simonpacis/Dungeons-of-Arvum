@@ -71,7 +71,7 @@ class Player
 		$this->curhp = 20;
 		$this->maxhp = 20;
 		$this->curshield = 0;
-		$this->maxshield = 0;
+		$this->maxshield = 1000;
 		$this->curmana = 20;
 		$this->maxmana = 20;
 		$this->curxp = 0;
@@ -235,14 +235,17 @@ class Player
 	{
 		global $players, $mobs;
 		$this->level++;
-		$this->curtimeout = $this->maxtimeout;
+		if($this->level % 3 == 0) //Every third level, suspensions are reset.
+		{
+			$this->curtimeout = $this->maxtimeout;
+		}
 		// Calc new maxhp.
-		$additionalhp = round(pow(($this->level-1),1.15));
+		$additionalhp = 5;
 		$this->maxhp = $this->maxhp + $additionalhp;
-		if($this->curhp < round($this->maxhp/2))
+		/*if($this->curhp < round($this->maxhp/2))
 		{
 			$this->curhp = round($this->maxhp/2);
-		}
+		}*/
 		$additionalmana = round(pow(($this->level-1),1.10));
 		$this->maxmana = $this->maxmana + $additionalmana;
 		$this->curmana = $this->maxmana;
@@ -250,7 +253,7 @@ class Player
 		{
 			$this->used_auto_timeout = false;
 		}
-		$highestlvl = $this->level;
+		/*$highestlvl = $this->level;
 		foreach($players as $curplayer)
 		{
 			if($curplayer->level > $highestlvl)
@@ -270,7 +273,7 @@ class Player
 					$i++;
 				}
 			}
-		}
+		}*/
 		status($this->clientid, "You've gained a level!", "#ff33cc");
 		statusBroadcast($this->name . " reached level " . $this->level . "!", "#ff33cc", false, $this->clientid);
 		$a=0;
@@ -697,16 +700,19 @@ class Player
 					{
 						if($this->level >= $this->inventory[$index]->level)
 						{
-							if($this->inventory[$index]->useRadius($this))
+							if(method_exists($this->inventory[$index], 'useRadius'))
 							{
-								$this->inventory[$index]->curuses--;
-						
-								if($this->inventory[$index]->curuses == 0)
+								if($this->inventory[$index]->useRadius($this))
 								{
-									status($this->clientid, $this->inventory[$index]->name . " broke.", "#ffff00");
-									unset($this->inventory[$index]);
-									$this->inventory = array_values($this->inventory);
-									bigBroadcast();
+									$this->inventory[$index]->curuses--;
+							
+									if($this->inventory[$index]->curuses == 0)
+									{
+										status($this->clientid, $this->inventory[$index]->name . " broke.", "#ffff00");
+										unset($this->inventory[$index]);
+										$this->inventory = array_values($this->inventory);
+										bigBroadcast();
+									}
 								}
 							}
 						} else {
@@ -976,19 +982,37 @@ class Player
 
 	public function damage($amount, $type, $dealer = null)
 	{
+		global $safe_rooms;
 		if($dealer == null) { $dealer->name = "You were"; }
 		$orgamount = $amount;
 		if($this->hasHook("before_damage"))
 		{
 			$amount = $this->runHook("before_damage", $amount, $type, $this);
 		}
+		$oldshield = $this->curshield;
+		if($this->curshield > 0)
+		{
+			$this->curshield = $this->curshield - $amount;
+		}
+		$newshield = $this->curshield;
+		if($newshield < 0)
+		{
+			$diff = 0 - ($newshield);
+			$this->curshield = 0;
+			$amount = $diff;
+		} else if($oldshield == 0)
+		{
+			$amount = $orgamount;
+		} else {
+			$amount = 0;
+		}
 		$this->curhp = $this->curhp - $amount;
 		if($amount < $orgamount)
 		{
 			$reducedamount = $orgamount - $amount;
-			status($this->clientid, $dealer->name . " dealt " . $amount . " " . $type . " damage. " . $reducedamount . " damage was reduced.", "#ff5c5c");
+			status($this->clientid, $dealer->name . " dealt " . $orgamount . " " . $type . " damage.", "#ff5c5c");
 		} else {
-			status($this->clientid, $dealer->name . " dealt " . $amount . " " . $type . " damage.", "#ff5c5c");
+			status($this->clientid, $dealer->name . " dealt " . $orgamount . " " . $type . " damage.", "#ff5c5c");
 		}
 		if($this->curhp <= $this->auto_timeout)
 		{
@@ -1000,7 +1024,18 @@ class Player
 		}
 		if($this->curhp <= 0)
 		{
-			$this->die();
+			$die = true;
+			if($dealer->representation != "@") // Monster death
+			{
+				if($this->hasHook("before_monster_death"))
+				{
+					$die = $this->runHook("before_monster_death", $safe_rooms, $this);
+				}
+			}
+			if($die)
+			{
+				$this->die();
+			}
 		}
 	}
 
@@ -1041,6 +1076,22 @@ class Player
 		if($notify)
 		{
 			status($this->clientid, "You were healed " . $diff . " HP.", "#5CCC6B");
+		}
+	}
+
+	public function addShield($amount, $notify = true)
+	{
+		$oldcur = $this->curshield;
+		$this->curshield = $this->curshield + $amount;
+		if($this->curshield > $this->maxshield)
+		{
+			$this->curshield = $this->maxshield;
+		}
+		$newcur = $this->curshield;
+		$diff = $newcur - $oldcur;
+		if($notify)
+		{
+			status($this->clientid, "You gained " . $diff . " shield.", "#6495ED");
 		}
 	}
 
@@ -1454,7 +1505,7 @@ class Player
 						if(method_exists($this->inventory[$string-1], "describe")) {
 							$this->inventory[$string-1]->describe($this->clientid);
 						} else {
-							status($this->clientid, "<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>: " .$this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". Level: " . $this->inventory[$string-1]->level . ".", "#ffff00");
+							status($this->clientid, "<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>: " .$this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ".", "#ffff00");
 						}
 						//return true;
 					} else {

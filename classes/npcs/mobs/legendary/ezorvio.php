@@ -1,6 +1,6 @@
 <?php
 
-class archerBandit extends Mob
+class ezorvio extends Mob
 {
 	public $name;
 	public $basedamage;
@@ -23,28 +23,28 @@ class archerBandit extends Mob
 
 	public function __construct()
 	{
-		$this->name = "Archer Thief";
-		$this->basedamage = 1;
+		$this->name = "Ezorvio";
+		$this->basedamage = 20;
 		$this->damage = $this->basedamage;
-		$this->damage_type = "ranged";
-		$this->basehp = 5;
+		$this->damage_type = "melee";
+		$this->basehp = 350;
 		$this->maxhp = $this->basehp;
 		$this->curhp = $this->basehp;
-		$this->level = 1;
+		$this->level = 10;
 		$this->target = null;
-		$this->range = 4;
-		$this->viewrange = 5;
-		$this->representation = "A";
+		$this->range = 2;
+		$this->viewrange = 30;
+		$this->representation = "E";
 		$this->solid = true;
-		$this->color = "#00ff00";
+		$this->color = "#ff8000";
 		$this->x = 0;
 		$this->y = 0;
-		$this->movementspeed = 3; // Squares per second.
-		$this->attackspeed = 0.7; // Attacks per second.
+		$this->movementspeed = 1; // Squares per second.
+		$this->attackspeed = 1.5; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
-		$this->loot = getItem("common", "common", false, true, 0.8);
-		$this->rarity = "common";
+		$this->loot = new noxzirahsKiss();
+		$this->rarity = "legendary";
 	}
 
 

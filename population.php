@@ -7,29 +7,58 @@
 $rarity_ladder = ["common", "uncommon", "strong", "epic", "legendary"];
 
 $limited_items=[
-	new shardOfFjallrung1(),
-	new shardOfFjallrung2(),
-	new shardOfFjallrung3(),
-	new boneBow(),
-	new boneBow()
+	new theShieldgiver(),
+	new theShieldgiver(),
+	new theShieldgiver(),
+	new theShieldgiver(),
+	new theShieldgiver(),
+	new theShieldgiver(),
+	new theShieldgiver(),
 ];
 $generic_items=[
-	new permanentHealthboost(1),
 	new shortBow(),
-	new ironSpear(),
-	new thranSpear(),
 	new shortSword(),
 	new longBow(),
-	new chainBreastplate(),
-	new leatherArmor(),
-	new skullArmor(),
-	new platemail(),
-	new chainmail(),
+	new pike(),
 	new longSword(),
 	new frostBallScroll(),
 	new fireBallScroll(),
-	new brandistock(),
-	new pike()
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthPotion(),
+	new healthJug(),
+	new healthJug(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new manaPotion(),
+	new majorManaPotion(),
+	new majorManaPotion(),
+	new majorManaPotion(),
+	new majorManaPotion(),
+	new manaJug(),
+	new manaJug(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new smallShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new mediumShield(),
+	new majorShield(),
+	new majorShield(),
+	new majorShield()		
 ];
 
 // Shuffle item arrays for extra randomization.
@@ -106,7 +135,9 @@ $spawnable_mobs =[
 ];
 
 $limited_mobs = [
-	new skullMan()
+	new skullMan(),
+	new noxzirah(),
+	new ezorvio()
 ];
 
 

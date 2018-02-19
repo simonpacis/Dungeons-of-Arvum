@@ -24,10 +24,10 @@ class skullMan extends Mob
 	public function __construct()
 	{
 		$this->name = "Barynn the Skullbringer";
-		$this->basedamage = 10;
+		$this->basedamage = 250;
 		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
-		$this->basehp = 40;
+		$this->basehp = 600;
 		$this->maxhp = $this->basehp;
 		$this->curhp = $this->basehp;
 		$this->level = 10;
@@ -47,14 +47,5 @@ class skullMan extends Mob
 		$this->rarity = "legendary";
 	}
 
-	public function tick()
-	{
-		global $map;
-		parent::move();
-		if($this->target == null)
-		{
-			$this->target = parent::acquireTarget($this->x, $this->y, $this->viewrange, $map);
-		}
-	}
 
 }
