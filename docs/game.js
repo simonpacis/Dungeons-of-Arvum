@@ -96,6 +96,7 @@ setPlayerInfo = function(playerinfo)
 	$(".manapotions").html(playerinfo['manapots']);
 	$(".curtimeout").html(playerinfo['curtimeout']);
 	$(".maxtimeout").html(playerinfo['maxtimeout']);
+	$(".playerstamina").html(playerinfo['stamina']);
 	$('.playercoins').html(playerinfo['coins']);
 	$('.playeraction').html(playerinfo['action_text']);
 	$('.playermovementspeed').html(playerinfo['movement_speed']);
