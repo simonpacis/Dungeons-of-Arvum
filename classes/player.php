@@ -50,6 +50,8 @@ class Player
 	public $last_mana_regen;
 	public $hp_regen;
 	public $last_hp_regen;
+	public $stamina_regen;
+	public $last_stamina_regen;
 	public $describe_function;
 	public $on_tile;
 	public $coins;
@@ -76,6 +78,8 @@ class Player
 		$this->maxmana = 20;
 		$this->curxp = 0;
 		$this->maxxp = 14;
+		$this->maxstamina = 10;
+		$this->curstamina = $this->maxstamina;
 		$this->x = 0;
 		$this->y = 0;
 		$this->solid = true;
@@ -118,6 +122,8 @@ class Player
 		$this->last_mana_regen = 0;
 		$this->hp_regen = 0.15; //HP regenerated per second;
 		$this->last_hp_regen = 0;
+		$this->stamina_regen = 2; //Stamina regenerated per second;
+		$this->last_stamina_regen = 0;
 		$this->describe_function = false;
 		$this->on_tile = null;
 		$this->coins = 0;
@@ -152,7 +158,10 @@ class Player
 				$allowed_to_move = false;
 			}
 		} else {
-			$allowed_to_move = true;
+			if($this->curstamina > 0)
+			{
+				$allowed_to_move = true;
+			}
 		}
 
 
@@ -164,6 +173,7 @@ class Player
 				if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
 					$this->x = $this->x + $x_veloc;
 					$this->y = $this->y + $y_veloc;
+					$this->curstamina--;
 					$check_for_action = $this->checkForAction();
 
 					if($check_for_action['relevant'] == true)
@@ -291,6 +301,7 @@ class Player
 		{
 			$this->last_mana_regen = time();
 			$this->last_hp_regen = time();
+			$this->last_stamina_regen = time();
 		}
 
 		$seconds_per_mana = round(1/$this->mana_regen);
@@ -301,6 +312,15 @@ class Player
 				$this->curmana++;
 			}
 			$this->last_mana_regen = time();
+		}
+		$seconds_per_stamina = round(1/$this->stamina_regen);
+		if(($this->last_stamina_regen+$seconds_per_stamina) <= time())
+		{
+			if($this->curstamina < $this->maxstamina)
+			{
+				$this->curstamina++;
+			}
+			$this->last_stamina_regen = time();
 		}
 		$seconds_per_hp = round(1/$this->hp_regen);
 		if(($this->last_hp_regen+$seconds_per_hp) <= time())
@@ -463,7 +483,22 @@ class Player
 		} else {
 			$movementspeed = "Not enabled";
 		}
-		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield];
+		$stamina = "";
+
+		for($i = 0; $i < $this->curstamina; $i++)
+		{
+			$stamina .= "<span style='color:#00ff00;'>|</span>";
+		}
+
+		if($this->curstamina < $this->maxstamina)
+		{
+			for($i = 0; $i < ($this->maxstamina - $this->curstamina); $i++)
+			{
+				$stamina .= "<span style='color:#ff0000;'>|</span>";
+			}
+		}
+
+		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina];
 	}
 
 	public function setWaypoint()
