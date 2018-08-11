@@ -19,7 +19,7 @@ Then ask your players to head on over to [http://simonpacis.github.io/Dungeons-o
 
 In case you're looking for a simple way to install and run Dungeons of Arvum on a Ubuntu system, here's a oneliner that will set everything needed up for you, and run the server.
 ```
-sudo apt-get install php7.0 libfontconfig && git clone https://github.com/simonpacis/Dungeons-of-Arvum && cd Dungeons-of-Arvum && ./run
+sudo add-apt-repository ppa:ondrej/php && sudo apt-get update && sudo apt-get install php7.0-fpm libfontconfig && git clone https://github.com/simonpacis/Dungeons-of-Arvum && cd Dungeons-of-Arvum && ./run
 ```
 
 With this you can whip up a VPS on something like DigitalOcean, run the oneliner, give people your IP-address, and play away!

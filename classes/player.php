@@ -122,7 +122,7 @@ class Player
 		$this->last_mana_regen = 0;
 		$this->hp_regen = 0.15; //HP regenerated per second;
 		$this->last_hp_regen = 0;
-		$this->stamina_regen = 2; //Stamina regenerated per second;
+		$this->stamina_regen = 100; //Microseconds pr. stamina regenerated
 		$this->last_stamina_regen = 0;
 		$this->describe_function = false;
 		$this->on_tile = null;
@@ -301,7 +301,7 @@ class Player
 		{
 			$this->last_mana_regen = time();
 			$this->last_hp_regen = time();
-			$this->last_stamina_regen = time();
+			$this->last_stamina_regen = round(microtime(true) * 1000);
 		}
 
 		$seconds_per_mana = round(1/$this->mana_regen);
@@ -313,14 +313,19 @@ class Player
 			}
 			$this->last_mana_regen = time();
 		}
-		$seconds_per_stamina = round(1/$this->stamina_regen);
-		if(($this->last_stamina_regen+$seconds_per_stamina) <= time())
+
+		if(($this->last_stamina_regen+$this->stamina_regen) <= round(microtime(true) * 1000))
 		{
-			if($this->curstamina < $this->maxstamina)
+			$passed = (round(microtime(true) * 1000) - ($this->last_stamina_regen+$this->stamina_regen));
+			$amount_of_passed = round($passed/$this->stamina_regen);
+			for($i = 0; $i < $amount_of_passed; $i++)
 			{
-				$this->curstamina++;
+				if($this->curstamina < $this->maxstamina)
+				{
+					$this->curstamina++;
+				}				
 			}
-			$this->last_stamina_regen = time();
+			$this->last_stamina_regen = round(microtime(true) * 1000);
 		}
 		$seconds_per_hp = round(1/$this->hp_regen);
 		if(($this->last_hp_regen+$seconds_per_hp) <= time())
