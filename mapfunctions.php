@@ -13,18 +13,18 @@ function newMap()
 			if(strtolower($os) == "darwin") //macOS
 			{
 				echo("\nphantomjs is missing. Downloading binary for macOS. Please wait.\n");
-				exec('curl -LJ -o "' .realpath(dirname(__FILE__)).'/libs/phantom.zip"' . ' https://api.github.com/repos/simonklitjohnson/phantomjs-bins/zipball/macos');
+				exec('curl -LJ -o "' .realpath(dirname(__FILE__)).'/libs/phantom.zip"' . ' https://api.github.com/repos/simonpacis/phantomjs-bins/zipball/macos');
 				exec('unzip ' .realpath(dirname(__FILE__)). '/libs/phantom.zip -d ' .realpath(dirname(__FILE__)). '/libs' );
-				exec('mv ' .realpath(dirname(__FILE__)). '/libs/simonklitjohnson-phantomjs-bins-37a1dc9/phantomjs ' .realpath(dirname(__FILE__)). '/libs/phantomjs');
+				exec('mv ' .realpath(dirname(__FILE__)). '/libs/simonpacis-phantomjs-bins-37a1dc9/phantomjs ' .realpath(dirname(__FILE__)). '/libs/phantomjs');
 				echo("\nphantomjs installed. Proceeding with map generation.\n");
 			} elseif(strpos(strtolower($os), 'windows') !== false) {
 				echo("\nYou're on Windows. Sorry, but you're on your own in regards to getting a working phantomjs bin in here. Check out this link: http://phantomjs.org/download.html\n\n");
 				die();
 			} else {
 				echo("\nphantomjs is missing. You're probably on a UNIX system, so let's try a Linux binary. Please wait.\n");
-				exec('curl -LJ -o "' .realpath(dirname(__FILE__)).'/libs/phantom.zip"' . ' https://api.github.com/repos/simonklitjohnson/phantomjs-bins/zipball/linux');
+				exec('curl -LJ -o "' .realpath(dirname(__FILE__)).'/libs/phantom.zip"' . ' https://api.github.com/repos/simonpacis/phantomjs-bins/zipball/linux');
 				exec('unzip ' .realpath(dirname(__FILE__)). '/libs/phantom.zip -d ' .realpath(dirname(__FILE__)). '/libs' );
-				exec('mv ' .realpath(dirname(__FILE__)). '/libs/simonklitjohnson-phantomjs-bins-6a04cde/phantomjs ' .realpath(dirname(__FILE__)). '/libs/phantomjs');
+				exec('mv ' .realpath(dirname(__FILE__)). '/libs/simonpacis-phantomjs-bins-6a04cde/phantomjs ' .realpath(dirname(__FILE__)). '/libs/phantomjs');
 				echo("\nphantomjs installed. Let's hope it works. Proceeding with map generation.\n");
 			}
 		}
