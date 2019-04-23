@@ -300,7 +300,6 @@ function safeRoom($room)
 
 	$curchar = $spawnable_characters[array_rand($spawnable_characters, 1)];
 	$curmobclass = get_class($curchar);
-	mobclass;
 	$curmob = new $curmobclass;
 	$curmob->room = $room['id'];
 	setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($curmob));
@@ -386,7 +385,6 @@ function mobRoom($room)
 					$ran++;
 				}
 				$curmobclass = get_class($curmob);
-				mobclass;
 				$curmob = new $curmobclass;
 				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
@@ -400,7 +398,6 @@ function mobRoom($room)
 					$ran++;
 				}
 				$curmobclass = get_class($curmob);
-				mobclass;
 				$curmob = new $curmobclass;
 				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
@@ -414,7 +411,6 @@ function mobRoom($room)
 					$ran++;
 				}
 				$curmobclass = get_class($curmob);
-				mobclass;
 				$curmob = new $curmobclass;
 								$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
@@ -428,7 +424,6 @@ function mobRoom($room)
 					$ran++;
 				}
 				$curmobclass = get_class($curmob);
-				mobclass;
 				$curmob = new $curmobclass;
 				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));
@@ -443,7 +438,6 @@ function mobRoom($room)
 					$ran++;
 				}
 				$curmobclass = get_class($curmob);
-				mobclass;
 				$curmob = new $curmobclass;
 				$curmob->room = $room['id'];
 				spawnMob($curmob, ($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)));

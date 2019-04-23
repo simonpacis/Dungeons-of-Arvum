@@ -65,19 +65,19 @@ function keypress($clientID, $key)
 			switch ($key) {
 				case 'VK_U':
 					keypress($clientID, "VK_1");
-					continue;
+					
 					break;
 				case 'VK_I':
 					keypress($clientID, "VK_2");
-					continue;
+					
 					break;				
 				case 'VK_O':
 					keypress($clientID, "VK_3");
-					continue;
+					
 					break;
 				case 'VK_P':
 					keypress($clientID, "VK_4");
-					continue;
+					
 					break;
 				default:
 					
@@ -177,7 +177,7 @@ function keypress($clientID, $key)
 
 function chat($clientID, $message)
 {
-	global $Server, $players, $allow_cheats;
+	global $Server, $players, $allow_cheats, $massive;
 	$msg = ['type' => 'message', 'message' => $message, 'name' => $players[$clientID]->name];
 	if($players[$clientID]->requestVar == null)
 	{
@@ -298,11 +298,16 @@ function chat($clientID, $message)
 				{
 						if($clientID == $id && $players[$id]->state == "lobby")
 						{
-							if (strpos($message, 'startgame') !== false) //If I type startgame, start game!
+							if(!$massive)
 							{
-								unsetLobby();
+								if (strpos($message, 'startgame') !== false) //If I type startgame, start game!
+								{
+									unsetLobby();
+								} else {
+									$Server->wsSend($id, json_encode($msg)); //If I don't, chat out what I wrote!
+								}
 							} else {
-								$Server->wsSend($id, json_encode($msg)); //If I don't, chat out what I wrote!
+								$Server->wsSend($id, json_encode($msg));
 							}
 						} else {
 							$Server->wsSend($id, json_encode($msg));
@@ -480,6 +485,10 @@ function checkMobs()
 								{
 									$map[$ix][$i]->tick($players, $player);
 								}
+								if($map[$ix][$i]->dead == true)
+								{
+									unset($map[$ix][$i]);
+								}
 							}
 						}
 					}
@@ -532,6 +541,7 @@ function broadcastState($clientID)
 	$broadcastqueue = [];
 }
 
+
 function requestName($clientID)
 {
 	global $Server;
@@ -575,26 +585,39 @@ function statusBroadcast($message, $color = "#ffff00", $include_self = true, $pl
 
 function newPlayer($clientID)
 {
-	global $players, $max_players, $Server, $map, $ready;
+	global $players, $max_players, $Server, $map, $ready, $massive, $playercount;
+
 	if(count($players) < $max_players)
 	{
 		if(!array_key_exists($clientID, $players)) //If we already have a character for this player.
 		{
 			$players[$clientID] = new Player($clientID);
-			setLobby($clientID);
-			$players[$clientID]->request('name');
-			$players[$clientID]->addToInventory(new dagger(), false, false);
-			$players[$clientID]->levelUp();
-			$players[$clientID]->addToInventory(new noxzirahsKiss(), false, false);
-			$players[$clientID]->addToInventory(new skullbringersAxe(), false, false);
+			if($massive)
+			{
+				/*setLobby($clientID);
+				$players[$clientID]->request('name');
+				$players[$clientID]->addToInventory(new dagger(), false, false);
+				$players[$clientID]->levelUp();
+				$players[$clientID]->addToInventory(new noxzirahsKiss(), false, false);
+				$players[$clientID]->addToInventory(new skullbringersAxe(), false, false);*/
 
+				$players[$clientID]->request('character');
 
-			//$players[$clientID]->levelUp();
-			//$players[$clientID]->levelUp();
-			//$players[$clientID]->levelUp();
-			//$players[$clientID]->levelUp();
-			//$players[$clientID]->levelUp();
-
+				//$players[$clientID]->addToInventory(new dagger(), false, false);
+				$playercount++;
+				//updateplayercount();
+				//$players[$clientID]->levelUp();
+				//$players[$clientID]->levelUp();
+				//$players[$clientID]->levelUp();
+				//$players[$clientID]->levelUp();
+				//$players[$clientID]->levelUp();
+				unsetLobby();
+				bigBroadcast();
+			} else {
+				setLobby($clientID);
+				$players[$clientID]->request('name');
+				$players[$clientID]->addToInventory(new dagger(), false, false);
+			}
 		} else {
 			bigBroadcast();
 		}
@@ -635,4 +658,24 @@ function movePlayer($clientID, $key)
 			break;
 	}
 
+}
+
+function updateplayercount()
+{
+	global $mdoa_api_base, $playercount;
+	exec('curl --data "id=1&players='.$playercount.'" '.$mdoa_api_base.'server/update > /dev/null 2>&1 &');
+}
+
+  function phonehome($character)
+  {
+  	global $mdoa_api_base;
+	exec('curl --data "id='.$character->characterid.'&user_id='.$character->userid.'&level='.$character->level.'&maxxp='.$character->maxxp.'&curxp='.$character->curxp.'&hp='.$character->maxhp.'&mana='.$character->maxmana.'&gold='.$character->coins.'" '.$mdoa_api_base.'character/phonehome > /dev/null 2>&1 &');
+	return true;
+  }
+
+function newInventoryMassive($item, $character)
+{
+	global $mdoa_api_base;
+	exec('curl --data "id='.$character->characterid.'&item_id='.$item->id.'" '.$mdoa_api_base.'inventory/add > /dev/null 2>&1 &');
+	return true;
 }

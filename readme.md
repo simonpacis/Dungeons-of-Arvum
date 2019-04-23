@@ -10,7 +10,7 @@ Essentially, Dungeons of Arvum allows you to play with your friends in a possibl
 The goal is to be the last man standing. However, the dungeon is so big that you might be hard pressed to locate other players right away. Should you level and gear up, to become more powerful, or should you chase around looking for the other players right as you spawn? It's up to you!
 
 ## Requirements
-PHP 7.0 is required. The server only runs on 7.0 at the moment, and not any other version. This will change in the future, as the code is optimized.
+PHP 7.0 to 7.3 required. Any other versions of PHP are not supported at this moment.
 
 ## Getting started
 Simply download this repository and start up the server by either opening the "run" file or typing "php server.php" from the terminal. Make sure the requirements are met beforehand, and that you've set your IP, port and wanted dungeon size in config.php.

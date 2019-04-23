@@ -11,4 +11,5 @@ $rooms = [];
 $vacant_rooms = [];
 $safe_rooms = [];
 $mob_checking = false;
+$playercount = 0;
 ?>

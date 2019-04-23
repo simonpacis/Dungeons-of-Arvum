@@ -63,6 +63,8 @@ class Player
 	public $movementspeed;
 	public $currentmovementspeed;
 	public $lastmove;
+	public $userid;
+	public $characterid;
 
 	public function __construct($Clientid)
 	{
@@ -134,7 +136,8 @@ class Player
 		$this->action_target = null;
 		$this->movementspeed = 6;
 		$this->currentmovementspeed = $this->movementspeed;
-
+		$this->userid = 0;
+		$this->characterid = 0;
 		$this->lastmove = 0;
 	}
 
@@ -245,6 +248,7 @@ class Player
 	{
 		global $players, $mobs;
 		$this->level++;
+		phonehome($this);
 		if($this->level % 3 == 0) //Every third level, suspensions are reset.
 		{
 			$this->curtimeout = $this->maxtimeout;
@@ -386,7 +390,7 @@ class Player
 		}
 	}
 
-	public function addHealthpot($amount = 1)
+	public function addHealthpot($amount = 1, $healthpot)
 	{
 		$this->healthpots = $this->healthpots + $amount;
 		if($amount != 1)
@@ -395,6 +399,7 @@ class Player
 		} else {
 			status($this->clientid, "You picked up a \"<span style='color:#5CCC6B !important;'>Health Potion</span>\".", "#ffff00");
 		}
+		unset($healthpot);
 		return true;
 	}
 
@@ -415,7 +420,7 @@ class Player
 		}
 	}
 
-	public function addManapot($amount = 1)
+	public function addManapot($amount = 1, $manapot)
 	{
 		$this->manapots = $this->manapots + $amount;
 		if($amount != 1)
@@ -424,6 +429,7 @@ class Player
 		} else {
 			status($this->clientid, "You picked up a \"<span style='color:#6495ED !important;'>Mana Potion</span>\".", "#ffff00");
 		}
+		unset($manapot);
 		return true;
 	}
 
@@ -534,7 +540,7 @@ class Player
 		}
 	}
 
-	public function addToInventory($item, $faux = false, $notify = true)
+	public function addToInventory($item, $faux = false, $notify = true, $send_to_server = true)
 	{
 		$invcount = count($this->inventory);
 		foreach($this->inventory as $invitem)
@@ -566,6 +572,7 @@ class Player
 					statusBroadcast($this->name . " picked up \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\"!", "#ffff00", false, $this->clientid);
 				}
 			}
+			newInventoryMassive($item, $this);
 		} else {
 			$this->request('inventoryFull', $item);
 		}
@@ -788,6 +795,8 @@ class Player
 		} else {
 			status($this->clientid, "You're dead and cannot use items.");
 		}
+		
+		phonehome($this);
 	}
 
 	public function isInInventory($item_id, $use_name = false, $use_index = false)
@@ -907,7 +916,7 @@ class Player
 				$inv[$i]['text'] = "(empty)";
 			} else {
 				$inv[$i]['color'] = $inven[$i]->color;
-				if(method_exists($inven[$i], panelValue))
+				if(method_exists($inven[$i], "panelValue"))
 				{
 					$inv[$i]['text'] = $inven[$i]->name;
 					$panel_string = "<span style='color:";
@@ -1301,6 +1310,38 @@ class Player
 			status($this->clientid, "You did not swap.", "#ffff00");
 			return false;
 		}
+	}
+
+
+	public function characterRequest()
+	{
+		return true;
+	}
+
+	public function characterResponse($data)
+	{
+		global $ready, $massive, $encryption_key;
+		
+		list($encrypted_data, $iv) = explode('::', base64_decode($data), 2);
+		$character = json_decode(openssl_decrypt($encrypted_data, 'aes-256-cbc', $encryption_key, 0, $iv), true);
+
+		$this->name = $character['name'];
+		$this->level = $character['level'];
+		$this->maxxp = $character['maxxp'];
+		$this->curxp = $character['curxp'];
+		$this->maxhp = $character['hp'];
+		$this->curhp = $this->maxhp;
+		$this->maxmana = $character['mana'];
+		$this->curmana = $this->maxmana;
+		$this->coins = $character['gold'];
+		$this->userid = $character['user_id'];
+		$this->characterid = $character['id'];
+		foreach($character['inventory'] as $inv_item)
+		{
+			$this->addToInventory(new $inv_item['item']['initializer'], false, false, false);
+				
+		}
+		return true;
 	}
 
 	public function nameRequest()

@@ -13,6 +13,7 @@ class Mob
 	public $slow_for = 0;
 	public $room = 0;
 	public $checked = 0;
+	public $dead = false;
 
 	public function tick($players, $player)
 	{
@@ -135,7 +136,8 @@ class Mob
 		$room = $vacant_rooms[array_rand($vacant_rooms, 1)];
 		mobRoom($room);
 		array_push($vacant_rooms, $rooms[$this->room]);
-		unset($this);
+		$this->dead = true;
+		//unset($this);
 	}
 
 	public function move()
@@ -203,7 +205,7 @@ class Mob
 								{
 									$found_direction = true;
 									$newx++;
-									continue;
+									
 								}
 								break;
 							case 2:
@@ -211,7 +213,7 @@ class Mob
 								{
 									$found_direction = true;
 									$newx--;
-									continue;
+									continue 2;
 								}
 								break;
 							case 3:
@@ -219,7 +221,7 @@ class Mob
 								{
 									$found_direction = true;
 									$newy++;
-									continue;
+									
 								}
 
 								break;
@@ -228,7 +230,7 @@ class Mob
 								{
 									$found_direction = true;
 									$newy--;
-									continue;
+									
 								}
 								break;
 						}
@@ -282,7 +284,7 @@ class Mob
 									$this->doMove(0,-1);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 							}elseif($goy == "down")
 							{
@@ -291,7 +293,7 @@ class Mob
 									$this->doMove(0,1);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 							}
 						}elseif($yorx == 2) //X
@@ -303,7 +305,7 @@ class Mob
 									$this->doMove(-1,0);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 							}elseif($gox == "right")
 							{
@@ -312,7 +314,7 @@ class Mob
 									$this->doMove(1,0);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 							}
 						}
@@ -325,7 +327,7 @@ class Mob
 									$this->doMove(-1,0);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 						}elseif($gox == "right")
 						{
@@ -334,7 +336,7 @@ class Mob
 									$this->doMove(1,0);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 						}
 					}elseif($goy != "still" && $gox == "still")
@@ -346,7 +348,7 @@ class Mob
 									$this->doMove(0,-1);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 						}elseif($goy == "down")
 						{
@@ -355,12 +357,12 @@ class Mob
 									$this->doMove(0,1);
 									$moved = true;
 								} else {
-									//continue;
+									//
 								}
 						}
 					} else {
 						$moved = true;
-						//continue;
+						//
 					}
 				
 					$ran = 0;
