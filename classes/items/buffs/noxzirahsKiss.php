@@ -15,12 +15,12 @@ class noxzirahsKiss
 		$this->rarity = "legendary";
 		$this->id = "0034";
 		$this->hook = "before_monster_death";
-		$this->description = "The kiss of Noxzirah will ensure that you don't die to the monsters.";
+		$this->description = "Noxzirah's Kiss will ensure that you do not die to any monster. While in inventory, you will survive your next death.";
 	}
 
 	public function use($thisplayer)
 	{
-		status($thisplayer->clientid, "Noxzirah's Kiss will ensure that you do not die to monsters.", "#ff8000");
+		status($thisplayer->clientid, "Noxzirah's Kiss will ensure that you do not die to any monster. While in inventory, you will survive your next death.", "#ff8000");
 	}
 
 	public function runHook()
@@ -48,10 +48,10 @@ class noxzirahsKiss
 		$player->y = ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)) + 1;
 
 
-		$player->curhp = 5;
+		$player->curhp = $player->maxhp;
 		$player->curshield = 0;
-		status($player->clientid, "Noxzirah's Kiss ensured that " . $this->name . " did not die this time around.", "#ff5c5c");
-		statusBroadcast("Noxzirah's Kiss ensured that " . $this->name . " did not die this time around.", "#ff5c5c");
+		status($player->clientid, "Noxzirah's Kiss ensured that " . $this->name . " did not die this time around.", "#ff8000");
+		statusBroadcast("Noxzirah's Kiss ensured that " . $this->name . " did not die this time around.", "#ff8000");
 		$player->removeFromInventory($this, false, true, true);
 		return false;
 
