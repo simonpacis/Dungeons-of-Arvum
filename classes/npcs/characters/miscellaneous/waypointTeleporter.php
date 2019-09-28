@@ -71,7 +71,7 @@ class waypointTeleporter extends Character
 				status($thisplayer->clientid, "You have not set a waypoint.");
 			}
 		} else {
-			status($thisplayer->clientid, $this->name . ": \"Uh, yeah, I'm gonna need you to pay more than that!\"", "#fff");
+			status($thisplayer->clientid, $this->name . ": \"You do not have enough money.\"", "#fff");
 		}
 	}
 

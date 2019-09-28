@@ -32,6 +32,7 @@ class shardOfFjallrung2
 				$thisplayer->removeFromInventory("0002", true, false);
 				$thisplayer->removeFromInventory("0003", true, false);
 				$thisplayer->removeFromInventory("0004", true, false);
+				statusBroadcast("In the distance you hear a sound. \"FJALLRUNG IS ALIVE!\".", "#ff8000", false, $thisplayer->clientid);
 				status($thisplayer->clientid, "You combine the three shards of Fjallrung, and in your hand they come together as a shimmering sword.", "#ffff00");
 				$thisplayer->addToInventory(new Fjallrung());
 			} else {

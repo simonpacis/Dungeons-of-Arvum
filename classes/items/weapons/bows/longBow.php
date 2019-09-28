@@ -24,9 +24,11 @@ class longBow extends Weapon
 		$this->curuses = $this->maxuses;
 		$this->damage_type = "ranged";
 		$this->radius_type = "cube";
-		$this->radius_var_1 = 5;
-		$this->radius_var_2 = 5;
+		$this->radius_var_1 = 8;
+		$this->radius_var_2 = 8;
 		$this->level = 2;
+		$this->minprice = 20;
+		$this->maxprice = 40;
 	}
 
 	public function use($thisplayer)

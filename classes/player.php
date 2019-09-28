@@ -124,7 +124,7 @@ class Player
 		$this->last_mana_regen = 0;
 		$this->hp_regen = 0.15; //HP regenerated per second;
 		$this->last_hp_regen = 0;
-		$this->stamina_regen = 100; //Microseconds pr. stamina regenerated
+		$this->stamina_regen = 75; //Microseconds pr. stamina regenerated
 		$this->last_stamina_regen = 0;
 		$this->describe_function = false;
 		$this->on_tile = null;
@@ -1157,7 +1157,7 @@ class Player
 	public function addMana($amount, $notify = true)
 	{
 		$oldcur = $this->curmana;
-		$this->curmana = $this->curhp + $amount;
+		$this->curmana = $this->curmana + $amount;
 		if($this->curmana > $this->maxmana)
 		{
 			$this->curmana = $this->maxmana;

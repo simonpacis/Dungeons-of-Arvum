@@ -16,10 +16,10 @@ class Fjallrung extends Weapon
 		$this->color = "#ff8000";
 		$this->id = "0001";
 		$this->rarity = "legendary";
-		$this->description = "Fjallrung damages all players, excluding yourself, a random amount.";
+		$this->description = "Fjallrung damages all players, excluding yourself, a random amount between 50 and 70.";
 		$this->maxuses = 1;
 		$this->curuses = $this->maxuses;
-		$this->level = 5;
+		$this->level = 7;
 	}
 
 	public function use($thisplayer)
@@ -31,7 +31,7 @@ class Fjallrung extends Weapon
 		{
 			if($player->clientid != $thisplayer->clientid)
 			{
-				$damage = rand(10, 20);
+				$damage = rand(50, 70);
 				$player->damage($damage, "magical");
 			}
 		}

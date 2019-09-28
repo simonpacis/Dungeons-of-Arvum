@@ -21,8 +21,10 @@ class longSword extends Weapon
 		$this->rarity = "uncommon";
 		$this->description = "A longer sword.";
 		$this->radius_type = "cube";
-		$this->radius_var_1 = 1;
-		$this->radius_var_2 = 1;
+		$this->radius_var_1 = 2;
+		$this->radius_var_2 = 2;
+		$this->damage = 10;
+		$this->damage_type = "melee";
 		$this->level = 8;
 	}
 
