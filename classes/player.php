@@ -1216,6 +1216,13 @@ class Player
 
 	public function inventoryFullResponse($message)
 	{
+		global $map;
+		if(is_numeric($message))
+		{
+			$message = (int)$message;
+		} else {
+			return false;
+		}
 		if(is_numeric($message) && $message > -1 && $message < 10 && $message != 0)
 		{
 			//$this->removeFromInventory($message-1,false);
@@ -1225,6 +1232,18 @@ class Player
 		} else if (is_numeric($message) && $message == 0) {
 			$item = $this->requestArg;
 			status($this->clientid, "You did not pickup \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\".", "#ffff00");
+			if($map[$this->x+1][$this->y]->representation() == ".")
+			{
+				setTile($this->x+1, $this->y, new Tile(new Itemtile($item)));
+			} elseif($map[$this->x-1][$this->y]->representation() == ".") {
+				setTile($this->x-1, $this->y, new Tile(new Itemtile($item)));
+			} elseif($map[$this->x][$this->y+1]->representation() == ".") {
+				setTile($this->x, $this->y+1, new Tile(new Itemtile($item)));
+			} elseif($map[$this->x][$this->y-1]->representation() == ".") {
+				setTile($this->x, $this->y-1, new Tile(new Itemtile($item)));
+			} else {
+				status($this->clientid, "There is nowhere to drop your item, it has vanished into the void.", "#ffff00");
+			}	
 			return true;
 		} else {
 			if($this->requestArg != null)
