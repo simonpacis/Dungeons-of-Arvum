@@ -172,6 +172,8 @@ window.addEventListener("keydown", function(e) {
 
 });
 
+//setInterval(function(){ keypress("VK_LEFT") }, 33);
+
 window.addEventListener("keypress", function(e) {
 	var keyCode = e.which;
     if(chatmode == true && chatmodeflag2 == true)

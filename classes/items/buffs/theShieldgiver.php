@@ -14,7 +14,6 @@ class theShieldgiver
 		$this->color = "#ff8000";
 		$this->rarity = "legendary";
 		$this->id = "0028";
-		$this->shield = 50;
 		$this->description = "This " . $this->name . " grants you full shield.";
 	}
 

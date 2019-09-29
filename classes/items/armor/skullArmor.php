@@ -26,6 +26,8 @@ class skullArmor extends Armor
 		$this->resistance_percentage = 0.1;
 		$this->wield_type = "armor";
 		$this->level = 12;
+		$this->minprice = 300;
+		$this->maxprice = 500;
 	}
 
 	public function panelValue()

@@ -14,7 +14,7 @@ class majorShield
 		$this->color = "#a335ee";
 		$this->rarity = "strong";
 		$this->id = "0027";
-		$this->shield = 50;
+		$this->shield = 10;
 		$this->description = "This " . $this->name . " grants you " . $this->shield . " additional shield.";
 	}
 

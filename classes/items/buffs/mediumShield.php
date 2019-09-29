@@ -14,7 +14,7 @@ class mediumShield
 		$this->color = "#0070ff";
 		$this->rarity = "strong";
 		$this->id = "0026";
-		$this->shield = 25;
+		$this->shield = 5;
 		$this->description = "This " . $this->name . " grants you " . $this->shield . " additional shield.";
 	}
 

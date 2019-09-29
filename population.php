@@ -174,7 +174,7 @@ $limited_characters = [
 
 function populateMap()
 {
-	global $ip, $port, $limited_characters;
+	global $ip, $port, $limited_characters, $constant_tick;
 
 	/*
 		Rules of room distribution.
@@ -235,7 +235,12 @@ function populateMap()
 		unset($character);
 	}
 
-	echo "Map population done.\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                   by: Simon Pacis                      |\n|                                                        |\n----------------------------------------------------------\n\n";
+	echo "Map population done.\n";
+	if($constant_tick)
+	{
+		spawnTick();
+	}
+	echo "\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                   by: Simon Pacis                      |\n|                                                        |\n----------------------------------------------------------\n\n";
 	echo "Ready to connect!\n";
 
 }

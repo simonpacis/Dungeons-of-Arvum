@@ -353,12 +353,24 @@ function unsetLobby()
 	foreach($players as $player)
 	{
 		$player->state = "game";
-		$room = $safe_rooms[array_rand($safe_rooms, 1)];
-		$xcoord = rand($room["_x1"], $room["_x2"]);
-		$ycoord = rand($room["_y1"], $room["_y2"]);
-		setTile($xcoord, $ycoord, $player);
-		$player->x = $xcoord;
-		$player->y = $ycoord;
+		if($player->name == "___tick")
+		{
+			$xcoord = -1;
+			$ycoord = -1;
+			$player->x = $xcoord;
+			$player->y = $ycoord;
+		} else {
+			$room = $safe_rooms[array_rand($safe_rooms, 1)];
+			$xcoord = rand($room["_x1"], $room["_x2"]);
+			$ycoord = rand($room["_y1"], $room["_y2"]);
+			setTile($xcoord, $ycoord, $player);
+			$player->x = $xcoord;
+			$player->y = $ycoord;
+		}
+		
+		
+
+
 	}
 		foreach($Server->wsClients as $id => $client) {
 			$Server->wsSend($id, json_encode(["type" => "unsetLobby"]));

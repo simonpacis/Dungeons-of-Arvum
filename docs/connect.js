@@ -141,7 +141,10 @@
 						Game.display.drawText(1, 8, "Players:");
 						$.each(payload['players'], function(index, value)
 							 {
-							 	Game.display.drawText(1, iter, value['name']);
+							 	if((value['name'] != "___tick") && (value['name'] != "null"))
+							 	{
+							 		Game.display.drawText(1, iter, value['name']);
+							 	}
 							 	iter = iter + 1;
 							 });
 					} else if(payload['type'] == "settings")

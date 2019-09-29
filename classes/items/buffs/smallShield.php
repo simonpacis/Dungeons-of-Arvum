@@ -14,7 +14,7 @@ class smallShield
 		$this->color = "#ffffff";
 		$this->rarity = "common";
 		$this->id = "0025";
-		$this->shield = 10;
+		$this->shield = 2;
 		$this->description = "This " . $this->name . " grants you " . $this->shield . " additional shield.";
 	}
 

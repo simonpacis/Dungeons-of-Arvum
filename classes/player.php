@@ -269,7 +269,7 @@ class Player
 		{
 			$this->used_auto_timeout = false;
 		}
-		/*$highestlvl = $this->level;
+		$highestlvl = $this->level;
 		foreach($players as $curplayer)
 		{
 			if($curplayer->level > $highestlvl)
@@ -289,7 +289,7 @@ class Player
 					$i++;
 				}
 			}
-		}*/
+		}
 		status($this->clientid, "You've gained a level!", "#ff33cc");
 		statusBroadcast($this->name . " reached level " . $this->level . "!", "#ff33cc", false, $this->clientid);
 		$a=0;
