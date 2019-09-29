@@ -30,6 +30,12 @@ class fireBall extends Spell
 		$this->burn_frequency = 2;
 		$this->mana_use = 5;
 		$this->damage = 3;
+		$this->panel_value = "brn " . round($this->damage/3) . "dmg/". $this->burn_frequency ."s for ". $this->burn_duration ."s";
+	}
+
+	public function panelValue()
+	{
+		return [$this->panel_value, "#ff5c5c"];
 	}
 
 	public function describe($clientid)

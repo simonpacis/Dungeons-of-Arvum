@@ -7,7 +7,7 @@ class Spell
 		//<span style='color:#ff5c5c !important;'>(" . $inven[$i]->panelText() . ")</span>";
 		$color = "#fff";
 		$panel_string = "<span style='color:";
-		if(!method_exists($this, $panelValue))
+		if(!method_exists($this, 'panelValue'))
 		{
 			if(isset($this->damage))
 			{
