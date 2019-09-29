@@ -633,7 +633,7 @@ function newPlayer($clientID)
 				setLobby($clientID);
 				$players[$clientID]->request('name');
 				$players[$clientID]->addToInventory(new dagger(), false, false);
-				$players[$clientID]->addToInventory(new fireScroll(), false, false);
+				//$players[$clientID]->addToInventory(new fireScroll(), false, false);
 				$players[$clientID]->addToInventory(new healthPotion(), false, false);
 
 			}
