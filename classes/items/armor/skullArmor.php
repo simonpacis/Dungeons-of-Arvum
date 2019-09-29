@@ -30,7 +30,12 @@ class skullArmor extends Armor
 
 	public function panelValue()
 	{
-		return [($this->resistance_percentage * 100) . "%", $this->color];
+		if($this->wielded)
+		{
+			return [($this->resistance_percentage * 100) . "%, wielded", $this->color];
+		} else {
+			return [($this->resistance_percentage * 100) . "%, not wielded", $this->color];
+		}
 	}
 
 	public function use($thisplayer)
@@ -40,7 +45,7 @@ class skullArmor extends Armor
 
 	public function describe($clientid)
 	{
-		status($clientid, "<span style='color:".$this->color." !important;'>" . $this->name . "</span>: Reduces all damage by " . $this->resistance_percentage * 100 . "%. Adds 0.5% to this, for every kill you get. Rarity: " . ucfirst($this->rarity) . ". Level: " . $this->level . ".", "#ffff00");
+		status($clientid, "<span style='color:".$this->color." !important;'>" . $this->name . "</span>: Reduces all damage by " . $this->resistance_percentage * 100 . "%. Adds 0.5% to this, for every kill you get. Maxes out at 60%. Rarity: " . ucfirst($this->rarity) . ". Level: " . $this->level . ".", "#ffff00");
 	}
 
 	public function runHook()
@@ -62,7 +67,10 @@ class skullArmor extends Armor
 		} elseif($hook == "after_kill") {
 			if($this->resistance_percentage < 0.6)
 			{
-				$this->resistance_percentage = $this->resistance_percentage + 0.005;
+				if($this->wielded)
+				{
+					$this->resistance_percentage = $this->resistance_percentage + 0.005;
+				}
 			}
 			return true;
 		}

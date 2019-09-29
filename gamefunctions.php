@@ -1,6 +1,7 @@
 <?php
 include('mapfunctions.php');
 
+
 function keypress($clientID, $key)
 {
 	global $players;

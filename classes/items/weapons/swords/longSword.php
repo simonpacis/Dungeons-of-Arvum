@@ -23,24 +23,27 @@ class longSword extends Weapon
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 2;
 		$this->radius_var_2 = 2;
+		$this->attack_speed = 0.5;
+		$this->last_attack = 0;
 		$this->damage = 10;
 		$this->damage_type = "melee";
-		$this->level = 8;
+		$this->level = 4;
 	}
 
 	public function use($thisplayer)
 	{
-		if($thisplayer->level >= $this->level)
+		if(parent::can_attack($this, $thisplayer, false))
 		{
 			parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
-		} else {
-			status($this->clientid, "You need to be level " . $this->level . " to use \"<span style='color:".$this->color." !important;'>" . $this->name . "</span>\"" . ".");
 		}
 	}
 
 	public function useRadius($thisplayer)
 	{
-		parent::damage_in_radius(5, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
-		parent::unset_radius($thisplayer);
+		if(parent::can_attack($this, $thisplayer))
+		{
+			parent::damage_in_radius(5, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+			parent::unset_radius($thisplayer);
+		}	
 	}
 }

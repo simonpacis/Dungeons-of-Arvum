@@ -1,6 +1,6 @@
 <?php
 
-class frostBallScroll
+class iceScroll
 {
 	public $name;
 	public $id;
@@ -13,11 +13,11 @@ class frostBallScroll
 	public $price;
 	public function __construct()
 	{
-		$this->name = "Scroll of Frostball";
+		$this->name = "Scroll of Ice";
 		$this->color = "#fff";
 		$this->rarity = "uncommon";
 		$this->id = "0019";
-		$this->description = "This " . $this->name . " grants you the Frostball spell.";
+		$this->description = "This " . $this->name . " grants you Ice spells.";
 		$this->minprice = 50;
 		$this->maxprice = 70;
 	}

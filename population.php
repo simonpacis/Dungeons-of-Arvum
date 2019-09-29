@@ -21,8 +21,8 @@ $generic_items=[
 	new longBow(),
 	new pike(),
 	new longSword(),
-	new frostBallScroll(),
-	new fireBallScroll(),	
+	new iceScroll(),
+	new fireScroll(),	
 ];
 $potion_items = [
 	new healthPotion(),
@@ -45,12 +45,6 @@ $potion_items = [
 	new majorManaPotion(),
 	new manaJug(),
 	new manaJug(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
 	new smallShield(),
 	new smallShield(),
 	new mediumShield(),
@@ -165,7 +159,6 @@ $limited_mobs = [
 	new noxzirah(),
 	new ezorvio()
 ];
-
 
 $spawnable_characters = [
 	new waypointTeleporter(),

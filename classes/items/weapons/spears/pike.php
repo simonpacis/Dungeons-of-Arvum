@@ -23,25 +23,33 @@ class pike extends Weapon
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 3;
 		$this->radius_var_2 = 3;
+		$this->attack_speed = 0.75;
+		$this->last_attack = 0;
 		$this->level = 6;
 		$this->damage = 3;
 	}
 
 	public function use($thisplayer)
 	{
-		parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
+		if(parent::can_attack($this, $thisplayer, false))
+		{
+			parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
+		}
 	}
 
 	public function useRadius($thisplayer)
 	{
-		$chance = rand(1,100);
-		if($chance < 30)
+		if(parent::can_attack($this, $thisplayer))
 		{
-			$thisplayer->damage($this->damage, "melee");
-		} else {
-			parent::damage_in_radius($this->damage, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
-		
+			$chance = rand(1,100);
+			if($chance < 30)
+			{
+				$thisplayer->damage($this->damage, "melee");
+			} else {
+				parent::damage_in_radius($this->damage, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+			
+			}
+			parent::unset_radius($thisplayer);
 		}
-		parent::unset_radius($thisplayer);
 	}
 }

@@ -21,22 +21,31 @@ class dagger extends Weapon
 		$this->color = "#fff";
 		$this->id = "0014";
 		$this->rarity = "common";
-		$this->description = "A weak but useful dagger.";
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 1;
 		$this->radius_var_2 = 1;
+		$this->attack_speed = 0.5; // Seconds per attack
+		$this->last_attack = 0;
 		$this->level = 1;
 		$this->no_sell = true;
+		$this->description = "1 damage, " . $this->attack_speed . " seconds attack speed.";
+
 	}
 
 	public function use($thisplayer)
 	{
-		parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
+		if(parent::can_attack($this, $thisplayer, false))
+		{
+			parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
+		}
 	}
 
 	public function useRadius($thisplayer)
 	{
-		parent::damage_in_radius(1, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
-		parent::unset_radius($thisplayer);
+		if(parent::can_attack($this, $thisplayer))
+		{
+			parent::damage_in_radius(1, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+			parent::unset_radius($thisplayer);
+		}
 	}
 }

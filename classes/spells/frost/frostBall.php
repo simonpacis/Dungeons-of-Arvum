@@ -27,7 +27,7 @@ class frostBall extends Spell
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 7;
 		$this->radius_var_2 = 7;
-		$this->level = 3;
+		$this->level = 1;
 		$this->mana_use = 5;
 		$this->freeze_duration = 3;
 		$this->dupe_level = 1;
@@ -61,7 +61,7 @@ class frostBall extends Spell
 			{
 				status($thisplayer->clientid, "You obtained another " . $this->name . ". It now has a 50% chance to freeze enemies for 3 seconds.");
 			}
-			$this->name = "Frostbolt";
+			$this->name = "Frostblast";
 
 		}
 		if($this->dupe_level == 3)
@@ -74,7 +74,33 @@ class frostBall extends Spell
 			{
 				status($thisplayer->clientid, "You obtained another " . $this->name . ". It now has a 100% chance to freeze enemies for 3 seconds.");
 			}
-			$this->name = "Frostblast";
+			$this->name = "Frostwind";
+
+		}
+		if($this->dupe_level == 4)
+		{
+			$this->description = "Freezes enemies for 3 secs.";
+			$this->panel_value = "frz, 3 secs";
+			$this->mana_use = 25;
+			$this->chance = 100;
+			if(!$notify)
+			{
+				status($thisplayer->clientid, "You obtained another " . $this->name . ". It now has a 100% chance to freeze enemies for 3 seconds.");
+			}
+			$this->name = "Frostitude";
+
+		}
+		if($this->dupe_level == 5)
+		{
+			$this->description = "Freezes enemies for 3 secs.";
+			$this->panel_value = "frz, 3 secs";
+			$this->mana_use = 25;
+			$this->chance = 100;
+			if(!$notify)
+			{
+				status($thisplayer->clientid, "You obtained another " . $this->name . ". It now has a 100% chance to freeze enemies for 3 seconds.");
+			}
+			$this->name = "Glacier";
 
 		}
 

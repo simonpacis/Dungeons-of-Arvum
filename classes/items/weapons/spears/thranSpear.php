@@ -19,28 +19,36 @@ class thranSpear extends Weapon
 		$this->color = "#0070ff";
 		$this->id = "0022";
 		$this->rarity = "strong";
-		$this->description = "A spear from Thran. Has 20% chance to hit yourself.";
+		$this->description = "A spear from Thran. Damages " . $this->damage . " in a range of 3.";
 		$this->radius_type = "cube";
-		$this->radius_var_1 = 2;
-		$this->radius_var_2 = 2;
+		$this->radius_var_1 = 3;
+		$this->radius_var_2 = 3;
+		$this->attack_speed = 1;
+		$this->last_attack = 0;
 		$this->level = 7;
-		$this->damage = 5;
+		$this->damage = 15;
 	}
 
 	public function use($thisplayer)
 	{
-		parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
+		if(parent::can_attack($this, $thisplayer, false))
+		{
+			parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
+		}
 	}
 
 	public function useRadius($thisplayer)
 	{
-		$chance = rand(1,100);
-		if($chance < 80)
+		if(parent::can_attack($this, $thisplayer))
 		{
-			parent::damage_in_radius($this->damage, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
-		} else {
-			$thisplayer->damage($this->damage, "melee");
+			$chance = rand(1,100);
+			if($chance < 80)
+			{
+				parent::damage_in_radius($this->damage, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+			} else {
+				$thisplayer->damage($this->damage, "melee");
+			}
+			parent::unset_radius($thisplayer);
 		}
-		parent::unset_radius($thisplayer);
 	}
 }

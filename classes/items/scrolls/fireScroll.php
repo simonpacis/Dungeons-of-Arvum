@@ -1,6 +1,6 @@
 <?php
 
-class fireBallScroll
+class fireScroll
 {
 	public $name;
 	public $id;
@@ -13,11 +13,11 @@ class fireBallScroll
 	public $price;
 	public function __construct()
 	{
-		$this->name = "Scroll of Fireball";
+		$this->name = "Scroll of Fire";
 		$this->color = "#fff";
 		$this->rarity = "uncommon";
 		$this->id = "0019";
-		$this->description = "This " . $this->name . " grants you the Fireball spell.";
+		$this->description = "This " . $this->name . " grants you spells of fire.";
 		$this->minprice = 50;
 		$this->maxprice = 70;
 	}

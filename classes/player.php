@@ -542,6 +542,7 @@ class Player
 
 	public function addToInventory($item, $faux = false, $notify = true, $send_to_server = true)
 	{
+		global $massive;
 		$invcount = count($this->inventory);
 		foreach($this->inventory as $invitem)
 		{
@@ -564,6 +565,7 @@ class Player
 				array_push($this->inventory, $item);
 			}
 			if($notify) {
+				status($this->clientid, "\"" . $item->description . "\"");
 				status($this->clientid, "You picked up \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\".", "#ffff00");
 			}
 			if($item->rarity == "legendary")
@@ -572,7 +574,10 @@ class Player
 					statusBroadcast($this->name . " picked up \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\"!", "#ffff00", false, $this->clientid);
 				}
 			}
-			newInventoryMassive($item, $this);
+			if($massive)
+			{
+				newInventoryMassive($item, $this);
+			}
 		} else {
 			$this->request('inventoryFull', $item);
 		}
