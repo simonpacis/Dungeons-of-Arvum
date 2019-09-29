@@ -5,7 +5,8 @@ function newMap()
 	global $map_height, $map_width, $map, $mapset, $rooms, $generate_new_map;
 
 	/* Running digger map generation function from rot.js – using phantomjs. Need some way to change lib based on OS server is running on, right now only macOS compatible. */
-	if($generate_new_map)
+
+	if($generate_new_map && !file_exists(dirname(__FILE__) . "/dev"))
 	{
 		if(!file_exists(dirname(__FILE__) . "/libs/phantomjs"))
 		{
@@ -50,13 +51,13 @@ function newMap()
 	populateMap();
 }
 
-function setTile($x, $y, &$object)
+function setTile($x, $y, $object) // Used to be &$object, but can't remember why.
 {
 	global $map;
 	$map[$x][$y] = $object;
 }
 
-function moveTile($oldx, $oldy, $newx, $newy, &$object)
+function moveTile($oldx, $oldy, $newx, $newy, $object) // Used to be &$object, but can't remember why.
 {
 	global $map;
 	$tile = $object;
@@ -77,7 +78,7 @@ function moveTile($oldx, $oldy, $newx, $newy, &$object)
 	}
 }
 
-function movePlayerTile($oldx, $oldy, $newx, $newy, &$object)
+function movePlayerTile($oldx, $oldy, $newx, $newy, $object) // Used to be &$object, but can't remember why.
 {
 	global $map;
 	$tile = $object;

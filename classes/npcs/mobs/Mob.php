@@ -13,6 +13,13 @@ class Mob
 	public $slow_for = 0;
 	public $room = 0;
 	public $checked = 0;
+	public $burned = false;
+	public $burn_damage = 0;
+	public $burn_frequency = 0;
+	public $burn_duration = 0;
+	public $last_burn = 0;
+	public $first_burn = 0;
+	public $burn_player;
 	public $dead = false;
 
 	public function tick($players, $player)
@@ -28,6 +35,7 @@ class Mob
 				}
 			}
 			$this->checked = microtime(true);
+			$this->performBurn();
 
 	}
 
@@ -440,6 +448,47 @@ class Mob
 		}
 
 		return true;
+	}
+
+
+	public function performBurn()
+	{
+		if($this->burned)
+		{
+			$curtime = round(microtime(true) * 1000);
+			if($this->last_burn == 0)
+			{
+				$this->first_burn = $curtime;
+			}
+
+			if(($this->first_burn+($this->burn_duration*1000)) > $curtime)
+			{
+				if($this->last_burn == 0 or ($curtime - $this->last_burn) >= $this->burn_frequency)
+				{
+					$this->damage($this->burn_damage, "fire", $this->burn_player);
+					$this->last_burn = $curtime;
+				}
+			} else {
+				status($this->burn_player->clientid, "Your burn on " . $this->name . " has worn off.", "#ff5c5c");
+				$this->burned = false;
+				$this->burn_player = null;
+			}
+		}
+	}
+
+
+	// Frequency = how often the damage is done. 1 = 1 second.
+	public function burn($damage, $duration, $frequency, $thisplayer)
+	{
+		$this->burned = true;
+		$this->burn_damage = $damage;
+		$this->burn_duration = $duration;
+		$this->burn_frequency = $frequency*1000;
+		$this->burn_player = $thisplayer;
+		$this->last_burn = 0;
+		$this->first_burn = 0;
+		status($this->burn_player->clientid, "You've burnt " . $this->name . ".", "#ff5c5c");
+		$this->performBurn();
 	}
 
 	public function freeze($duration, $thisplayer)

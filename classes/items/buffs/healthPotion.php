@@ -20,7 +20,14 @@ class healthPotion
 
 	public function use($thisplayer)
 	{
-		$thisplayer->heal($this->heal);
-		return true;
+		if($thisplayer->curhp < $thisplayer->maxhp)
+		{
+			$thisplayer->heal($this->heal);
+			return true;
+		} else {
+			status($this->clientid, "You do not need to heal.", "#5CCC6B");
+			return false;
+		}
+		
 	}
 }

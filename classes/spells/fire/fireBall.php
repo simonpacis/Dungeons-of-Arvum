@@ -26,6 +26,8 @@ class fireBall extends Spell
 		$this->radius_var_1 = 5;
 		$this->radius_var_2 = 5;
 		$this->level = 1;
+		$this->burn_duration = 6;
+		$this->burn_frequency = 2;
 		$this->mana_use = 5;
 		$this->damage = 3;
 	}
@@ -54,7 +56,8 @@ class fireBall extends Spell
 
 	public function useRadius($thisplayer)
 	{
-		parent::do_in_radius("damage", [round($this->damage), $this->damage_type, $thisplayer], 100, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+		//parent::do_in_radius("damage", [round($this->damage), $this->damage_type, $thisplayer], 100, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+		parent::do_in_radius("burn", [ceil($this->damage/3), $this->burn_duration, $this->burn_frequency, $thisplayer], 100, $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
 		parent::unset_radius($thisplayer);
 		return true;
 	}

@@ -75,7 +75,7 @@ class Player
 		$this->curhp = 20;
 		$this->maxhp = 20;
 		$this->curshield = 0;
-		$this->maxshield = 100;
+		$this->maxshield = 10;
 		$this->curmana = 20;
 		$this->maxmana = 20;
 		$this->curxp = 0;
@@ -249,7 +249,7 @@ class Player
 		global $players, $mobs;
 		$this->level++;
 		phonehome($this);
-		if($this->level % 3 == 0) //Every third level, suspensions are reset.
+		if($this->level % 10 == 0) //Every tenth level, suspensions are reset.
 		{
 			$this->curtimeout = $this->maxtimeout;
 		}
@@ -285,7 +285,11 @@ class Player
 			{
 				if($curmob->target == null && $curmob->level < $this->level) // Not in combat
 				{
-					$curmob->levelUp();
+					$should_levelup = rand(0, 100);
+					if($should_levelup > 75)
+					{
+						$curmob->levelUp();
+					}
 					$i++;
 				}
 			}

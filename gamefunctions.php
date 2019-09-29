@@ -480,27 +480,30 @@ function checkMobs()
 				for ($i=$yend; $i <= $ystart; $i++) {
 					for($ix = $xstart; $ix <= $xend; $ix++)
 					{
-						if($map[$ix][$i] != null)
+						if($ix >= 0 && $i >= 0)
 						{
-							if($map[$ix][$i]->type() == "npc")
+							if($map[$ix][$i] != null)
 							{
-								if($player->timeout_started_at != 0)
+								if($map[$ix][$i]->type() == "npc")
 								{
-									$map[$ix][$i]->lastattack = $map[$ix][$i]->lastattack + 5000;
-								}
-								$time_passed = microtime(true) - $map[$ix][$i]->checked;
-								$time_passed = $time_passed > 0.33;
-								if($map[$ix][$i]->checked == 0)
-								{
-									$time_passed = true;
-								}
-								if($time_passed)
-								{
-									$map[$ix][$i]->tick($players, $player);
-								}
-								if($map[$ix][$i]->dead == true)
-								{
-									unset($map[$ix][$i]);
+									if($player->timeout_started_at != 0)
+									{
+										$map[$ix][$i]->lastattack = $map[$ix][$i]->lastattack + 5000;
+									}
+									$time_passed = microtime(true) - $map[$ix][$i]->checked;
+									$time_passed = $time_passed > 0.33;
+									if($map[$ix][$i]->checked == 0)
+									{
+										$time_passed = true;
+									}
+									if($time_passed)
+									{
+										$map[$ix][$i]->tick($players, $player);
+									}
+									if($map[$ix][$i]->dead == true)
+									{
+										unset($map[$ix][$i]);
+									}
 								}
 							}
 						}
@@ -630,6 +633,7 @@ function newPlayer($clientID)
 				setLobby($clientID);
 				$players[$clientID]->request('name');
 				$players[$clientID]->addToInventory(new dagger(), false, false);
+				$players[$clientID]->addToInventory(new fireScroll(), false, false);
 				$players[$clientID]->addToInventory(new healthPotion(), false, false);
 
 			}

@@ -38,3 +38,4 @@ $display_height = 21; //Default: 21 – Only touch this if you're using a custom
 $profiling = false;
 $allow_cheats = false; //LEGACY OPTION, DOES NOT WORK PROPERLY.
 $enable_player_movement_speed = false; // EXPERIMENTAL: Player movement speed is experimental and does not function all too well because of the tiles of the game. This will be enabled per default as soon as I get it fixed to function properly.
+$reporting = false;
