@@ -256,7 +256,7 @@ class Player
 		// Calc new maxhp.
 		$additionalhp = 5;
 		$this->maxhp = $this->maxhp + $additionalhp;
-		$additionalshield = 100;
+		$additionalshield = 10;
 		$this->maxshield = $this->maxshield + $additionalshield;
 		/*if($this->curhp < round($this->maxhp/2))
 		{
