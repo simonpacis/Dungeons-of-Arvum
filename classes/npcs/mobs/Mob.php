@@ -35,7 +35,10 @@ class Mob
 				}
 			}
 			$this->checked = microtime(true);
-			$this->performBurn();
+			if($this->burned)
+			{
+				$this->performBurn();
+			}
 
 	}
 
@@ -381,38 +384,42 @@ class Mob
 		
 	}
 
+
+	public function doAttackType($attack_type)
+	{
+		switch ($attack_type) {
+			case 'burn':
+				$this->target->burn($this->burn_damage, $this->burn_duration, $this->burn_frequency, $this, false);
+				break;
+			
+			default:
+				# code...
+				break;
+		}
+	}
+
 	public function doAttack()
 	{
 		global $map;
-		/*$ystart = $this->y + $this->radius;
-		$yend = $this->y - $this->radius;
-		$xstart = $this->x - $this->radius;
-		$xend = $this->x + $this->radius;
 
-		for ($i=$yend; $i <= $ystart; $i++) {
-			for($ix = $xstart; $ix <= $xend; $ix++)
-			{
-				if($map[$ix][$i] != null)
-				{
-					var_dump($map[$ix][$i]);
-					if($map[$ix][$i]->type() == "player")
-					{
-						$map[$ix][$i]->damage($damage, $damage_type, $this);
-					}
-				}
-			}
-			if(!$floor && $wall)
-			{ // Some kind of raycasting has to be done, so it doesn't create radius on other side of wall.
-				//$yend = $i;
-			}
-			$wall = false;
-			$floor = false;
-		}*/
-		if(isset($this->damage))
+		if(isset($this->attack_type))
 		{
-			$this->target->damage(round($this->damage), $this->damage_type, $this);
+			if(is_array($this->attack_type))
+			{
+				foreach($this->attack_type as $attack_type)
+				{
+					$this->doAttackType($attack_type);
+				}
+			} else {
+				$this->doAttackType($this->attack_type);
+			}
 		} else {
-			$this->target->damage($this->basedamage, $this->damage_type, $this);
+			if(isset($this->damage))
+			{
+				$this->target->damage(round($this->damage), $this->damage_type, $this);
+			} else {
+				$this->target->damage($this->basedamage, $this->damage_type, $this);
+			}
 		}
 	}
 
@@ -489,6 +496,11 @@ class Mob
 		$this->first_burn = 0;
 		status($this->burn_player->clientid, "You've burnt " . $this->name . ".", "#ff5c5c");
 		$this->performBurn();
+	}
+
+	public function burnFailed($thisplayer)
+	{
+		status($thisplayer->clientid, "You failed to burn " . $this->name . ".", "#ff5c5c");
 	}
 
 	public function freeze($duration, $thisplayer)

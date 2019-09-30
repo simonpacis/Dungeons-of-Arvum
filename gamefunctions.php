@@ -6,7 +6,8 @@ function keypress($clientID, $key)
 {
 	global $players;
 
-
+	if(!$players[$clientID]->dead)
+	{
 	checkMobs();
 	$players[$clientID]->regenerate();
 	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")
@@ -174,6 +175,7 @@ function keypress($clientID, $key)
 	}
 
 	bigBroadcast();
+	}
 }
 
 function chat($clientID, $message)
@@ -476,6 +478,7 @@ function checkMobs()
 			}
 			if(!$player->inTimeout())
 			{
+				$player->tick();
 				prof_flag("Monster tick");
 				for ($i=$yend; $i <= $ystart; $i++) {
 					for($ix = $xstart; $ix <= $xend; $ix++)

@@ -151,7 +151,8 @@ $spawnable_mobs =[
 	new oakOwl(),
 	new wolfbat(),
 	new wyvern(),
-	new bannerBear()
+	new bannerBear(),
+	new Mage()
 ];
 
 $limited_mobs = [

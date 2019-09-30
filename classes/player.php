@@ -65,6 +65,14 @@ class Player
 	public $lastmove;
 	public $userid;
 	public $characterid;
+	public $burned;
+	public $burn_damage;
+	public $burn_frequency;
+	public $burn_duration;
+	public $last_burn;
+	public $first_burn;
+	public $burn_player;
+	public $is_burn_player;
 
 	public function __construct($Clientid)
 	{
@@ -139,6 +147,22 @@ class Player
 		$this->userid = 0;
 		$this->characterid = 0;
 		$this->lastmove = 0;
+		$this->$burned = false;
+		$this->$burn_damage = 0;
+		$this->$burn_frequency = 0;
+		$this->$burn_duration = 0;
+		$this->$last_burn = 0;
+		$this->$first_burn = 0;
+		$this->$burn_player = null;
+		$this->$is_burn_player = false;
+	}
+
+	public function tick()
+	{
+		if($this->burned)
+		{
+			$this->performBurn();
+		}
 	}
 
 	public function move($x_veloc = 0, $y_veloc = 0)
@@ -1099,6 +1123,83 @@ class Player
 		}
 	}
 
+
+	public function performBurn()
+	{
+		if($this->burned)
+		{
+			$curtime = round(microtime(true) * 1000);
+			if($this->last_burn == 0)
+			{
+				$this->first_burn = $curtime;
+			}
+
+			if(($this->first_burn+($this->burn_duration*1000)) > $curtime)
+			{
+				if($this->last_burn == 0 or ($curtime - $this->last_burn) >= $this->burn_frequency)
+				{
+					if($this->burn_player != null)
+					{
+						$this->damage($this->burn_damage, "fire", $this->burn_player);
+					} else {
+						$this->damage($this->burn_damage, "fire");
+					}
+					$this->last_burn = $curtime;
+				}
+			} else {
+				if($this->is_burn_player)
+				{
+					status($this->burn_player->clientid, "Your burn on " . $this->name . " has worn off.", "#ff5c5c");
+				}
+				if($this->burn_player != null)
+				{
+					status($this->clientid, "Your burn from " . $this->burn_player->name . " has worn off.", "#ff5c5c");
+				} else {
+					status($this->clientid, "Your burn has worn off.", "#ff5c5c");
+				}
+				$this->burned = false;
+				$this->burn_player = null;
+				$this->is_burn_player = false;
+			}
+		}
+	}
+
+
+	// Frequency = how often the damage is done. 1 = 1 second.
+	public function burn($damage, $duration, $frequency, $thisplayer = null, $player = true)
+	{
+		$this->burned = true;
+		$this->burn_damage = $damage;
+		$this->burn_duration = $duration;
+		$this->burn_frequency = $frequency*1000;
+		$this->last_burn = 0;
+		$this->first_burn = 0;
+		$this->is_burn_player = $player;
+		if($thisplayer != null)
+		{
+			$this->burn_player = $thisplayer;
+			status($this->clientid, "You've been burnt by " . $this->burn_player->name . ".", "#ff5c5c");
+		} else {
+			status($this->clientid, "You've been burnt.", "#ff5c5c");
+		}
+		if($this->is_burn_player)
+		{
+			status($this->burn_player->clientid, "You've burnt " . $this->name . ".", "#ff5c5c");	
+		}
+		
+
+
+		$this->performBurn();
+	}
+
+	public function burnFailed($thisplayer = null)
+	{
+		if($thisplayer != null)
+		{
+			status($thisplayer->clientid, "You failed to burn " . $this->name . ".", "#ff5c5c");
+		}
+	}
+
 	public function die()
 	{
 		global $players, $map;
@@ -1637,21 +1738,15 @@ class Player
 						//return true;
 					}	
 				}
-			} else if(strtolower($string) == "u" or strtolower($string) == "i" or strtolower($string) == "o" or strtolower($string) == "p")
+			} else if(strtolower($string) == "q" or strtolower($string) == "e")
 			{
 				$orgstring = strtoupper($string);
-				if(strtolower($string) == "u")
+				if(strtolower($string) == "q")
 				{
 					$string = 0;
-				} else if(strtolower($string) == "i")
+				} else if(strtolower($string) == "e")
 				{
 					$string = 1;
-				} else if(strtolower($string) == "o")
-				{
-					$string = 2;
-				} else if(strtolower($string) == "p")
-				{
-					$string = 3;
 				}
 				if(isset($this->spells[$string]))
 				{
