@@ -195,8 +195,11 @@ class Mob
 			{
 				if($this->lastattack == 0 or ($curtime - $this->lastattack) >= $seconds_per_attack)
 				{
-					$this->doAttack();
-					$this->lastattack = round(microtime(true) * 1000);
+					if(!$target->isSafe())
+					{
+						$this->doAttack();
+						$this->lastattack = round(microtime(true) * 1000);
+					}
 				}
 			} elseif($allowed_to_move) {
 			

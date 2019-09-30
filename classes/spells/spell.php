@@ -52,7 +52,6 @@ class Spell
 								$floor = true;
 								$map[$ix][$i]->setColor($thisplayer->clientid, $color);	
 								$thisplayer->radiustiles[$ix][$i] = "true";
-
 							} else {
 								$wall = true;
 							}

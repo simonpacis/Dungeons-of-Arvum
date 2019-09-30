@@ -547,6 +547,12 @@ class Player
 		$this->waypoint_y = $this->y;
 	}
 
+
+	public function isSafe()
+	{
+		return false;
+	}
+
 	public function parseArmor()
 	{
 		if($this->wieldedArmor != null)

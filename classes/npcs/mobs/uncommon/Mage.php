@@ -1,6 +1,6 @@
 <?php
 
-class Mage extends Mob
+class mage extends Mob
 {
 	public $name;
 	public $basedamage;

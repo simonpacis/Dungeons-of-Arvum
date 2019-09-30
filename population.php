@@ -152,7 +152,7 @@ $spawnable_mobs =[
 	new wolfbat(),
 	new wyvern(),
 	new bannerBear(),
-	new Mage()
+	new mage()
 ];
 
 $limited_mobs = [
