@@ -22,7 +22,7 @@ class generalStore extends Shop
 		$this->x = 0;
 		$this->y = 0;
 		$this->stock = [];
-		$this->selection = ["leatherArmor", "shortBow", "fireScroll", "iceScroll", "longBow"];
+		$this->selection = ["shortBow", "fireScroll", "longBow", "longSword", "smallShield"];
 		$this->amount_of_items = rand(1,5);
 
 	}

@@ -180,7 +180,12 @@ function keypress($clientID, $key)
 
 function chat($clientID, $message)
 {
-	global $Server, $players, $allow_cheats, $massive;
+	global $Server, $players, $allow_cheats, $allow_map_cheats, $massive;
+	if(file_exists(dirname(__FILE__) . "/dev"))
+	{
+		$allow_cheats = true;
+		$allow_map_cheats = true;
+	}
 	$msg = ['type' => 'message', 'message' => $message, 'name' => $players[$clientID]->name];
 	if($players[$clientID]->requestVar == null)
 	{
@@ -206,17 +211,77 @@ function chat($clientID, $message)
 					status($clientID, "Cheats are not allowed on this server.", "#ff5c5c");
 				}
 			} else {
-				if($players[$clientID]->cheats)
+				if($allow_cheats)
 				{
 					switch ($cmd) {
+						case 'coins':
+							if(isset($arg[0]))
+							{
+								$arg = explode(" ", $arg);
+								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+								if(is_numeric($arg[0]))
+								{
+									$arg[0] = (int)$arg[0];
+									$players[$clientID]->coins = $players[$clientID]->coins + $arg[0];
+								} else {
+									status($clientID, "Not a number.");
+								}
+							} else {
+								status($clientID, "The \"coins\" cheat works like this: \"!coins amount_of_coins\".");
+							}
+							break;
+						case 'levelup':
+							if(isset($arg[0]))
+							{
+								$arg = explode(" ", $arg);
+								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+								if(is_numeric($arg[0]))
+								{
+									$arg[0] = (int)$arg[0];
+									for ($i=0; $i < $arg[0]; $i++) { 
+										$players[$clientID]->curxp = $players[$clientID]->maxxp;
+										$players[$clientID]->levelUp();
+									}
+								} else {
+									status($clientID, "Not a number.");
+								}
+							} else {
+								status($clientID, "The \"levelup\" cheat works like this: \"!levelup amount_of_levels_to_gain\".");
+							}
+
+							break;
+						case 'grant':
+
+							if(isset($arg[0]))
+							{
+								$arg = explode(" ", $arg);
+								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+								if(class_exists($arg[0]))
+								{
+									$newitem = eval("return new " . $arg[0] . "();");
+									$players[$clientID]->addToInventory($newitem, false, false);
+								} else {
+									status($clientID, "Item does not exist.");
+								}
+							} else {
+								status($clientID, "The \"grant\" cheat works like this: \"!grant itemClassToSpawn\". E.g. \"!grant fireScroll\"");
+							}
+							break;
 						case 'tile':
-							if($players[$clientID]->hardcheats)
+							if($allow_map_cheats)
 							{
 								$arg = explode(" ", $arg);
 								if(isset($arg[1]))
 								{
 									try {
-										$newtile = eval("return new " . ucfirst($arg[1]) . ";");
+										/*$arg[1] = ucfirst($arg[1]);
+										if(class_exists($arg[1]))
+										{*/
+											$newtile = eval("return new " . ucfirst($arg[1]) . ";");
+										/*} else {
+											status($clientID, "Tile does not exist.");
+											break;
+										}*/
 										if($arg[0] == "u")
 										{
 											setTile($players[$clientID]->x, $players[$clientID]->y - 1, new Tile($newtile));
@@ -241,7 +306,7 @@ function chat($clientID, $message)
 									status($clientID, "The \"tile\" cheat works like this: \"!tile direction tiletospawn\".");
 								}
 							} else {
-								status($clientID, "Hard cheats not allowed.");
+								status($clientID, "Map cheats not allowed.");
 							}
 
 							break;
@@ -288,7 +353,7 @@ function chat($clientID, $message)
 							$players[$clientID]->displaySettings();
 							break;
 						default:
-							# code...
+							status($clientID, "This cheat does not exist. Implement it in gamefunctions.php");
 							break;
 					}
 					bigBroadcast();
@@ -636,7 +701,6 @@ function newPlayer($clientID)
 				setLobby($clientID);
 				$players[$clientID]->request('name');
 				$players[$clientID]->addToInventory(new dagger(), false, false);
-				//$players[$clientID]->addToInventory(new fireScroll(), false, false);
 				$players[$clientID]->addToInventory(new healthPotion(), false, false);
 
 			}

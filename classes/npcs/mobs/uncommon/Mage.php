@@ -51,5 +51,17 @@ class mage extends Mob
 		$this->rarity = "common";
 	}
 
+	public function levelUp()
+	{
+		parent::levelUp();
+		if($this->basedamage < 3 && $this->level < 10)
+		{
+			$additionaldmg = round((($this->basedamage/5)*($this->level/3))*(0.3*$this->level));
+		} else {
+			$additionaldmg = round(($this->basedamage/5)*(0.2*$this->level));
+		}
+		$this->burn_damage = $this->burn_damage + $additionaldmg;	
+	}
+
 
 }

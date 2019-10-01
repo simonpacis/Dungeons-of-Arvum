@@ -11,8 +11,8 @@ class mediumShield
 	public function __construct()
 	{
 		$this->name = "Medium Shieldgiver";
-		$this->color = "#0070ff";
-		$this->rarity = "strong";
+		$this->color = "#1eff00";
+		$this->rarity = "uncommon";
 		$this->id = "0026";
 		$this->shield = 5;
 		$this->description = "This " . $this->name . " grants you " . $this->shield . " additional shield.";

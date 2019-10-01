@@ -153,7 +153,7 @@ class Mob
 
 	public function move()
 	{
-		global $map;
+		global $map, $mob_safe_room_check;
 		$allowed_to_move = false;
 		if(($this->slowed_at + $this->slow_for) >= time())
 		{
@@ -195,8 +195,14 @@ class Mob
 			{
 				if($this->lastattack == 0 or ($curtime - $this->lastattack) >= $seconds_per_attack)
 				{
-					if(!$target->isSafe())
+					if($mob_safe_room_check && $this->range > 1)
 					{
+						if(!$this->target->isSafe())
+						{
+							$this->doAttack();
+							$this->lastattack = round(microtime(true) * 1000);
+						}
+					} else {
 						$this->doAttack();
 						$this->lastattack = round(microtime(true) * 1000);
 					}

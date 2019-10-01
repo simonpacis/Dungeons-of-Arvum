@@ -200,6 +200,13 @@ class Player
 				if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
 					$this->x = $this->x + $x_veloc;
 					$this->y = $this->y + $y_veloc;
+
+
+					if($this->hasHook("before_stamina_use"))
+					{
+						$this->runHook("before_stamina_use", $this);
+					}
+
 					$this->curstamina--;
 					$check_for_action = $this->checkForAction();
 
@@ -310,8 +317,9 @@ class Player
 				if($curmob->target == null && $curmob->level < $this->level) // Not in combat
 				{
 					$should_levelup = rand(0, 100);
-					if($should_levelup > 75)
+					if($should_levelup < 75)
 					{
+
 						$curmob->levelUp();
 					}
 					$i++;
@@ -346,10 +354,17 @@ class Player
 			$this->last_mana_regen = time();
 		}
 
-		if(($this->last_stamina_regen+$this->stamina_regen) <= round(microtime(true) * 1000))
+
+		if($this->hasHook("before_stamina_regen"))
 		{
-			$passed = (round(microtime(true) * 1000) - ($this->last_stamina_regen+$this->stamina_regen));
-			$amount_of_passed = round($passed/$this->stamina_regen);
+			$stamina_regen = $this->runHook("before_stamina_regen", $this->stamina_regen, $this);
+		} else {
+			$stamina_regen = $this->stamina_regen;
+		}
+		if(($this->last_stamina_regen+$stamina_regen) <= round(microtime(true) * 1000))
+		{
+			$passed = (round(microtime(true) * 1000) - ($this->last_stamina_regen+$stamina_regen));
+			$amount_of_passed = round($passed/$stamina_regen);
 			for($i = 0; $i < $amount_of_passed; $i++)
 			{
 				if($this->curstamina < $this->maxstamina)
@@ -522,19 +537,25 @@ class Player
 		} else {
 			$movementspeed = "Not enabled";
 		}
-		$stamina = "";
 
-		for($i = 0; $i < $this->curstamina; $i++)
+		if($this->maxstamina < 20)
 		{
-			$stamina .= "<span style='color:#00ff00;'>|</span>";
-		}
+			$stamina = "";
 
-		if($this->curstamina < $this->maxstamina)
-		{
-			for($i = 0; $i < ($this->maxstamina - $this->curstamina); $i++)
+			for($i = 0; $i < $this->curstamina; $i++)
 			{
-				$stamina .= "<span style='color:#ff0000;'>|</span>";
+				$stamina .= "<span style='color:#00ff00;'>|</span>";
 			}
+
+			if($this->curstamina < $this->maxstamina)
+			{
+				for($i = 0; $i < ($this->maxstamina - $this->curstamina); $i++)
+				{
+					$stamina .= "<span style='color:#ff0000;'>|</span>";
+				}
+			}
+		} else {
+			$stamina = $this->curstamina."/".$this->maxstamina;
 		}
 
 		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina];
@@ -550,6 +571,14 @@ class Player
 
 	public function isSafe()
 	{
+		global $safe_rooms;
+		foreach ($safe_rooms as $room)
+		{
+			if($this->x >= $room['_x1'] && $this->x <= $room['_x2'] && $this->y >= $room['_y1'] && $this->y <= $room['_y2'])
+			{
+				return true;
+			}
+		}
 		return false;
 	}
 
@@ -886,6 +915,10 @@ class Player
 							{
 								$this->inventory[$i]->wielded = false;
 							}
+				if(method_exists($this->inventory[$i], 'removed'))
+				{
+					$this->inventory[$i]->removed($this);
+				}
 								unset($this->inventory[$i]);
 								$this->inventory = array_values($this->inventory);
 								bigBroadcast();
@@ -902,6 +935,10 @@ class Player
 							{
 								$this->inventory[$item_to_remove]->wielded = false;
 							}
+					if(method_exists($this->inventory[$item_to_remove], 'removed'))
+					{
+						$this->inventory[$item_to_remove]->removed($this);
+					}
 					unset($this->inventory[$item_to_remove]);
 					if($reset_index)
 					{
@@ -914,6 +951,10 @@ class Player
 				if(isset($this->inventory[$item_to_remove]->wielded))
 				{
 					$this->inventory[$item_to_remove]->wielded = false;
+				}
+				if(method_exists($this->inventory[$item_to_remove], 'removed'))
+				{
+					$this->inventory[$item_to_remove]->removed($this);
 				}
 				unset($this->inventory[$item_to_remove]);
 				$this->inventory = array_values($this->inventory);
@@ -934,8 +975,13 @@ class Player
 						{
 							$this->inventory[$i]->wielded = false;
 						}
+							if(method_exists($this->inventory[$i], 'removed'))
+							{
+								$this->inventory[$i]->removed($this);
+							}
 							unset($this->inventory[$i]);
 							$this->inventory = array_values($this->inventory);
+							
 							bigBroadcast();
 							return true;
 						}
@@ -1059,7 +1105,17 @@ class Player
 						 // Only return the value if the hook succeeded.
 						if(!is_array($ranHook))
 						{
-							return $ranHook;
+							if(isset($item->hook_return))
+							{
+								if($item->hook_return)
+								{
+									return $ranHook;
+								} else {
+									continue;
+								}
+							} else {
+								return $ranHook;
+							}
 						} else {
 							$orgval = $ranHook[1];
 						}
@@ -1493,8 +1549,6 @@ class Player
 		$ready = true;
 		setLobby($this->clientid);
 		status($this->clientid, "Your name has been set. Press \"H\" to open settings, if you want to change your name.");
-		$this->cheats = true;
-		$this->hardcheats = true;
 		return true;
 	}
 

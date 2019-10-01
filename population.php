@@ -2,7 +2,7 @@
 
 /* Defines how and what to populate the dungeon with 
 
-	In the items array, we add all the items that we want to be spawnable, and how many of them. When spawned, added as loot or the likes, we remove them from the items array.
+	In the items array, we add all the items that we want to be spawnable, and how many of them. When spawned, added as loot or the likes, we remove them from the items array. Except for the generic_items array, from which we do not remove the items, but spawn a clone of it.
 */
 $rarity_ladder = ["common", "uncommon", "strong", "epic", "legendary"];
 
@@ -20,6 +20,8 @@ $generic_items=[
 	new shortSword(),
 	new longBow(),
 	new pike(),
+	new brandiStock(),
+	new ironSpear(),
 	new longSword(),
 	new iceScroll(),
 	new fireScroll(),	
@@ -29,31 +31,19 @@ $potion_items = [
 	new healthPotion(),
 	new healthPotion(),
 	new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),
-	new healthJug(),
 	new healthJug(),
 	new manaPotion(),
 	new manaPotion(),
 	new manaPotion(),
 	new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),
-	new majorManaPotion(),
-	new majorManaPotion(),
 	new majorManaPotion(),
 	new majorManaPotion(),
 	new manaJug(),
-	new manaJug(),
+	new smallShield(),
 	new smallShield(),
 	new smallShield(),
 	new mediumShield(),
 	new mediumShield(),
-	new mediumShield(),
-	new mediumShield(),
-	new mediumShield(),
-	new majorShield(),
-	new majorShield(),
 	new majorShield()
 ];
 
@@ -165,7 +155,8 @@ $spawnable_characters = [
 	new waypointTeleporter(),
 	new dwarvenMarket(),
 	new generalStore(),
-	new seller()
+	new seller(),
+	new scrollStore()
 ];
 
 $limited_characters = [
@@ -297,11 +288,14 @@ function safeRoom($room)
 		}
 	}
 
-	$curchar = $spawnable_characters[array_rand($spawnable_characters, 1)];
-	$curmobclass = get_class($curchar);
-	$curmob = new $curmobclass;
-	$curmob->room = $room['id'];
-	setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($curmob));
+	if(rand(1,100) > 50)
+	{
+		$curchar = $spawnable_characters[array_rand($spawnable_characters, 1)];
+		$curmobclass = get_class($curchar);
+		$curmob = new $curmobclass;
+		$curmob->room = $room['id'];
+		setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($curmob));
+	}
 
 	array_push($safe_rooms, $room);
 	return true;
