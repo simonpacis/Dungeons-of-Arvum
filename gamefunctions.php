@@ -214,6 +214,10 @@ function chat($clientID, $message)
 				if($allow_cheats)
 				{
 					switch ($cmd) {
+						case 'full':
+							$players[$clientID]->curmana = $players[$clientID]->maxmana;
+							$players[$clientID]->curhp = $players[$clientID]->maxhp; 
+							$players[$clientID]->curstamina = $players[$clientID]->maxstamina; 
 						case 'coins':
 							if(isset($arg[0]))
 							{
@@ -259,7 +263,16 @@ function chat($clientID, $message)
 								if(class_exists($arg[0]))
 								{
 									$newitem = eval("return new " . $arg[0] . "();");
-									$players[$clientID]->addToInventory($newitem, false, false);
+									if(isset($arg[1]) && is_numeric((int)$arg[1]))
+									{
+										$arg[1] = (int) $arg[1];
+										for($i = 0; $i < $arg[1]; $i++)
+										{
+											$players[$clientID]->addToInventory($newitem, false, false);
+										}
+									} else {
+										$players[$clientID]->addToInventory($newitem, false, false);
+									}
 								} else {
 									status($clientID, "Item does not exist.");
 								}
@@ -426,6 +439,10 @@ function unsetLobby()
 			$ycoord = -1;
 			$player->x = $xcoord;
 			$player->y = $ycoord;
+			//$player->invincible(86400, $player);
+			$player->maxhp = 1000000;
+			$player->curhp = 1000000;
+
 		} else {
 			$room = $safe_rooms[array_rand($safe_rooms, 1)];
 			$xcoord = rand($room["_x1"], $room["_x2"]);

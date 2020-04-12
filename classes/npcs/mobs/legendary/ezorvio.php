@@ -43,7 +43,7 @@ class ezorvio extends Mob
 		$this->attackspeed = 1.5; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
-		$this->loot = new noxzirahsKiss();
+		$this->loot = new portableWaypointTeleporter();
 		$this->rarity = "legendary";
 	}
 

@@ -106,6 +106,11 @@ class Weapon
 
 	}
 
+	public function created($thisplayer)
+	{
+		return true;
+	}
+
 	public function unset_radius($thisplayer)
 	{
 		global $players;

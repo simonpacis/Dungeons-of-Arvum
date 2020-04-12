@@ -79,7 +79,17 @@ class Shop extends Character
 		{
 			$thisplayer->addToInventory($shop->stock[$thisplayer->selected_setting]);
 			$thisplayer->coins -= $shop->stock[$thisplayer->selected_setting]->price;
-			unset($shop->stock[$thisplayer->selected_setting]);
+			if(isset($this->infinite_stock))
+			{
+				if($this->infinite_stock == true)
+				{
+					//unset($shop->stock[$thisplayer->selected_setting]);
+				} else {
+					unset($shop->stock[$thisplayer->selected_setting]);
+				}
+			} else {
+				unset($shop->stock[$thisplayer->selected_setting]);
+			}
 			$shop->stock = array_values($thisplayer->action_target->stock);
 
 			$thisplayer->selected_setting = 0;

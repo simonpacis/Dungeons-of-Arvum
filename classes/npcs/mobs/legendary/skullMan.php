@@ -23,7 +23,7 @@ class skullMan extends Mob
 
 	public function __construct()
 	{
-		$this->name = "Barynn the Skullbringer";
+		$this->name = "B́arynn the Skullbringer";
 		$this->basedamage = 25;
 		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
@@ -34,7 +34,7 @@ class skullMan extends Mob
 		$this->target = null;
 		$this->range = 2;
 		$this->viewrange = 15;
-		$this->representation = "S";
+		$this->representation = "B́";
 		$this->solid = true;
 		$this->color = "#ff8000";
 		$this->x = 0;

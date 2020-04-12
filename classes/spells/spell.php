@@ -193,4 +193,10 @@ class Spell
 		$player->usedItem = null;
 		bigBroadcast();
 	}
+
+	public function created($thisplayer)
+	{
+		// To be overridden.		
+		return true;
+	}
 }

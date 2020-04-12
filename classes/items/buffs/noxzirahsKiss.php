@@ -14,13 +14,13 @@ class noxzirahsKiss
 		$this->color = "#ff8000";
 		$this->rarity = "legendary";
 		$this->id = "0034";
-		$this->hook = "before_monster_death";
-		$this->description = "Noxzirah's Kiss will ensure that you do not die to any monster. While in inventory, you will survive your next death.";
+		$this->hook = ["before_monster_death", "before_player_death"];
+		$this->description = "Noxzirah's Kiss will ensure that you do not die. While in inventory, you will survive your next death.";
 	}
 
 	public function use($thisplayer)
 	{
-		status($thisplayer->clientid, "Noxzirah's Kiss will ensure that you do not die to any monster. While in inventory, you will survive your next death.", "#ff8000");
+		status($thisplayer->clientid, "Noxzirah's Kiss will ensure that you do not die. While in inventory, you will survive your next death.", "#ff8000");
 	}
 
 	public function runHook()

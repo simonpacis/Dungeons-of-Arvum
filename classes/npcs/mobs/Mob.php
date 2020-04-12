@@ -50,6 +50,10 @@ class Mob
 			{
 				$this->resetColor($player->clientid);
 				$should_aggro = $player->level <= $this->level;
+				if($this->rarity == "legendary")
+				{
+					$should_aggro = true;
+				}
 				if($this->target == $player)
 				{
 					$should_aggro = true;
@@ -64,6 +68,10 @@ class Mob
 		} else {
 				$this->resetColor($players->clientid);
 				$should_aggro = $players->level <= $this->level;
+				if($this->rarity == "legendary")
+				{
+					$should_aggro = true;
+				}
 				if($this->target == $players)
 				{
 					$should_aggro = true;

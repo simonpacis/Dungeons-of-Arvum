@@ -1,6 +1,6 @@
 <?php
 
-class longSword extends Weapon
+class twohandedsword extends Weapon
 {
 	public $name;
 	public $id;
@@ -15,21 +15,22 @@ class longSword extends Weapon
 	public $level;
 	public function __construct()
 	{
-		$this->name = "Longsword";
-		$this->color = "#1eff00";
-		$this->id = "0016";
-		$this->rarity = "uncommon";
-		$this->description = "A longer sword.";
+		$this->name = "Two-handed Sword";
+		$this->color = "#0070ff";
+		$this->id = "0044";
+		$this->rarity = "strong";
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 2;
 		$this->radius_var_2 = 2;
-		$this->attack_speed = 0.75;
+		$this->attack_speed = 0.6;
 		$this->last_attack = 0;
 		$this->damage = 10;
 		$this->damage_type = "melee";
-		$this->level = 4;
-		$this->minprice = 30;
-		$this->maxprice = 50;
+		$this->level = 12;
+		$this->description = "A big old nasty sword. " . $this->damage . " damage, " . $this->attack_speed . " seconds attack speed. Level: " . $this->level;
+
+		$this->minprice = 60;
+		$this->maxprice = 90;
 	}
 
 	public function use($thisplayer)
@@ -44,7 +45,7 @@ class longSword extends Weapon
 	{
 		if(parent::can_attack($this, $thisplayer))
 		{
-			parent::damage_in_radius(3, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+			parent::damage_in_radius($this->damage, "melee", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
 			parent::unset_radius($thisplayer);
 		}	
 	}

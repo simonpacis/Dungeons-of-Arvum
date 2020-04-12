@@ -23,6 +23,7 @@ $generic_items=[
 	new brandiStock(),
 	new ironSpear(),
 	new longSword(),
+	new rapier(),
 	new iceScroll(),
 	new fireScroll(),	
 ];
@@ -152,16 +153,21 @@ $limited_mobs = [
 ];
 
 $spawnable_characters = [
-	new waypointTeleporter(),
 	new dwarvenMarket(),
 	new generalStore(),
 	new seller(),
-	new scrollStore()
+	new scrollStore(),
+	new bowSeller()
 ];
 
 $limited_characters = [
 	new waypointTeleporter(),
 	new waypointTeleporter(),
+	new waypointTeleporter(),
+	new waypointTeleporter(),
+	new waypointTeleporter(),
+	new waypointTeleporter(),
+	new waypointTeleporter()
 ];
 
 function populateMap()

@@ -73,6 +73,10 @@ class Player
 	public $first_burn;
 	public $burn_player;
 	public $is_burn_player;
+	public $invincible;
+	public $invincible_duration;
+	public $last_invincible;
+	public $first_invincible;
 
 	public function __construct($Clientid)
 	{
@@ -155,6 +159,10 @@ class Player
 		$this->$first_burn = 0;
 		$this->$burn_player = null;
 		$this->$is_burn_player = false;
+		$this->invincible = false;
+		$this->invincible_duration = 0;
+		$this->last_invincible = 0;
+		$this->first_invincible = 0;
 	}
 
 	public function tick()
@@ -162,6 +170,10 @@ class Player
 		if($this->burned)
 		{
 			$this->performBurn();
+		}
+		if($this->invincible)
+		{
+			$this->performInvincible();
 		}
 	}
 
@@ -285,20 +297,28 @@ class Player
 			$this->curtimeout = $this->maxtimeout;
 		}
 		// Calc new maxhp.
-		$additionalhp = 5;
+		$additionalhp = round(pow(($this->level-1),1.4));
 		$this->maxhp = $this->maxhp + $additionalhp;
 		$additionalshield = 10;
 		$this->maxshield = $this->maxshield + $additionalshield;
 		/*if($this->curhp < round($this->maxhp/2))
+		{*/
+			$this->curhp = $this->curhp + round($this->maxhp/2);
+		/*}*/
+		if($this->curhp > $this->maxhp)
 		{
-			$this->curhp = round($this->maxhp/2);
-		}*/
+			$this->curhp = $this->maxhp;
+		}
 		$additionalmana = round(pow(($this->level-1),1.10));
 		$this->maxmana = $this->maxmana + $additionalmana;
 		$this->curmana = $this->maxmana;
 		if($this->curhp > $this->auto_timeout)
 		{
 			$this->used_auto_timeout = false;
+		}
+		if($this->hasHook("mana_increase"))
+		{
+			$this->runHook("mana_increase", $this);
 		}
 		$highestlvl = $this->level;
 		foreach($players as $curplayer)
@@ -530,6 +550,19 @@ class Player
 		} else {
 			$curhp = "<span style='color:#5CCC6B;'>" . $this->curhp . "</span>";
 		}
+		$maxhp = $this->maxhp;
+
+		if($this->invincible)
+		{
+			if($this->first_invincible != 0)
+			{
+				$curhp = "<span style='color:#00ff00;'>".round((($this->first_invincible + ($this->invincible_duration*1000)) - (round(microtime(true)*1000)))/1000)."sec</span>";
+			} else {
+				$curhp = "<span style='color:#00ff00;'>".$this->invincible_duration."sec</span>";
+			}
+			$maxhp = "<span style='color:#00ff00;'>∞</span>";
+
+		}
 
 		if($enable_player_movement_speed)
 		{
@@ -558,7 +591,7 @@ class Player
 			$stamina = $this->curstamina."/".$this->maxstamina;
 		}
 
-		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $this->maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina];
+		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina];
 	}
 
 	public function setWaypoint()
@@ -786,6 +819,7 @@ class Player
 			{
 				if($faux == false)
 				{
+					$item->created($this);
 					array_push($this->spells, $item);
 				}
 			}
@@ -799,6 +833,7 @@ class Player
 					statusBroadcast($this->name . " obtained \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\"!", "#ffff00", false, $this->clientid);
 				}
 			}
+
 		} else {
 			$this->request('inventoryFull', $item);
 		}
@@ -1070,6 +1105,24 @@ class Player
 				}
 			}
 		}
+		foreach($this->spells as $item)
+		{
+			if(isset($item->hook))
+			{
+				if(is_array($item->hook))
+				{
+					if(in_array($hook, $item->hook))
+					{
+						return true;
+					}
+				} else {
+					if($item->hook == $hook)
+					{
+						return true;
+					}
+				}
+			}
+		}
 		return false;
 	}
 
@@ -1123,6 +1176,50 @@ class Player
 				}
 			}
 		}
+
+		foreach($this->spells as $item)
+		{
+			if(isset($item->hook))
+			{
+				if(is_array($item->hook))
+				{
+					if(in_array($hook, $item->hook))
+					{
+						$ranHook = call_user_func_array(array($item, 'runHook'), $args);
+						 // Only return the value if the hook succeeded.
+						if(!is_array($ranHook))
+						{
+							return $ranHook;
+						} else {
+							$orgval = $ranHook[1];
+						}
+					}
+				} else {
+					if($item->hook == $hook)
+					{
+						$ranHook = call_user_func_array(array($item, 'runHook'), $args);
+						 // Only return the value if the hook succeeded.
+						if(!is_array($ranHook))
+						{
+							if(isset($item->hook_return))
+							{
+								if($item->hook_return)
+								{
+									return $ranHook;
+								} else {
+									continue;
+								}
+							} else {
+								return $ranHook;
+							}
+						} else {
+							$orgval = $ranHook[1];
+						}
+					}
+				}
+			}
+		}
+
 		return $orgval;
 	}
 
@@ -1152,22 +1249,36 @@ class Player
 		} else {
 			$amount = 0;
 		}
-		$this->curhp = $this->curhp - $amount;
-		if($amount < $orgamount)
+		if(!$this->invincible)
 		{
-			$reducedamount = $orgamount - $amount;
-			status($this->clientid, $dealer->name . " dealt " . $orgamount . " " . $type . " damage.", "#ff5c5c");
-		} else {
-			status($this->clientid, $dealer->name . " dealt " . $orgamount . " " . $type . " damage.", "#ff5c5c");
+			$this->curhp = $this->curhp - $amount;
 		}
-		if($this->curhp <= $this->auto_timeout)
-		{
-			if($this->used_auto_timeout == false)
+			if($amount < $orgamount)
 			{
-				$this->used_auto_timeout = true;
-				$this->setTimeout();
+				$reducedamount = $orgamount - $amount;
+				if(!$this->invincible)
+				{
+					status($this->clientid, $dealer->name . " dealt " . $orgamount . " " . $type . " damage.", "#ff5c5c");
+				} else {
+					status($this->clientid, $dealer->name . " tried to deal you " . $orgamount . " " . $type . " damage, but you're invincible.", "#00ff00");
+				}
+			} else {
+				if(!$this->invincible)
+				{
+					status($this->clientid, $dealer->name . " dealt " . $orgamount . " " . $type . " damage.", "#ff5c5c");
+				} else {
+					status($this->clientid, $dealer->name . " tried to deal you " . $orgamount . " " . $type . " damage, but you're invincible.", "#00ff00");
+				}
 			}
-		}
+			if($this->curhp <= $this->auto_timeout)
+			{
+				if($this->used_auto_timeout == false)
+				{
+					$this->used_auto_timeout = true;
+					$this->setTimeout();
+				}
+			}
+		
 		if($this->curhp <= 0)
 		{
 			$die = true;
@@ -1176,6 +1287,11 @@ class Player
 				if($this->hasHook("before_monster_death"))
 				{
 					$die = $this->runHook("before_monster_death", $safe_rooms, $this);
+				}
+			} else {
+				if($this->hasHook('before_player_death'))
+				{
+					$die = $this->runHook("before_player_death", $safe_rooms, $this);
 				}
 			}
 			if($die)
@@ -1224,6 +1340,40 @@ class Player
 				$this->is_burn_player = false;
 			}
 		}
+	}
+
+	public function performInvincible()
+	{
+		if($this->invincible)
+		{
+			$curtime = round(microtime(true)*1000);
+			if($this->last_invincible == 0)
+			{
+				$this->first_invincible = $curtime;
+			}
+
+			if(($this->first_invincible+($this->invincible_duration*1000)) < $curtime)
+			{
+				status($this->clientid, "You are no longer invincible.", "#fff");
+				$this->invincible = false;
+				$this->last_invincible = 0;
+				$this->first_invincible = 0;
+				$this->invincible_duration = 0;
+			} else {
+				$this->last_invincible = $curtime;
+			}
+		}
+	}
+
+
+	public function invincible($duration, $thisplayer = null)
+	{
+		$this->invincible = true;
+		$this->invincible_duration = $duration;
+		$this->last_invincible = 0;
+		$this->first_invincible = 0;
+		status($this->clientid, "You are invincible for " . $duration ." seconds.", "#fff");
+		return true;
 	}
 
 

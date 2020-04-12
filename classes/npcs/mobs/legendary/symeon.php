@@ -1,6 +1,6 @@
 <?php
 
-class noxzirah extends Mob
+class symeon extends Mob
 {
 	public $name;
 	public $basedamage;
@@ -23,27 +23,27 @@ class noxzirah extends Mob
 
 	public function __construct()
 	{
-		$this->name = "Noxzirah";
-		$this->basedamage = 100;
+		$this->name = "Symeon the Thunderwizard";
+		$this->basedamage = 20;
 		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
-		$this->basehp = 100;
+		$this->basehp = 350;
 		$this->maxhp = $this->basehp;
 		$this->curhp = $this->basehp;
-		$this->level = 25;
+		$this->level = 10;
 		$this->target = null;
-		$this->range = 1;
+		$this->range = 2;
 		$this->viewrange = 30;
-		$this->representation = "N";
+		$this->representation = "S";
 		$this->solid = true;
 		$this->color = "#ff8000";
 		$this->x = 0;
 		$this->y = 0;
-		$this->movementspeed = 2; // Squares per second.
-		$this->attackspeed = 0.5; // Attacks per second.
+		$this->movementspeed = 1; // Squares per second.
+		$this->attackspeed = 1.5; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
-		$this->loot = new noxzirahsKiss();
+		$this->loot = new portableWaypointTeleporter();
 		$this->rarity = "legendary";
 	}
 

@@ -25,7 +25,7 @@ class shortSword extends Weapon
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 1;
 		$this->radius_var_2 = 1;
-		$this->attack_speed = 0.1;
+		$this->attack_speed = 0.5;
 		$this->last_attack = 0;
 		$this->level = 2;
 		$this->minprice = 30;
