@@ -145,6 +145,14 @@ function keypress($clientID, $key)
 		{
 			$players[$clientID]->setWaypoint();
 		}
+		if($key == "VK_M")
+		{
+			$players[$clientID]->useHealthpot();
+		}
+		if($key == "VK_N")
+		{
+			$players[$clientID]->useManapot();
+		}
 	}
 	
 	if($key == "VK_ESCAPE")

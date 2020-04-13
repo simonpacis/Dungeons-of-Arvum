@@ -38,15 +38,15 @@ $generic_items=[
 	new rescroller()
 ];
 $potion_items = [
+	/*new healthPotion(),
 	new healthPotion(),
 	new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),
+	new healthPotion(),*/
 	new healthJug(),
+	/*new manaPotion(),
 	new manaPotion(),
 	new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),
+	new manaPotion(),*/
 	new majorManaPotion(),
 	new majorManaPotion(),
 	new manaJug(),
