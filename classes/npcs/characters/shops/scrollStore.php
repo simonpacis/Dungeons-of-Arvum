@@ -21,7 +21,7 @@ class scrollSTore extends Shop
 		$this->x = 0;
 		$this->y = 0;
 		$this->stock = [];
-		$this->selection = ["iceScroll", "fireScroll", "lightningScroll", "manaJug", "manaPotion", "majorManaPotion"];
+		$this->selection = ["iceScroll", "fireScroll", "lightningScroll", "manaJug", "manaPotion", "majorManaPotion", "rescroller"];
 		$this->amount_of_items = rand(1,3);
 
 	}
