@@ -18,16 +18,16 @@ class rescroller
 
 	public function use($thisplayer)
 	{
-		$thisplayer->request('rescroll', $this);
+		$thisplayer->request('itemUse', $this);
 	}
 
-	public function rescrollRequest($thisplayer)
+	public function useRequest($thisplayer)
 	{
 		status($thisplayer->clientid, "Type either \"E\" or \"Q\" to convert this spell back into a scroll. Type \"0\" to cancel.", "#ffff00", true);
 		return true;
 	}
 
-	public function rescrollResponse($message, $thisplayer)
+	public function useResponse($message, $thisplayer)
 	{
 		$message = ucfirst($message);
 		if($message == "E")

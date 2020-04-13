@@ -14,6 +14,8 @@ $limited_items=[
 	new theShieldgiver(),
 	new theShieldgiver(),
 	new theShieldgiver(),
+	new theShieldgiver(),
+	new theShieldgiver(),
 ];
 $generic_items=[
 	new shortBow(),
@@ -26,6 +28,7 @@ $generic_items=[
 	new rapier(),
 	new iceScroll(),
 	new fireScroll(),	
+	new rescroller()
 ];
 $potion_items = [
 	new healthPotion(),

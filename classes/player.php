@@ -1534,14 +1534,14 @@ class Player
 		}
 	}
 
-	public function rescrollRequest($rescroller)
+	public function itemUseRequest($item)
 	{
-		return $rescroller->rescrollRequest($this);
+		return $item->useRequest($this);
 	}
 
-	public function rescrollResponse($message)
+	public function itemUseResponse($message)
 	{
-		return $this->requestArg->rescrollResponse($message, $this);
+		return $this->requestArg->useResponse($message, $this);
 	}
 
 
