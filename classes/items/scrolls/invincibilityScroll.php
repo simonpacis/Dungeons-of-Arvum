@@ -25,7 +25,11 @@ class invincibilityScroll
 
 	public function use($thisplayer)
 	{
-		$thisplayer->addToSpells(new invincibilitySpell());
-		return true;
+		if($thisplayer->addToSpells(new invincibilitySpell(), $this))
+		{
+			return true;
+		} else {
+			return false;
+		}
 	}
 }

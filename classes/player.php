@@ -301,10 +301,10 @@ class Player
 		$this->maxhp = $this->maxhp + $additionalhp;
 		$additionalshield = 10;
 		$this->maxshield = $this->maxshield + $additionalshield;
-		/*if($this->curhp < round($this->maxhp/2))
-		{*/
-			$this->curhp = $this->curhp + round($this->maxhp/2);
-		/*}*/
+		if($this->curhp < round($this->maxhp/2))
+		{
+			$this->curhp = round($this->maxhp/2);
+		}
 		if($this->curhp > $this->maxhp)
 		{
 			$this->curhp = $this->maxhp;
@@ -792,12 +792,12 @@ class Player
 		}
 	}
 
-	public function addToSpells($spell, $faux = false, $notify = true)
+	public function addToSpells($spell, $scroll, $faux = false, $notify = true)
 	{
 		$spellcount = count($this->spells);
 		$item = clone $spell;
 		$duped = false;
-		if($spellcount < 4 OR $faux == true)
+		if($spellcount < 2 OR $faux == true)
 		{
 			if($spellcount != 0)
 			{
@@ -809,6 +809,7 @@ class Player
 						if($faux == false)
 						{
 							$spell->duplicate($this, $notify);
+							return true;
 							break;
 						}
 					}
@@ -821,6 +822,7 @@ class Player
 				{
 					$item->created($this);
 					array_push($this->spells, $item);
+					return true;
 				}
 			}
 
@@ -835,7 +837,9 @@ class Player
 			}
 
 		} else {
-			$this->request('inventoryFull', $item);
+			$this->request('spellFull', [$item, $scroll]);
+			return false;
+			
 		}
 	}
 
@@ -1527,6 +1531,65 @@ class Player
 					$map[$x][$y]->resetColor($this->clientid);
 				}
 			}
+		}
+	}
+
+	public function rescrollRequest($rescroller)
+	{
+		return $rescroller->rescrollRequest($this);
+	}
+
+	public function rescrollResponse($message)
+	{
+		return $this->requestArg->rescrollResponse($message, $this);
+	}
+
+
+	public function spellFullRequest($spell)
+	{
+		status($this->clientid, "Your spellbook is full. In which spot do you want to put \"<span style='color:".$spell[0]->color." !important;'>" . $spell[0]->name . "</span>\"? <span style='color:#ff0000;'>The old spell will disappear!</span> Type either \"E\" or \"Q\". Type \"0\" to cancel.", "#ffff00", true);
+		return true;		
+	}
+
+	public function spellFullResponse($message)
+	{
+		$message = ucfirst($message);
+		if($message == "E")
+		{
+			unset($this->spells[1]);
+			$this->spells = array_values($this->spells); 
+			$this->requestArg[0]->created($this);
+			array_push($this->spells, $this->requestArg[0]);
+			$i = 0;
+			foreach($this->inventory as $item)
+			{
+				if($item === $this->requestArg[1])
+				{
+					$this->removeFromInventory($i, false);
+				}
+				$i++;
+			}
+		}
+		if($message == "Q")
+		{
+			unset($this->spells[0]);
+			$this->spells = array_values($this->spells); 
+			$this->requestArg[0]->created($this);
+			array_unshift($this->spells, $this->requestArg[0]);
+			$i = 0;
+			foreach($this->inventory as $item)
+			{
+				if($item === $this->requestArg[1])
+				{
+					$this->removeFromInventory($i, false);
+				}
+				$i++;
+			}
+			return true;
+		}
+		if(is_numeric($message) && $message == 0)
+		{
+			return false;
 		}
 	}
 

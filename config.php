@@ -24,7 +24,7 @@ $default_auto_timeout = 5; //The default HP at which a player will automatically
 	Performance configurations
 */
 
-$mob_safe_room_check = true; //Before a mob with range attacks, it checks whether the player is in a saferoom. If you have a large map, disabling this functionality might improve performance.
+$mob_safe_room_check = true; //Before a mob with range attacks, it checks whether the player is in a saferoom. If you have a large map, disabling this functionality might improve performance, although this means that mobs can attack players in saferooms.
 
 
 /*

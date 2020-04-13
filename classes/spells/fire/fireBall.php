@@ -17,7 +17,7 @@ class fireBall extends Spell
 	public function __construct()
 	{
 		$this->name = "Fireball";
-		$this->color = "#ffffff";
+		$this->color = "#ff5c5c";
 		$this->id = "0017";
 		$this->rarity = "common";
 		$this->description = "Shoots a mighty fireball from your hands.";

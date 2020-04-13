@@ -24,7 +24,11 @@ class iceScroll
 
 	public function use($thisplayer)
 	{
-		$thisplayer->addToSpells(new frostBall());
-		return true;
+		if($thisplayer->addToSpells(new frostBall(), $this))
+		{
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
