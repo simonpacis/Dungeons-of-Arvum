@@ -16,6 +16,13 @@ $limited_items=[
 	new theShieldgiver(),
 	new theShieldgiver(),
 	new theShieldgiver(),
+	new legendaryLocator(),
+	new legendaryLocator(),
+	new legendaryLocator(),
+	new legendaryLocator(),
+	new legendaryLocator(),
+	new legendaryLocator(),
+	new legendaryLocator(),
 ];
 $generic_items=[
 	new shortBow(),
@@ -160,7 +167,8 @@ $spawnable_characters = [
 	new generalStore(),
 	new seller(),
 	new scrollStore(),
-	new bowSeller()
+	new bowSeller(),
+	new bountyHunter()
 ];
 
 $limited_characters = [

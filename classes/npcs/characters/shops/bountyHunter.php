@@ -1,6 +1,6 @@
 <?php
 
-class bowSeller extends Shop
+class bountyHunter extends Shop
 {
 
 	public $name;
@@ -12,20 +12,18 @@ class bowSeller extends Shop
 	public $stock;
 	public $allowed_items;
 	public $amount_of_items;
-	public $infinite_stock;
 
 	public function __construct()
 	{
-		$this->name = "The Archerman";
-		$this->representation = "A";
+		$this->name = "The Bounty Hunter";
+		$this->representation = "B";
 		$this->solid = true;
 		$this->color = "#ffd700";
 		$this->x = 0;
 		$this->y = 0;
 		$this->stock = [];
-		$this->selection = ["longbow", "shortbow"];
-		$this->infinite_stock = true;
-		$this->amount_of_items = rand(1,2);
+		$this->selection = ["legendaryLocator"];
+		$this->amount_of_items = 1;
 
 	}
 

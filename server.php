@@ -1,7 +1,7 @@
 <?php
 
 ini_set('memory_limit', '-1');
-
+ini_set('log_errors', 'off');
 include('config.php');
 if(!$reporting)
 {
