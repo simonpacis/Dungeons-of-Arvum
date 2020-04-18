@@ -13,6 +13,8 @@ $generate_new_map = true; //Set to false if you want to load a map from pre-exis
 
 $constant_tick = true; //Game ticks in DoA traditionally used to only happen whenever a player would hit a key. If no one did anything, the game would effectively be paused. Setting this to false retains that functionality. Setting it to true spawns a fake player that is performing an action 3 times a second, effectively giving you 3 game ticks per second.
 
+$single_player_mode = false; //NOT DONE. Singleplayer mode changes the objective of the game. Now you have to kill all the legendaries (bosses), and then defeat the final boss, Kali the King of Thieves, and retrieve the Amulet of Yendor from him.  
+
 /*
 	In-game specific configuratons
 */

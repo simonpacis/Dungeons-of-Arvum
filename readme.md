@@ -9,7 +9,7 @@ Essentially, Dungeons of Arvum allows you to play with your friends in a possibl
 
 The goal is to be the last man standing. However, the dungeon is so big that you might be hard pressed to locate other players right away. Should you level and gear up, to become more powerful, or should you chase around looking for the other players right as you spawn? It's up to you!
 
-This can also be played alone, but it's not that entertaining as there's no real objective to the game then.
+A single-player mode is currently in active development. This is great way to learn the game before playing it with someone. You can enable it now! Read more here: [Dungeons of Arvum Single-Player Mode](https://github.com/simonpacis/Dungeons-of-Arvum/wiki/Single-Player-Mode).
 
 ## Requirements
 PHP 7.0 to 7.3 is supported. Any other versions of PHP are not supported at this moment.

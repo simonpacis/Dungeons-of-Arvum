@@ -13,6 +13,9 @@ class legendaryLocator
 		$this->color = "#0070ff";
 		$this->rarity = "strong";
 		$this->id = "0047";
+		$this->minprice = 100;
+		$this->maxprice = 400;
+		$this->level = 10;
 		$this->description = $this->name . " sets your waypoint to a random legendary monster. Be careful!";
 	}
 

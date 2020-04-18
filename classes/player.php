@@ -77,6 +77,7 @@ class Player
 	public $invincible_duration;
 	public $last_invincible;
 	public $first_invincible;
+	public $legendary_kills;
 
 	public function __construct($Clientid)
 	{
@@ -163,6 +164,7 @@ class Player
 		$this->invincible_duration = 0;
 		$this->last_invincible = 0;
 		$this->first_invincible = 0;
+		$this->legendary_kills = 0;
 	}
 
 	public function tick()
@@ -266,6 +268,7 @@ class Player
 
 	public function killed($enemy)
 	{
+		global $vacant_rooms, $single_player_mode;
 		if($this->hasHook("after_kill"))
 		{
 			$this->runHook("after_kill", $enemy, $this);
@@ -277,6 +280,22 @@ class Player
 		}
 		$exp = $enemy->damage + ($enemy->basehp/1.3) + (pow($enemy->level,1.3));
 		$this->gainExp($exp);
+
+		if($single_player_mode)
+		{
+			if($enemy->rarity == "legendary")
+			{
+				$this->legendary_kills++;
+				if($this->legendary_kills == 3)
+				{
+					$room = $vacant_rooms[array_rand($vacant_rooms, 1)];
+					$xcoord = rand($room["_x1"], $room["_x2"]);
+					$ycoord = rand($room["_y1"], $room["_y2"]);
+					spawnMob(new kali(), $xcoord, $ycoord);
+					status($this->clientid, "Kali the King of Thieves has been spawned! Kill him to win the game.", "#ff33cc");
+				}
+			}
+		}
 	}
 
 	public function gainExp($exp)

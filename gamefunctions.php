@@ -188,7 +188,7 @@ function keypress($clientID, $key)
 
 function chat($clientID, $message)
 {
-	global $Server, $players, $allow_cheats, $allow_map_cheats, $massive;
+	global $Server, $players, $allow_cheats, $allow_map_cheats, $massive, $vacant_rooms, $mobs;
 	if(file_exists(dirname(__FILE__) . "/dev"))
 	{
 		$allow_cheats = true;
@@ -286,6 +286,19 @@ function chat($clientID, $message)
 								}
 							} else {
 								status($clientID, "The \"grant\" cheat works like this: \"!grant itemClassToSpawn\". E.g. \"!grant fireScroll\"");
+							}
+							break;
+						case 'lkill': //Kill a legendary
+							$players[$clientID]->killed(new ezorvio());
+							break;
+						case 'killkali':
+							foreach($mobs as $mob)
+							{
+								if($mob->name == "Kali the King of Thieves")
+								{
+									$mob->die($players[$clientID]);
+									break;
+								}
 							}
 							break;
 						case 'tile':
@@ -392,6 +405,7 @@ function chat($clientID, $message)
 								if (strpos($message, 'startgame') !== false) //If I type startgame, start game!
 								{
 									unsetLobby();
+
 								} else {
 									$Server->wsSend($id, json_encode($msg)); //If I don't, chat out what I wrote!
 								}
@@ -694,7 +708,7 @@ function statusBroadcast($message, $color = "#ffff00", $include_self = true, $pl
 
 function newPlayer($clientID)
 {
-	global $players, $max_players, $Server, $map, $ready, $massive, $playercount;
+	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms;
 
 	if(count($players) < $max_players)
 	{
@@ -726,6 +740,7 @@ function newPlayer($clientID)
 				setLobby($clientID);
 				$players[$clientID]->request('name');
 				$players[$clientID]->addToInventory(new dagger(), false, false);
+
 				//$players[$clientID]->addToInventory(new healthPotion(), false, false);
 
 			}

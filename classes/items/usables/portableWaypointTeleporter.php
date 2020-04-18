@@ -29,7 +29,12 @@ class portableWaypointTeleporter
 					status($thisplayer->clientid, $this->name . " magically teleports you to your waypoint.", "#ff8000");
 					return true;
 				} else {
-					status($thisplayer->clientid, $this->name . " cannot teleport you right now. Someone must be at your waypoint.\"", "#ff8000");
+					if(movePlayerTile($thisplayer->x, $thisplayer->y, $thisplayer->waypoint_x+1, $thisplayer->waypoint_y+1, $thisplayer))
+					{
+						status($thisplayer->clientid, $this->name . " magically teleports you to your waypoint.", "#ff8000");
+					} else {
+						status($thisplayer->clientid, $this->name . " cannot teleport you right now. Someone must be at your waypoint.", "#ff8000");
+					}
 					return false;
 				}
 			} else {

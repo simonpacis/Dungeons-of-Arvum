@@ -21,7 +21,7 @@ class Mob
 	public $first_burn = 0;
 	public $burn_player;
 	public $dead = false;
-
+	public $attack_in_safe = false;
 	public function tick($players, $player)
 	{
 			global $map;
@@ -205,10 +205,16 @@ class Mob
 				{
 					if($mob_safe_room_check && $this->range > 1)
 					{
-						if(!$this->target->isSafe())
+						if(!$this->attack_in_safe)
 						{
-							$this->doAttack();
-							$this->lastattack = round(microtime(true) * 1000);
+							if(!$this->target->isSafe())
+							{
+								$this->doAttack();
+								$this->lastattack = round(microtime(true) * 1000);
+							}
+						} else {
+								$this->doAttack();
+								$this->lastattack = round(microtime(true) * 1000);
 						}
 					} else {
 						$this->doAttack();
