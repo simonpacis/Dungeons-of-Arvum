@@ -165,8 +165,6 @@ function parseMap($clientid)
 				{
 					if($tile->clientid != $clientid)
 					{
-						var_dump($tile);
-						die();
 						$tilecolor = "#ff0000";
 					}
 				}

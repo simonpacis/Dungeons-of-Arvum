@@ -78,6 +78,7 @@ class Player
 	public $last_invincible;
 	public $first_invincible;
 	public $legendary_kills;
+	public $lowest_level_bonus;
 
 	public function __construct($Clientid)
 	{
@@ -165,6 +166,7 @@ class Player
 		$this->last_invincible = 0;
 		$this->first_invincible = 0;
 		$this->legendary_kills = 0;
+		$this->lowest_level_bonus = 1;
 	}
 
 	public function tick()
@@ -300,10 +302,19 @@ class Player
 
 	public function gainExp($exp)
 	{
+		if($this->hasHook("before_gain_exp"))
+		{
+			$this->runHook("before_gain_exp", $this);
+		}
+		$exp = $exp * $this->lowest_level_bonus;
 		$this->curxp = $this->curxp + floor($exp);
 		if($this->curxp >= $this->maxxp)
 		{
 			$this->levelUp();
+		}
+		if($this->hasHook("after_gain_exp"))
+		{
+			$this->runHook("after_gain_exp", $this);
 		}
 	}
 	public function levelUp()
@@ -340,12 +351,23 @@ class Player
 			$this->runHook("mana_increase", $this);
 		}
 		$highestlvl = $this->level;
+		$lowestlvl = $this->level;
 		foreach($players as $curplayer)
 		{
+			if($curplayer->name == "___tick")
+			{
+				continue;
+			}
 			if($curplayer->level > $highestlvl)
 			{
 				$highestlvl = $curplayer->level;
 			}
+			if($curplayer->level < $lowestlvl)
+			{
+
+				$lowestlvl = $curplayer->level;
+			}
+			$curplayer->lowest_level_bonus = 1;
 		}
 
 		if($highestlvl == $this->level)
@@ -355,18 +377,34 @@ class Player
 			{
 				if($curmob->target == null && $curmob->level < $this->level) // Not in combat
 				{
-					$should_levelup = rand(0, 100);
+					/*$should_levelup = rand(0, 100);
 					if($should_levelup < 75)
-					{
+					{*/
 
 						$curmob->levelUp();
-					}
+					//}
 					$i++;
 				}
 			}
 		}
 		status($this->clientid, "You've gained a level!", "#ff33cc");
 		statusBroadcast($this->name . " reached level " . $this->level . "!", "#ff33cc", false, $this->clientid);
+		foreach($players as $curplayer)
+		{
+			if($curplayer->name == "___tick")
+			{
+				continue;
+			}
+
+			if($curplayer->level == $lowestlvl)
+			{
+				status($curplayer->clientid, "You're the lowest leveled player. Receive 20% XP bonus.", "#ff33cc");
+				$curplayer->lowest_level_bonus = 1.2;
+			}
+
+		}
+		
+
 		$a=0;
 		  for($x=1; $x<($this->level+1); $x++) {
 		    $a += floor($x+80*pow(2, ($x/7)));
@@ -610,7 +648,7 @@ class Player
 			$stamina = $this->curstamina."/".$this->maxstamina;
 		}
 
-		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina];
+		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina, "xp_bonus" => "(" . ((1-$this->lowest_level_bonus)*100) . "%)"];
 	}
 
 	public function setWaypoint()

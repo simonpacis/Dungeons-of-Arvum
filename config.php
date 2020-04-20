@@ -2,18 +2,18 @@
 
 echo "Loaded: config.php";
 
-$ip = "0.0.0.0"; //0.0.0.0 exposes the server at your public-facing IP address. Change this only if you know what you're doing.
+$ip = "0.0.0.0"; //0.0.0.0 exposes the server at your public-facing IP address. No need to change this.
 $port = 9300;
 $max_players = 4; //Roadmap: Additional players will be added as spectators.
 
-$map_width = 600;
-$map_height = 600;
+$map_width = 600; //Width of map to be generated.
+$map_height = 600; //Height of map to be generated.
 
 $generate_new_map = true; //Set to false if you want to load a map from pre-existing map.doafile and rooms.doafile files in the "libs" folder.
 
 $constant_tick = true; //Game ticks in DoA traditionally used to only happen whenever a player would hit a key. If no one did anything, the game would effectively be paused. Setting this to false retains that functionality. Setting it to true spawns a fake player that is performing an action 3 times a second, effectively giving you 3 game ticks per second.
 
-$single_player_mode = false; //NOT DONE. Singleplayer mode changes the objective of the game. Now you have to kill all the legendaries (bosses), and then defeat the final boss, Kali the King of Thieves, and retrieve the Amulet of Yendor from him.  
+$single_player_mode = false; //NOT DONE. Singleplayer mode changes the objective of the game. Now you have to kill at least three legendaries (bosses), and then defeat the final boss, Kali the King of Thieves, and retrieve the Amulet of Yendor from him. Please note that multiple people can still join the server even if this is enabled. Multiple people in a single_player server will not function properly. To ensure only one player, change $max_players to 1.
 
 /*
 	In-game specific configuratons
@@ -48,4 +48,4 @@ $allow_cheats = false; //Used for debugging. Very easy to crash server with this
 $allow_map_cheats = false; //Used for debugging. Map cheats include changing tiles. Very easy to crash server with this.
 $enable_player_movement_speed = false; // EXPERIMENTAL: Player movement speed is experimental and does not function all too well because of the tiles of the game. This will be enabled per default as soon as I get it fixed to function properly.
 $profiling = false;
-$reporting = false; //Enable error reporting.
+$reporting = false; //Enable error reporting. Only for debugging, as DoA is chock-full of errors and warnings. Playing with this enabled will severely hinder performance.
