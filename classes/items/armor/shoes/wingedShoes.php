@@ -24,6 +24,7 @@ class wingedShoes extends Item
 		$this->minprice = 100;
 		$this->maxprice = 140;
 		$this->hook = "before_stamina_use";
+		$this->extra_stamina = 5;
 		$this->hook_return = false; //This allows us to stack them, if the player has multiple. 
 		$this->granted = [];
 		parent::__construct();

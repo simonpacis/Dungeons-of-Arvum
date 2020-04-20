@@ -7,6 +7,8 @@
 [Epic](#epic)<br>
 [Legendary](#legendary)<br>
 
+## Note
+Please note that the prices you'll find the items for in the stores will vary between 80% to 120% of the listed price.
 
 ### Common
 
@@ -243,6 +245,7 @@ Rarity: Strong
 <br>  Description: Hold down that movement button! Adds 5 to stamina. Stacks.
 <br>  Level: 4
 <br>  Hook: Before stamina use
+<br>  Extra stamina: 5
 <br>  Price: 113
 ### Epic
 
@@ -251,6 +254,7 @@ Rarity: Epic
 <br>  Description: Hold down that movement button even more! Adds 10 to stamina. Stacks.
 <br>  Level: 7
 <br>  Hook: Before stamina use
+<br>  Extra stamina: 10
 <br>  Price: 350
 #### Health Jug
 Rarity: Epic
@@ -300,6 +304,7 @@ Rarity: Legendary
 <br>  Description: What even is stamina? You've essentially got unlimited.
 <br>  Level: 13
 <br>  Hook: Before stamina use
+<br>  Extra stamina: 10000
 <br>  Price: 1050
 #### Noxzirah's Kiss
 Rarity: Legendary

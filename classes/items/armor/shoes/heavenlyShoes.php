@@ -24,6 +24,7 @@ class heavenlyShoes extends Item
 		$this->minprice = 2000;
 		$this->maxprice = 2600;
 		$this->hook = "before_stamina_use";
+		$this->extra_stamina = 10000;
 		$this->hook_return = false; //This allows us to stack them, if the player has multiple. 
 		$this->granted = [];
 		parent::__construct();
