@@ -20,7 +20,7 @@ $single_player_mode = false; //NOT DONE. Singleplayer mode changes the objective
 */
 
 $default_timeout_duration = 5; //The amount of seconds a timeout/suspension lasts for.
-$default_auto_timeout = 5; //The default HP at which a player will automatically use a timeout. Can be changed by the individual player. Set to 0 to disable as default, or -1 to disable the auto timeout functionality completely, so that no player can enable it for themselves.
+$default_auto_timeout = 20; //The default HP percentage of max HP at which a player will automatically use a timeout. Can be changed by the individual player. Set to 0 to disable as default, or -1 to disable the auto timeout functionality completely, so that no player can enable it for themselves.
 
 /*
 	Performance configurations

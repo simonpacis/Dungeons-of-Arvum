@@ -304,7 +304,7 @@ class Player
 	{
 		if($this->hasHook("before_gain_exp"))
 		{
-			$this->runHook("before_gain_exp", $this);
+			$exp = $this->runHook("before_gain_exp", $this);
 		}
 		$exp = $exp * $this->lowest_level_bonus;
 		$this->curxp = $this->curxp + floor($exp);
@@ -377,12 +377,12 @@ class Player
 			{
 				if($curmob->target == null && $curmob->level < $this->level) // Not in combat
 				{
-					/*$should_levelup = rand(0, 100);
-					if($should_levelup < 75)
-					{*/
+					$should_levelup = rand(0, 100);
+					if($should_levelup < 90)
+					{
 
 						$curmob->levelUp();
-					//}
+					}
 					$i++;
 				}
 			}
@@ -395,11 +395,13 @@ class Player
 			{
 				continue;
 			}
-
-			if($curplayer->level == $lowestlvl)
+			if($lowestlvl < $highestlvl)
 			{
-				status($curplayer->clientid, "You're the lowest leveled player. Receive 20% XP bonus.", "#ff33cc");
-				$curplayer->lowest_level_bonus = 1.2;
+				if($curplayer->level == $lowestlvl)
+				{
+					status($curplayer->clientid, "You're the lowest leveled player. Receive 20% XP bonus.", "#ff33cc");
+					$curplayer->lowest_level_bonus = 1.2;
+				}
 			}
 
 		}
@@ -648,7 +650,14 @@ class Player
 			$stamina = $this->curstamina."/".$this->maxstamina;
 		}
 
-		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina, "xp_bonus" => "(" . ((1-$this->lowest_level_bonus)*100) . "%)"];
+		if($this->lowest_level_bonus > 1)
+		{
+			$xp_bonus = " (" . (($this->lowest_level_bonus-1)*100) . "%)";
+		} else {
+			$xp_bonus = "";
+		}
+
+		return ["name" => $this->name, "curhp" => $curhp, "maxhp" => $maxhp, "curmana" => $this->curmana, "maxmana" => $this->maxmana, "curxp" => $this->curxp, "maxxp" => $this->maxxp, "level" => $this->level, "inventory" => $this->parseInventory(), "spells" => $this->parseSpells(), "x" => $this->x, "y" => $this->y, "armor" => $this->parseArmor(), "healthpots" => $this->healthpots, "manapots" => $this->manapots, "curtimeout" => $this->curtimeout, "maxtimeout" => $this->maxtimeout, "coins" => "<span style='color: #ffd700 !important;'>" . $this->coins . "</span>", "waypoint_x" => $waypoint_x, "waypoint_y" => $waypoint_y, "action_text" => $this->action_text, "movement_speed" => $movementspeed, "curshield" => $this->curshield, "maxshield" => $this->maxshield, "stamina" => $stamina, "xp_bonus" => $xp_bonus];
 	}
 
 	public function setWaypoint()
@@ -1331,7 +1340,7 @@ class Player
 					status($this->clientid, $dealer->name . " tried to deal you " . $orgamount . " " . $type . " damage, but you're invincible.", "#00ff00");
 				}
 			}
-			if($this->curhp <= $this->auto_timeout)
+			if(($this->curhp/$this->maxhp) <= ($this->auto_timeout/100))
 			{
 				if($this->used_auto_timeout == false)
 				{
@@ -1922,7 +1931,7 @@ class Player
 				}
 				break;
 			case 1:
-				status($this->clientid, "Please enter the HP at which you would like to auto suspend. Type 0 to disable auto suspend.", "#ffff00", true);
+				status($this->clientid, "Please enter the percentage of HP at which you would like to auto suspend. Type 0 to disable auto suspend.", "#ffff00", true);
 				$this->request('setting');
 				break;
 			case 2:
@@ -1961,7 +1970,7 @@ class Player
 						{
 							$this->auto_timeout = $string;
 							$this->used_auto_timeout = false;
-							status($this->clientid, "You will now automatically use a suspension, if you have one, when you hit " . $this->auto_timeout . " HP.");
+							status($this->clientid, "You will now automatically use a suspension, if you have one, when you hit " . $this->auto_timeout . "% of your max HP.");
 						} else {
 							status($this->clientid, "Auto suspend is disabled on this server.");
 						}
@@ -1995,7 +2004,7 @@ class Player
 		$strings = [];
 		$options = [];
 		array_push($options, ["text" => "Name: " . $this->name]);
-		array_push($options, ["text" => "Auto suspend at " . $this->auto_timeout . " HP."]);
+		array_push($options, ["text" => "Auto suspend at " . $this->auto_timeout . "% of max HP."]);
 		if($this->describe_function)
 		{
 			$funcdesc = "true";
