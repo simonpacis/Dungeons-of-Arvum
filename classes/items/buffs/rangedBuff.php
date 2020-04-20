@@ -28,6 +28,7 @@ class rangedBuff extends Item
 		$this->hook = "before_damage";
 		$this->resistance_percentage = 0.2;
 		$this->resistance_type = "ranged";
+		$this->wield_type = "armor";
 		$this->level = 12;
 		parent::__construct();
 	}
