@@ -11,7 +11,7 @@ $documentation = "# Items in Dungeons of Arvum
 
 ";
 
-echo "\nGenerating item documentation.";
+echo "\n  Generating item documentation.";
 
 $orgpath = realpath(dirname(__FILE__));
 $orgpath = explode("/", $orgpath);
@@ -69,22 +69,22 @@ function parse_object($object)
 			{
 				if(is_array($value))
 				{
-					$parsed_string .= "\n" . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(implode(", ", str_replace("_", " ", $value)));
+					$parsed_string .= "\n  " . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(implode(", ", str_replace("_", " ", $value)));
 				} elseif (is_object($value)) {
-					$parsed_string .= "\n" . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(get_class($value));
+					$parsed_string .= "\n  " . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(get_class($value));
 				}
 				 else {
-					$parsed_string .= "\n" . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(str_replace("_", " ", $value));
+					$parsed_string .= "\n  " . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(str_replace("_", " ", $value));
 				}
 			}
 		}
 		if($key == "radius_var_1")
 		{
-			$parsed_string .= "\nRange: " . $object->radius_var_1;
+			$parsed_string .= "\n  Range: " . $object->radius_var_1;
 		}
 	}
 
-	$parsed_string .= "\nPrice: " . $object->calculate_cost();
+	$parsed_string .= "\n  Price: " . $object->calculate_cost();
 	return $parsed_string;
 }
 
@@ -134,7 +134,7 @@ $common_documentation = "### Common
 foreach ($common as $object) {
 	
 	$common_documentation .= parse_object($object);
-	$common_documentation .= "\n\n";
+	$common_documentation .= "\n  \n  ";
 
 }
 
@@ -143,7 +143,7 @@ $uncommon_documentation = "### Uncommon
 foreach ($uncommon as $object) {
 	
 	$uncommon_documentation .= parse_object($object);
-	$uncommon_documentation .= "\n\n";
+	$uncommon_documentation .= "\n  \n  ";
 
 }
 
@@ -152,7 +152,7 @@ $strong_documentation = "### Strong
 foreach ($strong as $object) {
 	
 	$strong_documentation .= parse_object($object);
-	$strong_documentation .= "\n\n";
+	$strong_documentation .= "\n  \n  ";
 
 }
 
@@ -161,7 +161,7 @@ $epic_documentation = "### Epic
 foreach ($epic as $object) {
 	
 	$epic_documentation .= parse_object($object);
-	$epic_documentation .= "\n\n";
+	$epic_documentation .= "\n  \n  ";
 
 }
 
@@ -170,7 +170,7 @@ $legendary_documentation = "### Legendary
 foreach ($legendary as $object) {
 	
 	$legendary_documentation .= parse_object($object);
-	$legendary_documentation .= "\n\n";
+	$legendary_documentation .= "\n  \n  ";
 
 }
 
