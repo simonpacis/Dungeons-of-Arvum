@@ -22,6 +22,7 @@ Basedamage: 1
 <br>  Range: 4
 <br>  Representation: A
 <br>  Viewrange: 5
+<br>  Loot: Loot with rarity between common and common
 <br>  Rarity: Common
 <br>  Damage: 1
 <br>  Damage type: Ranged
@@ -36,6 +37,7 @@ Basedamage: 2
 <br>  Range: 1
 <br>  Representation: C
 <br>  Viewrange: 5
+<br>  Loot: Loot with rarity between common and uncommon
 <br>  Rarity: Common
 <br>  Movementspeed: 10
 <br>  Damage: 2
@@ -50,6 +52,7 @@ Basedamage: 1
 <br>  Range: 4
 <br>  Representation: M
 <br>  Viewrange: 5
+<br>  Loot: Loot with rarity between common and common
 <br>  Rarity: Common
 <br>  Burn damage: 1
 <br>  Burn frequency: 2
@@ -68,6 +71,7 @@ Basedamage: 2
 <br>  Range: 1
 <br>  Representation: O
 <br>  Viewrange: 5
+<br>  Loot: Loot with rarity between common and common
 <br>  Rarity: Common
 <br>  Damage: 2
 <br>  Damage type: Melee
@@ -82,6 +86,7 @@ Basedamage: 1
 <br>  Range: 1
 <br>  Representation: T
 <br>  Viewrange: 5
+<br>  Loot: Loot with rarity between common and common
 <br>  Rarity: Common
 <br>  Damage: 1
 <br>  Damage type: Melee
@@ -98,6 +103,7 @@ Basedamage: 5
 <br>  Range: 1
 <br>  Representation: B
 <br>  Viewrange: 5
+<br>  Loot: Loot with rarity between common and uncommon
 <br>  Rarity: Uncommon
 <br>  Damage: 5
 <br>  Damage type: Melee
@@ -114,6 +120,7 @@ Basedamage: 5
 <br>  Range: 1
 <br>  Representation: W
 <br>  Viewrange: 7
+<br>  Loot: Loot with rarity between uncommon and strong
 <br>  Rarity: Strong
 <br>  Damage: 5
 <br>  Damage type: Melee

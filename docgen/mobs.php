@@ -73,9 +73,13 @@ function parse_object($object)
 			{
 				if($key == "loot")
 				{
-					$loot = new $value;
-					$parsed_string .= ucfirst(str_replace("_", " ", $key)) . ": " . $loot->name . "\n<br>  ";
-
+					if(is_object($value))
+					{
+						$loot = new $value;
+						$parsed_string .= ucfirst(str_replace("_", " ", $key)) . ": " . $loot->name . "\n<br>  ";
+					} else {
+						$parsed_string .= "Loot: " . $value . "\n<br>  ";
+					}
 				} else {
 					if(is_array($value))
 					{

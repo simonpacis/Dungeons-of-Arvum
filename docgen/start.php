@@ -15,9 +15,9 @@ include_once($orgpath . '/classes/spells/spell.php');
 
 
 include_all($orgpath . "/classes/", false);
-function getItem()
+function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_only = false, $generic_only = false, $loot_chance = 1, $potions_only = false)
 {
-	return "";
+	return "Loot with rarity between " . $min_rarity . " and " . $max_rarity;
 }
 include('items.php');
 include('spells.php');
