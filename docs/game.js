@@ -5,8 +5,10 @@ setInterval(function(){
 
 		if((lastentry['timestamp'] + 15) < Math.round(+new Date()/1000))
 		{
-			clearChat();
-
+			//clearChat();
+			$(".chatmessages .message").last().fadeOut("slow", function(){
+				$(".chatmessages .message").last().remove();
+			});
 		}
 	}
 }, 1000);
