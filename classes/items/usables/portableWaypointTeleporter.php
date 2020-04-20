@@ -1,6 +1,6 @@
 <?php
 
-class portableWaypointTeleporter
+class portableWaypointTeleporter extends Item
 {
 	public $name;
 	public $id;
@@ -14,6 +14,7 @@ class portableWaypointTeleporter
 		$this->rarity = "legendary";
 		$this->id = "0041";
 		$this->description = $this->name . " will teleport you to your waypoint. 1 use.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

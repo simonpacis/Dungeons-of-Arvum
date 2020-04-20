@@ -27,6 +27,7 @@ class ironSpear extends Weapon
 		$this->attack_speed = 0.5;
 		$this->last_attack = 0;
 		$this->damage = 10;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

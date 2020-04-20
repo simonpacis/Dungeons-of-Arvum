@@ -26,7 +26,10 @@ class shortBow extends Weapon
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 3;
 		$this->radius_var_2 = 3;
+		$this->attack_speed = 0.5;
+		$this->damage = 2;
 		$this->level = 1;
+		parent::__construct();
 
 	}
 
@@ -37,7 +40,7 @@ class shortBow extends Weapon
 
 	public function useRadius($thisplayer)
 	{
-		parent::damage_in_radius(2, "ranged", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+		parent::damage_in_radius($this->damage, "ranged", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
 		parent::unset_radius($thisplayer);
 		return true;
 	}

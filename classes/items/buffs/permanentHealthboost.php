@@ -1,6 +1,6 @@
 <?php
 
-class permanentHealthboost
+class permanentHealthboost extends Item
 {
 	public $name;
 	public $id;
@@ -21,6 +21,7 @@ class permanentHealthboost
 			$this->additional_health = rand($random_min,$random_max);
 		}
 		$this->description = "This " . $this->name . " grants you " . $this->additional_health . " additional permament health.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

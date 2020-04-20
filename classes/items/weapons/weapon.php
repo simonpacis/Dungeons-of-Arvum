@@ -1,7 +1,11 @@
 <?php
 
-class Weapon
+class Weapon extends Item
 {
+	public function __construct()
+	{
+		parent::__construct();
+	}
 	public function create_radius($thisplayer, $radius_type, $radius_var_1, $radius_var_2, $color = "#fff")
 	{
 		global $map;

@@ -30,6 +30,7 @@ class protectiveBlessing extends Armor
 		$this->resistance_type = "magical";
 		$this->wield_type = "armor";
 		$this->level = 1;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

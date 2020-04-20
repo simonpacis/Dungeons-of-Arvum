@@ -1,6 +1,6 @@
 <?php
 
-class manaPotion
+class manaPotion extends Item
 {
 	public $name;
 	public $id;

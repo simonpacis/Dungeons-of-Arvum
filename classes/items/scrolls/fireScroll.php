@@ -1,6 +1,6 @@
 <?php
 
-class fireScroll
+class fireScroll extends Item
 {
 	public $name;
 	public $id;
@@ -20,11 +20,13 @@ class fireScroll
 		$this->description = "This " . $this->name . " grants you spells of fire.";
 		$this->minprice = 50;
 		$this->maxprice = 70;
+		$this->spell = new fireBall();
+		parent::__construct();
 	}
 
 	public function use($thisplayer)
 	{
-		if($thisplayer->addToSpells(new fireBall(), $this))
+		if($thisplayer->addToSpells($this->spell, $this))
 		{
 			return true;
 		} else {

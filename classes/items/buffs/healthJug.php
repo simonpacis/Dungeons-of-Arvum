@@ -1,6 +1,6 @@
 <?php
 
-class healthJug
+class healthJug extends Item
 {
 	public $name;
 	public $id;
@@ -15,6 +15,7 @@ class healthJug
 		$this->rarity = "epic";
 		$this->id = "0030";
 		$this->description = "This " . $this->name . " grants you full HP.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

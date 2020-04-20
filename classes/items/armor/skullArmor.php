@@ -28,6 +28,7 @@ class skullArmor extends Armor
 		$this->level = 12;
 		$this->minprice = 3000;
 		$this->maxprice = 5000;
+		parent::__construct();
 	}
 
 	public function panelValue()

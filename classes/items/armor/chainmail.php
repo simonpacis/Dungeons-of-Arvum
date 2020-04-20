@@ -30,6 +30,7 @@ class chainmail extends Armor
 		$this->resistance_type = "ranged";
 		$this->wield_type = "armor";
 		$this->level = 4;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

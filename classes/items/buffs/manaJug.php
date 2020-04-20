@@ -1,6 +1,6 @@
 <?php
 
-class manaJug
+class manaJug extends Item
 {
 	public $name;
 	public $id;
@@ -15,6 +15,7 @@ class manaJug
 		$this->rarity = "epic";
 		$this->id = "0033";
 		$this->description = "This " . $this->name . " grants you full mana.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

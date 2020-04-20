@@ -1,6 +1,6 @@
 <?php
 
-class shardOfFjallrung1
+class shardOfFjallrung1 extends Item
 {
 	public $name;
 	public $id;
@@ -21,6 +21,7 @@ class shardOfFjallrung1
 		$this->id = "0002";
 		$this->curuses = $this->maxuses;
 		$this->level = 1;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

@@ -1,6 +1,6 @@
 <?php
 
-class majorManaPotion
+class majorManaPotion extends Item
 {
 	public $name;
 	public $id;
@@ -16,6 +16,7 @@ class majorManaPotion
 		$this->id = "0032";
 		$this->mana = 50;
 		$this->description = "This " . $this->name . " grants you " . $this->mana . " mana";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

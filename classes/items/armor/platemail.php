@@ -30,6 +30,7 @@ class platemail extends Armor
 		$this->resistance_type = "melee";
 		$this->wield_type = "armor";
 		$this->level = 4;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

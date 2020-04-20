@@ -1,6 +1,6 @@
 <?php
 
-class leatherArmor extends Armor
+class rangedBuff extends Item
 {
 	public $hook;
 	public $wielded;
@@ -17,19 +17,18 @@ class leatherArmor extends Armor
 
 	public function __construct()
 	{
-		$this->name = "Leather Armor";
-		$this->color = "#fff";
-		$this->id = "0008";
-		$this->rarity = "common";
-		$this->description = "Reduces melee damage by 20%.";
-		$this->maxuses = 20;
+		$this->name = "Archer's Blessing";
+		$this->color = "#0070ff";
+		$this->id = "0049";
+		$this->rarity = "strong";
+		$this->description = "Reduces ranged damage by 20%.";
+		$this->maxuses = 700;
 		$this->curuses = $this->maxuses;
 		$this->wielded = false;
 		$this->hook = "before_damage";
 		$this->resistance_percentage = 0.2;
-		$this->resistance_type = "melee";
-		$this->wield_type = "armor";
-		$this->level = 1;
+		$this->resistance_type = "ranged";
+		$this->level = 12;
 		parent::__construct();
 	}
 

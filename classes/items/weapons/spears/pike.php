@@ -27,6 +27,7 @@ class pike extends Weapon
 		$this->last_attack = 0;
 		$this->level = 6;
 		$this->damage = 3;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

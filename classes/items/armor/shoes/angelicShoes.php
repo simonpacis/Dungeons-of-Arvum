@@ -1,6 +1,6 @@
 <?php
 
-class angelicShoes
+class angelicShoes extends Item
 {
 	public $name;
 	public $color;
@@ -26,6 +26,7 @@ class angelicShoes
 		$this->hook = "before_stamina_use";
 		$this->hook_return = false; //This allows us to stack them, if the player has multiple. 
 		$this->granted = [];
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

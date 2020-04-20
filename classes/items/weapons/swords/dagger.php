@@ -29,6 +29,7 @@ class dagger extends Weapon
 		$this->level = 1;
 		$this->no_sell = true;
 		$this->description = "1 damage, " . $this->attack_speed . " seconds attack speed.";
+		parent::__construct();
 
 	}
 

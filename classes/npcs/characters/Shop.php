@@ -52,9 +52,9 @@ class Shop extends Character
 			{
 					if($thisplayer->selected_setting == ($i-1))
 					{
-						$options[$i]["text"] = "%c{white}[X] %c{" . $this->stock[$i-1]->color . "}" . $this->stock[$i-1]->name . "%c{white} (" . $this->stock[$i-1]->price . "gp)";
+						$options[$i]["text"] = "%c{white}[X] %c{" . $this->stock[$i-1]->color . "}" . $this->stock[$i-1]->name() . "%c{white} (" . $this->stock[$i-1]->price . "gp)";
 					} else {
-						$options[$i]["text"] = "%c{white}[ ] %c{" . $this->stock[$i-1]->color . "}" . $this->stock[$i-1]->name . "%c{white} (" . $this->stock[$i-1]->price . "gp)";
+						$options[$i]["text"] = "%c{white}[ ] %c{" . $this->stock[$i-1]->color . "}" . $this->stock[$i-1]->name() . "%c{white} (" . $this->stock[$i-1]->price . "gp)";
 					}
 				}
 		}

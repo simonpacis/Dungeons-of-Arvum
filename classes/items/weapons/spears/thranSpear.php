@@ -27,6 +27,7 @@ class thranSpear extends Weapon
 		$this->last_attack = 0;
 		$this->level = 7;
 		$this->damage = 15;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

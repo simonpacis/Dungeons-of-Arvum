@@ -30,6 +30,7 @@ class longSword extends Weapon
 		$this->level = 4;
 		$this->minprice = 30;
 		$this->maxprice = 50;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

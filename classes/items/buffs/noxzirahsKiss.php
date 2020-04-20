@@ -1,6 +1,6 @@
 <?php
 
-class noxzirahsKiss
+class noxzirahsKiss extends Item
 {
 	public $name;
 	public $id;
@@ -16,6 +16,7 @@ class noxzirahsKiss
 		$this->id = "0034";
 		$this->hook = ["before_monster_death", "before_player_death"];
 		$this->description = "Noxzirah's Kiss will ensure that you do not die. While in inventory, you will survive your next death.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

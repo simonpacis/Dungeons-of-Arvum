@@ -1,6 +1,6 @@
 <?php
 
-class reScroll
+class reScroll extends Item
 {
 	public $name;
 	public $id;
@@ -22,6 +22,7 @@ class reScroll
 		$this->minprice = 50;
 		$this->maxprice = 70;
 		$this->spell = null;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

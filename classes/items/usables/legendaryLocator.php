@@ -1,6 +1,6 @@
 <?php
 
-class legendaryLocator
+class legendaryLocator extends Item
 {
 	public $name;
 	public $id;
@@ -13,10 +13,11 @@ class legendaryLocator
 		$this->color = "#0070ff";
 		$this->rarity = "strong";
 		$this->id = "0047";
-		$this->minprice = 100;
-		$this->maxprice = 400;
+		$this->minprice = 250;
+		$this->maxprice = 500;
 		$this->level = 10;
 		$this->description = $this->name . " sets your waypoint to a random legendary monster. Be careful!";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

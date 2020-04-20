@@ -1,6 +1,6 @@
 <?php
 
-class theShieldgiver
+class theShieldgiver extends Item
 {
 	public $name;
 	public $id;
@@ -15,6 +15,7 @@ class theShieldgiver
 		$this->rarity = "legendary";
 		$this->id = "0028";
 		$this->description = "This " . $this->name . " grants you full shield.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

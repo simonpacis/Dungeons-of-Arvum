@@ -23,12 +23,15 @@ class longBow extends Weapon
 		$this->maxuses = 10;
 		$this->curuses = $this->maxuses;
 		$this->damage_type = "ranged";
+		$this->damage = 3;
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 8;
 		$this->radius_var_2 = 8;
-		$this->level = 2;
-		$this->minprice = 20;
-		$this->maxprice = 40;
+		$this->level = 7;
+		$this->minprice = 50;
+		$this->maxprice = 84;
+		$this->attack_speed = 0.5;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)
@@ -38,7 +41,7 @@ class longBow extends Weapon
 
 	public function useRadius($thisplayer)
 	{
-		parent::damage_in_radius(3, "ranged", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
+		parent::damage_in_radius($this->damage, "ranged", $thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2);
 		parent::unset_radius($thisplayer);
 		return true;
 	}

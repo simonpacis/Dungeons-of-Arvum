@@ -28,9 +28,7 @@ class rapier extends Weapon
 		$this->damage_type = "melee";
 		$this->level = 8;
 		$this->description = "A faster sword. " . $this->damage . " damage, " . $this->attack_speed . " seconds attack speed. Level: " . $this->level;
-
-		$this->minprice = 50;
-		$this->maxprice = 70;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

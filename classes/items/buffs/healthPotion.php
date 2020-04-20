@@ -1,6 +1,6 @@
 <?php
 
-class healthPotion
+class healthPotion extends Item
 {
 	public $name;
 	public $id;
@@ -16,6 +16,7 @@ class healthPotion
 		$this->id = "0029";
 		$this->heal = 10;
 		$this->description = "This " . $this->name . " grants you " . $this->heal . " HP";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

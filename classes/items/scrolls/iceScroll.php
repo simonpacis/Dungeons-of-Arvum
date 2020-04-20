@@ -1,6 +1,6 @@
 <?php
 
-class iceScroll
+class iceScroll extends Item
 {
 	public $name;
 	public $id;
@@ -20,6 +20,7 @@ class iceScroll
 		$this->description = "This " . $this->name . " grants you Ice spells.";
 		$this->minprice = 50;
 		$this->maxprice = 70;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

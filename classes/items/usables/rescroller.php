@@ -1,6 +1,6 @@
 <?php
 
-class rescroller
+class rescroller extends Item
 {
 	public $name;
 	public $id;
@@ -14,6 +14,7 @@ class rescroller
 		$this->rarity = "epic";
 		$this->id = "0045";
 		$this->description = $this->name . " allows you to convert an active spell back into a scroll, to be read at a later time again.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

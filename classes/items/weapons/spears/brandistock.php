@@ -27,6 +27,7 @@ class brandistock extends Weapon
 		$this->attack_speed = 0.75;
 		$this->last_attack = 0;
 		$this->level = 6;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

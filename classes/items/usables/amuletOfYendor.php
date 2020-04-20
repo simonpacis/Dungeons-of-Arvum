@@ -1,6 +1,6 @@
 <?php
 
-class amuletOfYendor
+class amuletOfYendor extends Item
 {
 	public $name;
 	public $id;
@@ -17,6 +17,7 @@ class amuletOfYendor
 		$this->maxprice = 2147383647;
 		$this->level = 1;
 		$this->description = "You've found the Amulet of Yendor. You can now leave the dungeon, to live happily ever after!";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

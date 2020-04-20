@@ -1,6 +1,6 @@
 <?php
 
-class scalableManaBoost
+class scalableManaBoost extends Item
 {
 	public $name;
 	public $id;
@@ -15,6 +15,7 @@ class scalableManaBoost
 		$this->rarity = "strong";
 		$this->id = "0040";
 		$this->description = "This " . $this->name . " gives you 10 times your level more permanent mana!";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

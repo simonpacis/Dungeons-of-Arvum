@@ -27,6 +27,7 @@ class skullbringersAxe extends Weapon
 		$this->damage = 10;
 		$this->minprice = 3000;
 		$this->maxprice = 10000;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

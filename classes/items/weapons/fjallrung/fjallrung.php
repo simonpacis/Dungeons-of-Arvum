@@ -20,6 +20,7 @@ class Fjallrung extends Weapon
 		$this->maxuses = 1;
 		$this->curuses = $this->maxuses;
 		$this->level = 16;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

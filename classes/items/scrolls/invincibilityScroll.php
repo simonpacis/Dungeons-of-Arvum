@@ -1,6 +1,6 @@
 <?php
 
-class invincibilityScroll
+class invincibilityScroll extends Item
 {
 	public $name;
 	public $id;
@@ -21,6 +21,7 @@ class invincibilityScroll
 		$this->minprice = 800;
 		$this->maxprice = 1000;
 		$this->level = 15;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

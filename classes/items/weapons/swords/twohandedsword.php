@@ -31,6 +31,7 @@ class twohandedsword extends Weapon
 
 		$this->minprice = 60;
 		$this->maxprice = 90;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

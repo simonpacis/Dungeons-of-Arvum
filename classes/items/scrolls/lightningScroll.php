@@ -1,6 +1,6 @@
 <?php
 
-class lightningScroll
+class lightningScroll extends Item
 {
 	public $name;
 	public $id;
@@ -22,6 +22,7 @@ class lightningScroll
 		$this->maxprice = 70;
 		$this->minprice = 0;
 		$this->maxprice = 0;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

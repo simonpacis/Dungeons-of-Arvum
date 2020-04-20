@@ -1,6 +1,6 @@
 <?php
 
-class mediumShield
+class mediumShield extends Item
 {
 	public $name;
 	public $id;
@@ -16,6 +16,7 @@ class mediumShield
 		$this->id = "0026";
 		$this->shield = 5;
 		$this->description = "This " . $this->name . " grants you " . $this->shield . " additional shield.";
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

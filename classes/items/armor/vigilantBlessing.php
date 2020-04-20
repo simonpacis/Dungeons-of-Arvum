@@ -30,6 +30,7 @@ class vigilantBlessing extends Armor
 		$this->resistance_type = "magical";
 		$this->wield_type = "armor";
 		$this->level = 4;
+		parent::__construct();
 	}
 
 	public function use($thisplayer)

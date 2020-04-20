@@ -162,12 +162,12 @@ $limited_mobs = [
 	new ezorvio()
 ];
 
-$spawnable_characters = [
+$spawnable_characters = [/*
 	new dwarvenMarket(),
 	new generalStore(),
 	new seller(),
 	new scrollStore(),
-	new bowSeller(),
+	new bowSeller(),*/
 	new bountyHunter()
 ];
 
