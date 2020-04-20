@@ -1,6 +1,8 @@
 <?php
 
 $documentation = "# Items in Dungeons of Arvum
+  
+This document is auto-generated.
 
 ## Rarities
 [Common](#common)<br>
@@ -184,4 +186,4 @@ $documentation .= $strong_documentation;
 $documentation .= $epic_documentation;
 $documentation .= $legendary_documentation;
 
-file_put_contents("wiki/items.md", $documentation);
+file_put_contents("wiki/Items.md", $documentation);
