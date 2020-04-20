@@ -1,31 +1,24 @@
 <?php
-namespace items;
-$documentation = "# Items in Dungeons of Arvum
+namespace spells;
+$documentation = "# Spells in Dungeons of Arvum
   
 This document is auto-generated.
 
-## Rarities
-[Common](#common)<br>
-[Uncommon](#uncommon)<br>
-[Strong](#strong)<br>
-[Epic](#epic)<br>
-[Legendary](#legendary)<br>
-
 ## Note
-Please be aware that the prices you'll find the items for in the stores will vary between 80% to 120% of the listed price.
+Please be aware that all of these spells have to be obtained through scrolls.
 ";
 
-echo "\nGenerating item documentation.";
+echo "\nGenerating spell documentation.";
 
 $orgpath = realpath(dirname(__FILE__));
 $orgpath = explode("/", $orgpath);
 array_pop($orgpath);
 $orgpath = implode("/", $orgpath);
-$scanpath = $orgpath."/classes/items";
+$scanpath = $orgpath."/classes/spells";
 $files = scandir($scanpath);
 
-$exclusions = ["Item", "Armor", "Weapon", "item", "weapon"];
-$key_exclusions = ["name", "wielded", "minprice", "maxprice", "radius_var_1", "radius_var_2", "maxuses", "curuses", "color", "id", "radius_type", "last_attack"];
+$exclusions = ["Item", "Armor", "Weapon", "item", "weapon", "spell", "Spell"];
+$key_exclusions = ["name", "wielded", "minprice", "maxprice", "radius_var_1", "radius_var_2", "maxuses", "curuses", "color", "id", "radius_type", "last_attack", "panel_value"];
 $common = [];
 $uncommon = [];
 $strong = [];
@@ -38,26 +31,9 @@ function ingest_object($object)
 	global $common, $uncommon, $strong, $epic, $legendary;
 	if(!isset($object->no_doc))
 	{
-		if($object->rarity == "common")
-		{
+		
 			array_push($common, $object);
-		}
-		if($object->rarity == "uncommon")
-		{
-			array_push($uncommon, $object);
-		}
-		if($object->rarity == "strong")
-		{
-			array_push($strong, $object);
-		}
-		if($object->rarity == "epic")
-		{
-			array_push($epic, $object);
-		}
-		if($object->rarity == "legendary")
-		{
-			array_push($legendary, $object);
-		}
+		
 	}
 }
 
@@ -88,7 +64,7 @@ function parse_object($object)
 		}
 	}
 
-	$parsed_string .= "Price: " . $object->calculate_cost();
+	//$parsed_string .= "Price: " . $object->calculate_cost();
 	return $parsed_string;
 }
 
@@ -127,63 +103,22 @@ function cmp($a, $b) {
 
 item_include_all($scanpath);
 
-usort($common, "items\cmp");
-usort($uncommon, "items\cmp");
-usort($strong, "items\cmp");
-usort($epic, "items\cmp");
-usort($legendary, "items\cmp");
+usort($common, "spells\cmp");
+usort($uncommon, "spells\cmp");
+usort($strong, "spells\cmp");
+usort($epic, "spells\cmp");
+usort($legendary, "spells\cmp");
 
-$common_documentation = "\n### Common
+$common_documentation = "\n### Spells
 ";
 foreach ($common as $object) {
 	
 	$common_documentation .= parse_object($object);
 	$common_documentation .= "";
-
-}
-
-$uncommon_documentation = "\n### Uncommon
-";
-foreach ($uncommon as $object) {
-	
-	$uncommon_documentation .= parse_object($object);
-	$uncommon_documentation .= "";
-
-}
-
-$strong_documentation = "\n### Strong
-";
-foreach ($strong as $object) {
-	
-	$strong_documentation .= parse_object($object);
-	$strong_documentation .= "";
-
-}
-
-$epic_documentation = "\n### Epic
-";
-foreach ($epic as $object) {
-	
-	$epic_documentation .= parse_object($object);
-	$epic_documentation .= "";
-
-}
-
-$legendary_documentation = "\n### Legendary
-";
-foreach ($legendary as $object) {
-	
-	$legendary_documentation .= parse_object($object);
-	$legendary_documentation .= "";
-
 }
 
 
 
 $documentation .= $common_documentation;
-$documentation .= $uncommon_documentation;
-$documentation .= $strong_documentation;
-$documentation .= $epic_documentation;
-$documentation .= $legendary_documentation;
 
-file_put_contents("wiki/Items.md", $documentation);
+file_put_contents("wiki/Spells.md", $documentation);

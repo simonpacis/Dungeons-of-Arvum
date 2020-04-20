@@ -16,6 +16,7 @@ include_once($orgpath . '/classes/spells/spell.php');
 
 include_all($orgpath . "/classes/", false);
 include('items.php');
+include('spells.php');
 /*echo "\nDungeons of Arvum Server\n\n";
 echo "Loading classes...\n";
 include_once('items/item.php');

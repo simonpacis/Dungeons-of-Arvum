@@ -10,8 +10,6 @@ class invincibilitySpell extends Spell
 	public $curuses;
 	public $description;
 	public $radius_type;
-	public $radius_var_1;
-	public $radius_var_2;
 	public $level;
 	public $mana_use;
 	public function __construct()
@@ -23,7 +21,7 @@ class invincibilitySpell extends Spell
 		$this->description = "Makes you invincible for 10 seconds. Uses 80% of your mana.";
 		$this->level = 15;
 		$this->invincibility_duration = 10;
-		$this->mana_use = 1000;
+		$this->mana_use = "80% of your mana";
 		$this->panel_value = "invcbl " . $this->invincibility_duration . "s";
 		$this->hook = "mana_increase";
 	}
