@@ -61,7 +61,7 @@ function parse_object($object)
 {
 	global $key_exclusions;
 	$parsed_string = "";
-	$parsed_string .= "\n#### " . $object->name;
+	$parsed_string .= "\n#### " . $object->name . "\n<br>";
 	foreach ($object as $key => $value) {
 		if(!in_array($key, $key_exclusions))
 		{
