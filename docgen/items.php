@@ -80,11 +80,11 @@ function parse_object($object)
 		}
 		if($key == "radius_var_1")
 		{
-			$parsed_string .= "\n<br>  Range: " . $object->radius_var_1;
+			$parsed_string .= "Range: " . $object->radius_var_1 . "\n<br>  ";
 		}
 	}
 
-	$parsed_string .= "\n<br>  Price: " . $object->calculate_cost();
+	$parsed_string .= "Price: " . $object->calculate_cost() . "\n<br>  ";
 	return $parsed_string;
 }
 
@@ -134,7 +134,7 @@ $common_documentation = "\n### Common
 foreach ($common as $object) {
 	
 	$common_documentation .= parse_object($object);
-	$common_documentation .= "\n<br>  \n<br>  ";
+	$common_documentation .= "";
 
 }
 
@@ -143,7 +143,7 @@ $uncommon_documentation = "\n### Uncommon
 foreach ($uncommon as $object) {
 	
 	$uncommon_documentation .= parse_object($object);
-	$uncommon_documentation .= "\n<br>  \n<br>  ";
+	$uncommon_documentation .= "";
 
 }
 
@@ -152,7 +152,7 @@ $strong_documentation = "\n### Strong
 foreach ($strong as $object) {
 	
 	$strong_documentation .= parse_object($object);
-	$strong_documentation .= "\n<br>  \n<br>  ";
+	$strong_documentation .= "";
 
 }
 
@@ -161,7 +161,7 @@ $epic_documentation = "\n### Epic
 foreach ($epic as $object) {
 	
 	$epic_documentation .= parse_object($object);
-	$epic_documentation .= "\n<br>  \n<br>  ";
+	$epic_documentation .= "";
 
 }
 
@@ -170,7 +170,7 @@ $legendary_documentation = "\n### Legendary
 foreach ($legendary as $object) {
 	
 	$legendary_documentation .= parse_object($object);
-	$legendary_documentation .= "\n<br>  \n<br>  ";
+	$legendary_documentation .= "";
 
 }
 
