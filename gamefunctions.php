@@ -162,6 +162,13 @@ function keypress($clientID, $key)
 
 	if($key == "VK_SPACE")
 	{
+		if(file_exists(dirname(__FILE__) . "/dev"))
+		{
+			if($players[$clientID]->state == "lobby")
+			{
+				unsetLobby();
+			}
+		}
 		if($players[$clientID]->show_settings)
 		{
 			$players[$clientID]->changeSetting();

@@ -19,7 +19,6 @@ class thranSpear extends Weapon
 		$this->color = "#0070ff";
 		$this->id = "0022";
 		$this->rarity = "strong";
-		$this->description = "A spear from Thran. Damages " . $this->damage . " in a range of 3.";
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 3;
 		$this->radius_var_2 = 3;
@@ -27,6 +26,7 @@ class thranSpear extends Weapon
 		$this->last_attack = 0;
 		$this->level = 7;
 		$this->damage = 15;
+		$this->description = "A spear from Thran. Damages " . $this->damage . " in a range of 3.";
 		parent::__construct();
 	}
 

@@ -52,7 +52,7 @@ function get_string_between($string, $start, $end){
      * @param string  $dir
      * @param int     $depth (optional)
      */
-function include_all($dir, &$results = array()){
+function include_all($dir, $echo = true, &$results = array()){
     $files = scandir($dir);
 
     foreach($files as $key => $value){
@@ -60,7 +60,10 @@ function include_all($dir, &$results = array()){
         if(!is_dir($path)) {
         	if(substr($path, -4) == ".php")
         	{
-        		echo "Loaded: " . $value . "\n";
+                if($echo)
+                {
+        		  echo "Loaded: " . $value . "\n";
+                }
         		include_once($path);
         	}
             $results[] = $path;

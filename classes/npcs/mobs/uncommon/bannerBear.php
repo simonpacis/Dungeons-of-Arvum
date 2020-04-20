@@ -40,7 +40,7 @@ class bannerBear extends Mob
 		$this->x = 0;
 		$this->y = 0;
 		$this->movementspeed = 6; // Squares per second.
-		$this->attackspeed = 0.05; // Attacks per second.
+		$this->attackspeed = 0.1; // Attacks per second.
 		$this->lastmove = 0;
 		$this->lastattack = 0;
 		$this->loot = getItem("common", "uncommon", false, true, 0.70);

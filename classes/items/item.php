@@ -86,11 +86,32 @@ class Item
 
 
 
+		/* Shield
+			1 shield = 0.5 coin
 
 
+		*/
+
+		if(isset($item->shield))
+		{
+			$shield_cost = round(($item->shield)*0.5);
+		} else {
+			$shield_cost = 0;
+		}
+
+		/* Heal
+			1 hp = 0.25 coins
+		*/
+
+		if(isset($item->heal))
+		{
+			$heal_cost = round(($item->heal)*0.25);
+		} else {
+			$heal_cost = 0;
+		}
 
 
-		return round(($rarity_base_cost + $damage_cost + $attack_speed_cost + $range_cost) * $rarity_multiplier);
+		return round(($rarity_base_cost + $damage_cost + $attack_speed_cost + $range_cost + $shield_cost + $heal_cost) * $rarity_multiplier);
 
 	}
 
