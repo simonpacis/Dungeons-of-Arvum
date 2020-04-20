@@ -84,7 +84,7 @@ function parse_object($object)
 		}
 	}
 
-	$parsed_string .= "Price: " . $object->calculate_cost() . "\n<br>  ";
+	$parsed_string .= "Price: " . $object->calculate_cost();
 	return $parsed_string;
 }
 
