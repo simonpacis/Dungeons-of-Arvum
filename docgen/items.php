@@ -3,11 +3,11 @@
 $documentation = "# Items in Dungeons of Arvum
 
 ## Rarities
-[Common](#common)
-[Uncommon](#uncommon)
-[Strong](#strong)
-[Epic](#epic)
-[Legendary](#legendary)
+[Common](#common)<br>
+[Uncommon](#uncommon)<br>
+[Strong](#strong)<br>
+[Epic](#epic)<br>
+[Legendary](#legendary)<br>
 
 ";
 
@@ -61,7 +61,7 @@ function parse_object($object)
 {
 	global $key_exclusions;
 	$parsed_string = "";
-	$parsed_string .= "#### " . $object->name;
+	$parsed_string .= "\n#### " . $object->name;
 	foreach ($object as $key => $value) {
 		if(!in_array($key, $key_exclusions))
 		{
@@ -129,7 +129,7 @@ usort($strong, "cmp");
 usort($epic, "cmp");
 usort($legendary, "cmp");
 
-$common_documentation = "### Common
+$common_documentation = "\n### Common
 ";
 foreach ($common as $object) {
 	
@@ -138,7 +138,7 @@ foreach ($common as $object) {
 
 }
 
-$uncommon_documentation = "### Uncommon
+$uncommon_documentation = "\n### Uncommon
 ";
 foreach ($uncommon as $object) {
 	
@@ -147,7 +147,7 @@ foreach ($uncommon as $object) {
 
 }
 
-$strong_documentation = "### Strong
+$strong_documentation = "\n### Strong
 ";
 foreach ($strong as $object) {
 	
@@ -156,7 +156,7 @@ foreach ($strong as $object) {
 
 }
 
-$epic_documentation = "### Epic
+$epic_documentation = "\n### Epic
 ";
 foreach ($epic as $object) {
 	
@@ -165,7 +165,7 @@ foreach ($epic as $object) {
 
 }
 
-$legendary_documentation = "### Legendary
+$legendary_documentation = "\n### Legendary
 ";
 foreach ($legendary as $object) {
 	
