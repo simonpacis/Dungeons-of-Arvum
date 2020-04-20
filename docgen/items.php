@@ -69,12 +69,12 @@ function parse_object($object)
 			{
 				if(is_array($value))
 				{
-					$parsed_string .= "\n<br>  " . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(implode(", ", str_replace("_", " ", $value)));
+					$parsed_string .= ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(implode(", ", str_replace("_", " ", $value))) . "\n<br>  ";
 				} elseif (is_object($value)) {
-					$parsed_string .= "\n<br>  " . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(get_class($value));
+					$parsed_string .= ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(get_class($value)) . "\n<br>  ";
 				}
 				 else {
-					$parsed_string .= "\n<br>  " . ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(str_replace("_", " ", $value));
+					$parsed_string .= ucfirst(str_replace("_", " ", $key)) . ": " . ucfirst(str_replace("_", " ", $value)) . "\n<br>  ";
 				}
 			}
 		}
