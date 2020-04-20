@@ -10,7 +10,7 @@ $documentation = "# Items in Dungeons of Arvum
 [Legendary](#legendary)<br>
 
 ## Note
-Please note that the prices you'll find the items for in the stores will vary between 80% to 120% of the listed price.
+Please be aware that the prices you'll find the items for in the stores will vary between 80% to 120% of the listed price.
 ";
 
 echo "\n<br>  Generating item documentation.";
