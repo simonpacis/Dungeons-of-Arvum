@@ -79,6 +79,14 @@ class Player
 	public $first_invincible;
 	public $legendary_kills;
 	public $lowest_level_bonus;
+	public $frozen;
+	public $frozen_duration;
+	public $frozen_time;
+	public $slowmovementspeed;
+	public $slowed_at;
+	public $slow_for;
+	public $slowed;
+	public $slowmaxstamina;
 
 	public function __construct($Clientid)
 	{
@@ -167,6 +175,14 @@ class Player
 		$this->first_invincible = 0;
 		$this->legendary_kills = 0;
 		$this->lowest_level_bonus = 1;
+		$this->frozen = false;
+		$this->$frozen_duration = 0;
+		$this->$frozen_time = 0;
+		$this->slowed = false;
+		$this->slowmovementspeed = 0;
+		$this->slowmaxstamina = 0;
+		$this->slowed_at = 0;
+		$this->slow_for = 0;
 	}
 
 	public function tick()
@@ -178,6 +194,19 @@ class Player
 		if($this->invincible)
 		{
 			$this->performInvincible();
+		}
+		if($this->slowed)
+		{
+			$this->maxstamina = $this->slowmaxstamina;
+			if(($this->slowed_at + $this->slow_for) <= microtime(true))
+			{
+				$this->maxstamina = $this->slowmovementspeed;
+				$this->slowmovementspeed = 0;
+				$this->slowed_at = 0;
+				$this->slow_for = 0;
+				$this->slowed = false;
+				status($this->clientid, "You're no longer slowed.", "#42eef4");
+			}
 		}
 	}
 
@@ -208,33 +237,38 @@ class Player
 		}
 
 
-
-		if($allowed_to_move)
+		if(!$this->isFrozen())
 		{
-			if(!$this->hold && !$this->radius && !$this->force_hold)
+			if($allowed_to_move)
 			{
-				if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
-					$this->x = $this->x + $x_veloc;
-					$this->y = $this->y + $y_veloc;
+				if(!$this->hold && !$this->radius && !$this->force_hold)
+				{
+					if(movePlayerTile($this->x, $this->y, ($this->x + $x_veloc), ($this->y + $y_veloc), $this)){
+						$this->x = $this->x + $x_veloc;
+						$this->y = $this->y + $y_veloc;
 
 
-					if($this->hasHook("before_stamina_use"))
-					{
-						$this->runHook("before_stamina_use", $this);
-					}
+						if($this->hasHook("before_stamina_use"))
+						{
+							$this->runHook("before_stamina_use", $this);
+						}
 
-					$this->curstamina--;
-					$check_for_action = $this->checkForAction();
+						$this->curstamina--;
+						$check_for_action = $this->checkForAction();
 
-					if($check_for_action['relevant'] == true)
-					{
-						$this->action_text = ($check_for_action['object']->object->action_text);
-						$this->action_target = $check_for_action['object']->object;
-					} else {
-						$this->unsetActionTarget();
+						if($check_for_action['relevant'] == true)
+						{
+							$this->action_text = ($check_for_action['object']->object->action_text);
+							$this->action_target = $check_for_action['object']->object;
+						} else {
+							$this->unsetActionTarget();
+						}
 					}
 				}
 			}
+		} else {
+			status($this->clientid, "You're frozen and cannot move.", "#42eef4");
+
 		}
 
 	}
@@ -1481,6 +1515,78 @@ class Player
 			status($thisplayer->clientid, "You failed to burn " . $this->name . ".", "#ff5c5c");
 		}
 	}
+
+
+	public function freeze($duration, $thisplayer)
+	{
+		if(!$this->frozen)
+		{
+			$this->frozen_duration = $duration;
+			$this->frozen_time = time();
+			$this->frozen = true;
+			if(isset($thisplayer->clientid))
+			{
+				status($thisplayer->clientid, "You froze " . $this->name . " for " . $duration . " seconds.", "#42eef4");
+			}
+			status($this->clientid, "You've been frozen by " . $thisplayer->name . " for " . $duration . " seconds.", "#42eef4");
+		}
+	}
+
+	public function freezeFailed($thisplayer = null)
+	{
+		if($thisplayer != null)
+		{
+			status($thisplayer->clientid, "You failed to freeze " . $this->name . ".", "#42eef4");
+		}
+	}
+
+	public function isFrozen()
+	{
+		if($this->frozen_time == 0)
+		{
+			$this->frozen_time = time();
+		}
+		if($this->frozen && ($this->frozen_time + $this->frozen_duration) <= time())
+		{
+			$this->frozen = false;
+			status($this->clientid, "You're no longer frozen.", "#42eef4");
+			return false;
+		}
+
+		if(!$this->frozen)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+	public function slow($duration, $percentage, $thisplayer)
+	{
+		$perc = 1-($percentage / 100);
+		$this->slowmovementspeed = $this->maxstamina;
+		$this->maxstamina = round($this->maxstamina*$perc);
+		$this->slowmaxstamina = $this->maxstamina;
+		$this->curstamina = $this->maxstamina;
+		$this->slowed_at = microtime(true);
+		$this->slow_for = $duration;
+		$this->slowed = true;
+		if(isset($thisplayer->clientid))
+		{
+			status($thisplayer->clientid, "You slowed " . $this->name . " by " . $percentage . "% for " . $duration . " seconds.", "#42eef4");
+		}
+		status($this->clientid, "You've been slowed by " . $thisplayer->name . " by " . $percentage . "% for " . $duration . " seconds.", "#42eef4");
+	}
+
+	public function slowFailed($thisplayer = null)
+	{
+		if($thisplayer != null)
+		{
+			status($thisplayer->clientid, "You failed to slow " . $this->name . ".", "#42eef4");
+		}
+	}
+
+
 
 	public function die()
 	{

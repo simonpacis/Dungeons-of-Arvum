@@ -237,6 +237,40 @@ function chat($clientID, $message)
 				if($allow_cheats)
 				{
 					switch ($cmd) {
+						case 'slow':
+							if(isset($arg[0]))
+							{
+								$arg = explode(" ", $arg);
+								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+								$arg[1] = preg_replace('/\s+/', '', $arg[1]);
+								if(is_numeric($arg[0]) && is_numeric($arg[1]))
+								{
+									$arg[0] = (int)$arg[0];
+									$arg[1] = (int)$arg[1];
+									$players[$clientID]->slow($arg[0], $arg[1], $players[$clientID]);
+								} else {
+									status($clientID, "Not a number.");
+								}
+							} else {
+								status($clientID, "The \"slow\" cheat works like this: \"!freeze amount_of_seconds percentage\".");
+							}
+							break;							
+						case 'freeze':
+							if(isset($arg[0]))
+							{
+								$arg = explode(" ", $arg);
+								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+								if(is_numeric($arg[0]))
+								{
+									$arg[0] = (int)$arg[0];
+									$players[$clientID]->freeze($arg[0], $players[$clientID]);
+								} else {
+									status($clientID, "Not a number.");
+								}
+							} else {
+								status($clientID, "The \"freeze\" cheat works like this: \"!freeze amount_of_seconds\".");
+							}
+							break;							
 						case 'full':
 							$players[$clientID]->curmana = $players[$clientID]->maxmana;
 							$players[$clientID]->curhp = $players[$clientID]->maxhp; 
