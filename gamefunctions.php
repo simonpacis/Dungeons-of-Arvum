@@ -195,7 +195,7 @@ function keypress($clientID, $key)
 
 function chat($clientID, $message)
 {
-	global $Server, $players, $allow_cheats, $allow_map_cheats, $massive, $vacant_rooms, $mobs;
+	global $Server, $players, $allow_cheats, $allow_map_cheats, $massive, $vacant_rooms, $mobs, $single_player_mode, $start_time;
 	if(file_exists(dirname(__FILE__) . "/dev"))
 	{
 		$allow_cheats = true;
@@ -206,6 +206,14 @@ function chat($clientID, $message)
 	{
 	if(count($message) > 0 && $message != "\r")
 	{
+		if($single_player_mode == true)
+		{
+			echo "\n" . $message . "\n";
+			if (strpos($message, 'time') !== false) 
+			{
+				status($clientID, "You've currently spent " . (round(microtime(true)) - $start_time) . " seconds playing.");
+			}
+		}
 		if(substr($message, 0, 1) == "!") // This is a command.
 		{
 			preg_match("~!(.*?) ~", $message, $cmd);
@@ -284,9 +292,11 @@ function chat($clientID, $message)
 										for($i = 0; $i < $arg[1]; $i++)
 										{
 											$players[$clientID]->addToInventory($newitem, false, false);
+											$newitem->created($players[$clientID]);
 										}
 									} else {
 										$players[$clientID]->addToInventory($newitem, false, false);
+										$newitem->created($players[$clientID]);
 									}
 								} else {
 									status($clientID, "Item does not exist.");
@@ -393,13 +403,34 @@ function chat($clientID, $message)
 						case 'settings':
 							$players[$clientID]->displaySettings();
 							break;
+						case 'time':
+							if($single_player_mode == true)
+							{
+								status($clientID, "You've currently spent " . (round(microtime(true)) - $start_time) . " seconds playing.");
+							} else {
+								status($clientID, "This functions is only enabled in single player.");
+							}
+							break;
 						default:
 							status($clientID, "This cheat does not exist. Implement it in gamefunctions.php");
 							break;
 					}
 					bigBroadcast();
 				} else {
-					status($clientID, "Cheats are not enabled.", "#ff5c5c");
+					switch ($cmd) {
+						case 'time':
+							if($single_player_mode == true)
+							{
+								status($clientID, "You've currently spent " . (microtime(true) - $start_time) . " seconds playing.");
+							} else {
+								status($clientID, "This functions is only enabled in single player.");
+							}
+							break;
+						default:
+							status($clientID, "Cheats are not enabled.", "#ff5c5c");
+							break;
+					}
+					
 				}
 			}
 		} else {
@@ -411,6 +442,11 @@ function chat($clientID, $message)
 							{
 								if (strpos($message, 'startgame') !== false) //If I type startgame, start game!
 								{
+									if($single_player_mode == true)
+									{
+										$start_time = round(microtime(true));
+										echo "\nStart timestamp is " . $start_time;
+									}
 									unsetLobby();
 
 								} else {

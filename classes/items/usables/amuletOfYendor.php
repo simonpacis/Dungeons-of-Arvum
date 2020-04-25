@@ -29,6 +29,13 @@ class amuletOfYendor extends Item
 
 	public function created($thisplayer)
 	{
+		global $single_player_mode, $start_time, $end_time;
+		if($single_player_mode == true)
+		{
+			$end_time = round(microtime(true));
+			echo "\nEnd timestamp is " . $end_time;
+			echo "\nTotal time spent from start to finish is: " . ($end_time - $start_time) . " seconds.";
+		}
 		$thisplayer->action_target = $this;
 		$thisplayer->in_shop = true;
 		return true;
