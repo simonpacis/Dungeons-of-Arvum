@@ -12,7 +12,7 @@ This document is auto-generated.
 [Legendary](#legendary)<br>
 
 ## Note
-Please be aware that the prices you'll find the items for in the stores will vary between 80% to 120% of the listed price.
+Please note that the stock in any particular store is randomly generated from a list of possibilities, so just because it says \"can be bought in\" does not mean you can always find it in that store.
 ";
 
 echo "\nGenerating item documentation.";
@@ -122,7 +122,7 @@ function parse_object($object)
 	}
 		$parsed_string .= $bought_in;
 
-	$parsed_string .= "Price: " . $object->calculate_cost();
+	$parsed_string .= "Price: between " . round($object->calculate_cost()*0.8) . " and " . round($object->calculate_cost()*1.2);
 	return $parsed_string;
 }
 
