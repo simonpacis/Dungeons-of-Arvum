@@ -121,8 +121,12 @@ function parse_object($object)
 		
 	}
 		$parsed_string .= $bought_in;
-
-	$parsed_string .= "Price: between " . round($object->calculate_cost()*0.8) . " and " . round($object->calculate_cost()*1.2);
+	if(isset($object->minprice))
+	{
+		$parsed_string .= "Price: between " . $object->minprice . " and " . $object->maxprice;
+	} else {
+		$parsed_string .= "Price: between " . round($object->calculate_cost()*0.8) . " and " . round($object->calculate_cost()*1.2);
+	}
 	return $parsed_string;
 }
 
