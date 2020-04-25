@@ -10,7 +10,7 @@ This document is auto-generated.
 [Legendary](#legendary)<br>
 
 ## Note
-Please be aware that the prices you'll find the items for in the stores will vary between 80% to 120% of the listed price. Please note that the stock in any particular store is randomly generated from a list of possibilities, so just because it says "can be bought in" does not mean you can always find it in that store.
+Please note that the stock in any particular store is randomly generated from a list of possibilities, so just because it says "can be bought in" does not mean you can always find it in that store.
 
 ### Common
 
@@ -134,7 +134,7 @@ Rarity: Uncommon
 <br>Price: between 24 and 36
 #### Rescroll
 Rarity: Uncommon
-<br>  Description: This Rescroll grants you
+<br>  Description: Rescroll is the object obtained after using rescroller. 
 <br>  Price: between 24 and 36
 #### Scroll of Constitution
 Rarity: Uncommon

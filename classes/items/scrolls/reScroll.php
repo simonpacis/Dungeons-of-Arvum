@@ -18,7 +18,7 @@ class reScroll extends Item
 		$this->color = "#fff";
 		$this->rarity = "uncommon";
 		$this->id = "0046";
-		$this->description = "This " . $this->name . " grants you";
+		$this->description = "Rescroll is the object obtained after using rescroller. ";
 		$this->minprice = 50;
 		$this->maxprice = 70;
 		$this->spell = null;
