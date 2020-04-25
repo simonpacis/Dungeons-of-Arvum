@@ -1,6 +1,6 @@
 <?php
 
-class scrollSTore extends Shop
+class scrollStore extends Shop
 {
 
 	public $name;

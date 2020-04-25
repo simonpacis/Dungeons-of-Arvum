@@ -63,7 +63,7 @@ function ingest_object($object)
 
 function parse_object($object)
 {
-	global $key_exclusions;
+	global $key_exclusions, $predefinedClasses;
 	$parsed_string = "";
 	$parsed_string .= "\n#### " . $object->name . "\n";
 	foreach ($object as $key => $value) {
@@ -86,7 +86,41 @@ function parse_object($object)
 		{
 			$parsed_string .= "Range: " . $object->radius_var_1 . "\n<br>  ";
 		}
+
+		$bought_in = "";
+
+		$userDefinedClasses = array_diff(get_declared_classes(), $predefinedClasses);
+
+		foreach ($userDefinedClasses as $class) {
+				if(is_subclass_of($class, 'Shop'))
+				{
+					$class = new $class;
+					if(isset($class->selection))
+					{
+						if(is_array($class->selection))
+						{
+							if(in_array(get_class($object), $class->selection))
+							{
+								if($bought_in == "")
+								{
+									$bought_in = "Can be bought in: ";
+								}
+								$bought_in .= $class->name . ", ";
+							}
+						}
+					}
+					
+				}
+				
+			
+		}
+		if($bought_in != "")
+		{
+			$bought_in .= "\n<br>";
+		}
+		
 	}
+		$parsed_string .= $bought_in;
 
 	$parsed_string .= "Price: " . $object->calculate_cost();
 	return $parsed_string;
@@ -185,5 +219,4 @@ $documentation .= $uncommon_documentation;
 $documentation .= $strong_documentation;
 $documentation .= $epic_documentation;
 $documentation .= $legendary_documentation;
-
 file_put_contents("wiki/Items.md", $documentation);

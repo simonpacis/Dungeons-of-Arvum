@@ -49,12 +49,14 @@ Hook: Before damage
 Rarity: Common
 <br>  Description: This Mana Potion grants you 10 mana
 <br>  Mana: 10
-<br>  Price: 0
+<br>  Can be bought in: Magical Store, 
+<br>Price: 0
 #### Minor Shieldgiver
 Rarity: Common
 <br>  Description: This Minor Shieldgiver grants you 2 additional shield.
 <br>  Shield: 2
-<br>  Price: 1
+<br>  Can be bought in: General Store, 
+<br>Price: 1
 #### Protective Blessing
 Hook: Before damage
 <br>  Resistance type: Magical
@@ -71,7 +73,8 @@ Rarity: Common
 <br>  Level: 1
 <br>  Attack speed: 0.5
 <br>  Damage: 2
-<br>  Price: 23
+<br>  Can be bought in: The Bounty Hunter, General Store, 
+<br>Price: 23
 #### Shortsword
 Rarity: Common
 <br>  Description: An ordinary sword that cuts.
@@ -88,7 +91,8 @@ Rarity: Uncommon
 <br>  Level: 6
 <br>  Damage: 3
 <br>  Attack speed: 0.75
-<br>  Price: 57
+<br>  Can be bought in: Dwarven Market, 
+<br>Price: 57
 #### Iron Spear
 Rarity: Uncommon
 <br>  Description: An iron spear. Has 10% chance to hit yourself.
@@ -96,7 +100,8 @@ Rarity: Uncommon
 <br>  Level: 3
 <br>  Attack speed: 0.5
 <br>  Damage: 10
-<br>  Price: 105
+<br>  Can be bought in: Dwarven Market, 
+<br>Price: 105
 #### Longbow
 Rarity: Uncommon
 <br>  Description: A taller bow which shoots arrows further away.
@@ -105,7 +110,8 @@ Rarity: Uncommon
 <br>  Damage type: Ranged
 <br>  Damage: 3
 <br>  Attack speed: 0.5
-<br>  Price: 82
+<br>  Can be bought in: General Store, 
+<br>Price: 82
 #### Longsword
 Rarity: Uncommon
 <br>  Description: A longer sword.
@@ -114,7 +120,8 @@ Rarity: Uncommon
 <br>  Attack speed: 0.75
 <br>  Damage: 10
 <br>  Damage type: Melee
-<br>  Price: 99
+<br>  Can be bought in: General Store, 
+<br>Price: 99
 #### Medium Shieldgiver
 Rarity: Uncommon
 <br>  Description: This Medium Shieldgiver grants you 5 additional shield.
@@ -123,7 +130,8 @@ Rarity: Uncommon
 #### Piece of Ember
 Rarity: Uncommon
 <br>  Description: Piece of Ember will remove any slow effect you have.
-<br>  Price: 30
+<br>  Can be bought in: The Bounty Hunter, 
+<br>Price: 30
 #### Rescroll
 Rarity: Uncommon
 <br>  Description: This Rescroll grants you
@@ -137,15 +145,18 @@ Rarity: Uncommon
 Rarity: Uncommon
 <br>  Description: This Scroll of Fire grants you spells of fire.
 <br>  Spell: FireBall
-<br>  Price: 30
+<br>  Can be bought in: General Store, Magical Store, 
+<br>Price: 30
 #### Scroll of Ice
 Rarity: Uncommon
 <br>  Description: This Scroll of Ice grants you Ice spells.
-<br>  Price: 30
+<br>  Can be bought in: Dwarven Market, Magical Store, 
+<br>Price: 30
 #### Scroll of Lightning
 Rarity: Uncommon
 <br>  Description: This Scroll of Lightning grants you Lightning spells.
-<br>  Price: 30
+<br>  Can be bought in: Magical Store, 
+<br>Price: 30
 ### Strong
 
 #### Archer's Blessing
@@ -165,7 +176,8 @@ Rarity: Strong
 <br>  Damage type: Ranged
 <br>  Attack speed: 0.5
 <br>  Damage: 15
-<br>  Price: 295
+<br>  Can be bought in: The Bounty Hunter, 
+<br>Price: 295
 #### Chainmail
 Hook: Before damage
 <br>  Resistance type: Ranged
@@ -179,21 +191,25 @@ Hook: Before damage
 Rarity: Strong
 <br>  Description: Legendary Stone sets your waypoint to a random legendary monster. Be careful!
 <br>  Level: 10
-<br>  Price: 113
+<br>  Can be bought in: The Bounty Hunter, 
+<br>Price: 113
 #### Major Mana Potion
 Rarity: Strong
 <br>  Description: This Major Mana Potion grants you 50 mana
 <br>  Mana: 50
-<br>  Price: 113
+<br>  Can be bought in: Magical Store, 
+<br>Price: 113
 #### Major Shieldgiver
 Rarity: Strong
 <br>  Description: This Major Shieldgiver grants you 10 additional shield.
 <br>  Shield: 10
-<br>  Price: 120
+<br>  Can be bought in: Dwarven Market, 
+<br>Price: 120
 #### Piece of Burning Coal
 Rarity: Strong
 <br>  Description: Piece of Burning Coal will remove any freeze effect you have.
-<br>  Price: 113
+<br>  Can be bought in: The Bounty Hunter, 
+<br>Price: 113
 #### Pike
 Rarity: Strong
 <br>  Description: An ordinary pike. Has 30% chance to damage yourself.
@@ -201,7 +217,8 @@ Rarity: Strong
 <br>  Level: 6
 <br>  Attack speed: 0.75
 <br>  Damage: 3
-<br>  Price: 149
+<br>  Can be bought in: Dwarven Market, 
+<br>Price: 149
 #### Platemail
 Hook: Before damage
 <br>  Resistance type: Melee
@@ -256,7 +273,8 @@ Rarity: Strong
 <br>  Level: 4
 <br>  Hook: Before stamina use
 <br>  Extra stamina: 5
-<br>  Price: 113
+<br>  Can be bought in: Dwarven Market, 
+<br>Price: 113
 ### Epic
 
 #### Angelic Shoes
@@ -273,11 +291,13 @@ Rarity: Epic
 #### Mana Jug
 Rarity: Epic
 <br>  Description: This Mana Jug grants you full mana.
-<br>  Price: 350
+<br>  Can be bought in: Dwarven Market, Magical Store, 
+<br>Price: 350
 #### Rescroller
 Rarity: Epic
 <br>  Description: Rescroller allows you to convert an active spell back into a scroll, to be read at a later time again.
-<br>  Price: 350
+<br>  Can be bought in: Magical Store, 
+<br>Price: 350
 ### Legendary
 
 #### 1st Shard of Fjallrung

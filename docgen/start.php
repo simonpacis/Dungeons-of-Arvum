@@ -1,6 +1,7 @@
 <?php
 
 echo "Documentation generation for Dungeons of Arvum.\n";
+$predefinedClasses = get_declared_classes();
 include('config.php');
 include_once('helpers.php');
 $orgpath = realpath(dirname(__FILE__));
