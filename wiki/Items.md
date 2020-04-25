@@ -120,6 +120,10 @@ Rarity: Uncommon
 <br>  Description: This Medium Shieldgiver grants you 5 additional shield.
 <br>  Shield: 5
 <br>  Price: 34
+#### Piece of Ember
+Rarity: Uncommon
+<br>  Description: Piece of Ember will remove any slow effect you have.
+<br>  Price: 30
 #### Rescroll
 Rarity: Uncommon
 <br>  Description: This Rescroll grants you
@@ -186,6 +190,10 @@ Rarity: Strong
 <br>  Description: This Major Shieldgiver grants you 10 additional shield.
 <br>  Shield: 10
 <br>  Price: 120
+#### Piece of Burning Coal
+Rarity: Strong
+<br>  Description: Piece of Burning Coal will remove any freeze effect you have.
+<br>  Price: 113
 #### Pike
 Rarity: Strong
 <br>  Description: An ordinary pike. Has 30% chance to damage yourself.

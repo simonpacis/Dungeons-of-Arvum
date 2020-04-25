@@ -200,12 +200,7 @@ class Player
 			$this->maxstamina = $this->slowmaxstamina;
 			if(($this->slowed_at + $this->slow_for) <= microtime(true))
 			{
-				$this->maxstamina = $this->slowmovementspeed;
-				$this->slowmovementspeed = 0;
-				$this->slowed_at = 0;
-				$this->slow_for = 0;
-				$this->slowed = false;
-				status($this->clientid, "You're no longer slowed.", "#42eef4");
+				$this->unSlow();
 			}
 		}
 	}
@@ -1540,6 +1535,12 @@ class Player
 		}
 	}
 
+	public function unFreeze($notify = true)
+	{
+		$this->frozen = false;
+		status($this->clientid, "You're no longer frozen.", "#42eef4");
+	}
+
 	public function isFrozen()
 	{
 		if($this->frozen_time == 0)
@@ -1548,8 +1549,7 @@ class Player
 		}
 		if($this->frozen && ($this->frozen_time + $this->frozen_duration) <= time())
 		{
-			$this->frozen = false;
-			status($this->clientid, "You're no longer frozen.", "#42eef4");
+			$this->unFreeze();
 			return false;
 		}
 
@@ -1584,6 +1584,21 @@ class Player
 		{
 			status($thisplayer->clientid, "You failed to slow " . $this->name . ".", "#42eef4");
 		}
+	}
+
+	public function isSlowed()
+	{
+		return $this->slowed;
+	}
+
+	public function unSlow($notify = true)
+	{
+		$this->maxstamina = $this->slowmovementspeed;
+		$this->slowmovementspeed = 0;
+		$this->slowed_at = 0;
+		$this->slow_for = 0;
+		$this->slowed = false;
+		status($this->clientid, "You're no longer slowed.", "#42eef4");
 	}
 
 

@@ -22,7 +22,7 @@ class bountyHunter extends Shop
 		$this->x = 0;
 		$this->y = 0;
 		$this->stock = [];
-		$this->selection = ["legendaryLocator", "shortBow", "longBow", "boneBow"];
+		$this->selection = ["legendaryLocator", "shortBow", "boneBow", "thawer", "greatThawer"];
 		$this->amount_of_items = rand(1,count($this->selection));
 
 	}
