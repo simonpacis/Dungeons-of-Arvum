@@ -18,144 +18,136 @@ Please note that the stock in any particular store is randomly generated from a 
 Hook: Before damage
 <br>  Resistance type: Ranged
 <br>  Resistance percentage: 0.2
-<br>  Rarity: Common
 <br>  Level: 1
 <br>  Wield type: Armor
 <br>  Description: Reduces ranged damage by 20%.
-<br>  Price: between 0 and 0
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Common`
+<br>Price: between 0 and 0
 #### Dagger
-Rarity: Common
-<br>  Description: 1 damage, 0.5 seconds attack speed.
+Description: 1 damage, 0.5 seconds attack speed.
 <br>  Range: 1
 <br>  Level: 1
 <br>  No sell: 1
 <br>  Attack speed: 0.5
-<br>  Price: between 8 and 12
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Common`
+<br>Price: between 8 and 12
 #### Health Potion
-Rarity: Common
-<br>  Description: This Health Potion grants you 10 HP
+Description: This Health Potion grants you 10 HP
 <br>  Heal: 10
-<br>  Price: between 2.4 and 3.6
+<br>  Rarity: ![##ffffff](https://placehold.it/15/#ffffff/000000?text=+) `Common`
+<br>Price: between 2 and 4
 #### Leather Armor
 Hook: Before damage
 <br>  Resistance type: Melee
 <br>  Resistance percentage: 0.2
-<br>  Rarity: Common
 <br>  Level: 1
 <br>  Wield type: Armor
 <br>  Description: Reduces melee damage by 20%.
-<br>  Price: between 0 and 0
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Common`
+<br>Price: between 0 and 0
 #### Mana Potion
-Rarity: Common
-<br>  Description: This Mana Potion grants you 10 mana
+Description: This Mana Potion grants you 10 mana
 <br>  Mana: 10
-<br>  Can be bought in: Magical Store, 
+<br>  Rarity: ![##ffffff](https://placehold.it/15/#ffffff/000000?text=+) `Common`
+<br>Can be bought in: Magical Store, 
 <br>Price: between 0 and 0
 #### Minor Shieldgiver
-Rarity: Common
-<br>  Description: This Minor Shieldgiver grants you 2 additional shield.
+Description: This Minor Shieldgiver grants you 2 additional shield.
 <br>  Shield: 2
-<br>  Can be bought in: General Store, 
-<br>Price: between 0.8 and 1.2
+<br>  Rarity: ![##ffffff](https://placehold.it/15/#ffffff/000000?text=+) `Common`
+<br>Can be bought in: General Store, 
+<br>Price: between 1 and 1
 #### Protective Blessing
 Hook: Before damage
 <br>  Resistance type: Magical
 <br>  Resistance percentage: 0.2
-<br>  Rarity: Common
 <br>  Level: 1
 <br>  Wield type: Armor
 <br>  Description: Reduces magical damage by 20%.
-<br>  Price: between 0 and 0
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Common`
+<br>Price: between 0 and 0
 #### Shortbow
-Rarity: Common
-<br>  Description: An ordinary bow that shoots arrows.
+Description: An ordinary bow that shoots arrows.
 <br>  Range: 3
 <br>  Level: 1
 <br>  Attack speed: 0.5
 <br>  Damage: 2
-<br>  Can be bought in: The Bounty Hunter, General Store, 
-<br>Price: between 18.4 and 27.6
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Common`
+<br>Can be bought in: The Bounty Hunter, General Store, 
+<br>Price: between 18 and 28
 #### Shortsword
-Rarity: Common
-<br>  Description: An ordinary sword that cuts.
+Description: An ordinary sword that cuts.
 <br>  Range: 1
 <br>  Level: 2
 <br>  Attack speed: 0.5
-<br>  Price: between 30 and 40
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Common`
+<br>Price: between 30 and 40
 ### Uncommon
 
-#### Brandistock
-Rarity: Uncommon
-<br>  Description: An ordinary brandistock. Has 30% chance to deal double damage, and 20% chance to single damage yourself. Damage: 3
-<br>  Range: 2
-<br>  Level: 6
-<br>  Damage: 3
-<br>  Attack speed: 0.75
-<br>  Can be bought in: Dwarven Market, 
-<br>Price: between 45.6 and 68.4
 #### Iron Spear
-Rarity: Uncommon
-<br>  Description: An iron spear. Has 10% chance to hit yourself.
+Description: An iron spear. Has 10% chance to hit yourself.
 <br>  Range: 3
 <br>  Level: 3
 <br>  Attack speed: 0.5
 <br>  Damage: 10
-<br>  Can be bought in: Dwarven Market, 
+<br>  Rarity: ![##1eff00](https://placehold.it/15/#1eff00/000000?text=+) `Uncommon`
+<br>Can be bought in: Dwarven Market, 
 <br>Price: between 84 and 126
 #### Longbow
-Rarity: Uncommon
-<br>  Description: A taller bow which shoots arrows further away.
+Description: A taller bow which shoots arrows further away.
 <br>  Range: 8
 <br>  Level: 7
 <br>  Damage type: Ranged
 <br>  Damage: 3
 <br>  Attack speed: 0.5
-<br>  Can be bought in: General Store, 
+<br>  Rarity: ![##1eff00](https://placehold.it/15/#1eff00/000000?text=+) `Uncommon`
+<br>Can be bought in: General Store, 
 <br>Price: between 50 and 84
 #### Longsword
-Rarity: Uncommon
-<br>  Description: A longer sword.
+Description: A longer sword.
 <br>  Range: 2
 <br>  Level: 4
 <br>  Attack speed: 0.75
 <br>  Damage: 10
 <br>  Damage type: Melee
-<br>  Can be bought in: General Store, 
+<br>  Rarity: ![##1eff00](https://placehold.it/15/#1eff00/000000?text=+) `Uncommon`
+<br>Can be bought in: General Store, 
 <br>Price: between 30 and 50
 #### Medium Shieldgiver
-Rarity: Uncommon
-<br>  Description: This Medium Shieldgiver grants you 5 additional shield.
+Description: This Medium Shieldgiver grants you 5 additional shield.
 <br>  Shield: 5
-<br>  Price: between 27.2 and 40.8
+<br>  Rarity: ![##1eff00](https://placehold.it/15/#1eff00/000000?text=+) `Uncommon`
+<br>Price: between 27 and 41
 #### Piece of Ember
-Rarity: Uncommon
-<br>  Description: Piece of Ember will remove any slow effect you have.
-<br>  Can be bought in: The Bounty Hunter, 
+Description: Piece of Ember will remove any slow effect you have.
+<br>  Level: 1
+<br>  Rarity: ![##1eff00](https://placehold.it/15/#1eff00/000000?text=+) `Uncommon`
+<br>Can be bought in: The Bounty Hunter, 
 <br>Price: between 24 and 36
 #### Rescroll
-Rarity: Uncommon
-<br>  Description: Rescroll is the object obtained after using rescroller. 
-<br>  Price: between 50 and 70
+Description: Rescroll is the object obtained after using rescroller. 
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Uncommon`
+<br>Price: between 50 and 70
 #### Scroll of Constitution
-Rarity: Uncommon
-<br>  Description: This Scroll of Constitution grants you 1 additional permament health.
+Description: This Scroll of Constitution grants you 1 additional permament health.
 <br>  Additional health: 1
-<br>  Price: between 24 and 36
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Uncommon`
+<br>Price: between 24 and 36
 #### Scroll of Fire
-Rarity: Uncommon
-<br>  Description: This Scroll of Fire grants you spells of fire.
+Description: This Scroll of Fire grants you spells of fire.
 <br>  Spell: FireBall
-<br>  Can be bought in: General Store, Magical Store, 
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Uncommon`
+<br>Can be bought in: General Store, Magical Store, 
 <br>Price: between 50 and 70
 #### Scroll of Ice
-Rarity: Uncommon
-<br>  Description: This Scroll of Ice grants you Ice spells.
-<br>  Can be bought in: Dwarven Market, Magical Store, 
+Description: This Scroll of Ice grants you Ice spells.
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Uncommon`
+<br>Can be bought in: Dwarven Market, Magical Store, 
 <br>Price: between 50 and 70
 #### Scroll of Lightning
-Rarity: Uncommon
-<br>  Description: This Scroll of Lightning grants you Lightning spells.
-<br>  Can be bought in: Magical Store, 
+Description: This Scroll of Lightning grants you Lightning spells.
+<br>  Rarity: ![##fff](https://placehold.it/15/#fff/000000?text=+) `Uncommon`
+<br>Can be bought in: Magical Store, 
 <br>Price: between 0 and 0
 ### Strong
 
@@ -163,204 +155,214 @@ Rarity: Uncommon
 Hook: Before damage
 <br>  Resistance type: Ranged
 <br>  Resistance percentage: 0.2
-<br>  Rarity: Strong
 <br>  Level: 12
 <br>  Wield type: Armor
 <br>  Description: Reduces ranged damage by 20%.
-<br>  Price: between 90.4 and 135.6
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Price: between 90 and 136
 #### Bonebow
-Rarity: Strong
-<br>  Description: A bow made of human bones. Damages 15 with a range of 12 and with attack speed of 0.5.
+Description: A bow made of human bones. Damages 15 with a range of 12 and with attack speed of 0.5.
 <br>  Range: 12
 <br>  Level: 9
 <br>  Damage type: Ranged
 <br>  Attack speed: 0.5
 <br>  Damage: 15
-<br>  Can be bought in: The Bounty Hunter, 
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Can be bought in: The Bounty Hunter, 
 <br>Price: between 236 and 354
+#### Brandistock
+Description: An ordinary brandistock. Has 30% chance to deal double damage. Damage: 3
+<br>  Range: 2
+<br>  Level: 6
+<br>  Damage: 3
+<br>  Attack speed: 0.75
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Can be bought in: Dwarven Market, 
+<br>Price: between 118 and 176
 #### Chainmail
 Hook: Before damage
 <br>  Resistance type: Ranged
 <br>  Resistance percentage: 0.4
-<br>  Rarity: Strong
 <br>  Level: 4
 <br>  Wield type: Armor
 <br>  Description: Reduces ranged damage by 40%.
-<br>  Price: between 90.4 and 135.6
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Price: between 90 and 136
 #### Legendary Stone
-Rarity: Strong
-<br>  Description: Legendary Stone sets your waypoint to a random legendary monster. Be careful!
+Description: Legendary Stone sets your waypoint to a random legendary monster. Be careful!
 <br>  Level: 10
-<br>  Can be bought in: The Bounty Hunter, 
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Can be bought in: The Bounty Hunter, 
 <br>Price: between 250 and 500
 #### Major Mana Potion
-Rarity: Strong
-<br>  Description: This Major Mana Potion grants you 50 mana
+Description: This Major Mana Potion grants you 50 mana
 <br>  Mana: 50
-<br>  Can be bought in: Magical Store, 
-<br>Price: between 90.4 and 135.6
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Can be bought in: Magical Store, 
+<br>Price: between 90 and 136
 #### Major Shieldgiver
-Rarity: Strong
-<br>  Description: This Major Shieldgiver grants you 10 additional shield.
+Description: This Major Shieldgiver grants you 10 additional shield.
 <br>  Shield: 10
-<br>  Can be bought in: Dwarven Market, 
+<br>  Rarity: ![##a335ee](https://placehold.it/15/#a335ee/000000?text=+) `Strong`
+<br>Can be bought in: Dwarven Market, 
 <br>Price: between 96 and 144
 #### Piece of Burning Coal
-Rarity: Strong
-<br>  Description: Piece of Burning Coal will remove any freeze effect you have.
-<br>  Can be bought in: The Bounty Hunter, 
-<br>Price: between 90.4 and 135.6
+Description: Piece of Burning Coal will remove any freeze effect you have.
+<br>  Level: 1
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Can be bought in: The Bounty Hunter, 
+<br>Price: between 90 and 136
 #### Pike
-Rarity: Strong
-<br>  Description: An ordinary pike. Has 30% chance to damage yourself.
+Description: An ordinary pike. Has 30% chance to damage yourself.
 <br>  Range: 3
 <br>  Level: 6
 <br>  Attack speed: 0.75
 <br>  Damage: 3
-<br>  Can be bought in: Dwarven Market, 
-<br>Price: between 119.2 and 178.8
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Can be bought in: Dwarven Market, 
+<br>Price: between 119 and 179
 #### Platemail
 Hook: Before damage
 <br>  Resistance type: Melee
 <br>  Resistance percentage: 0.4
-<br>  Rarity: Strong
 <br>  Level: 4
 <br>  Wield type: Armor
 <br>  Description: Reduces melee damage by 40%.
-<br>  Price: between 90.4 and 135.6
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Price: between 90 and 136
 #### Rapier
-Rarity: Strong
-<br>  Description: A faster sword. 4 damage, 0.25 seconds attack speed. Level: 8
+Description: A faster sword. 4 damage, 0.25 seconds attack speed. Level: 8
 <br>  Range: 2
 <br>  Level: 8
 <br>  Attack speed: 0.25
 <br>  Damage: 4
 <br>  Damage type: Melee
-<br>  Price: between 139.2 and 208.8
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Price: between 139 and 209
 #### Scalable Mana Boost
-Rarity: Strong
-<br>  Description: This Scalable Mana Boost gives you 10 times your level more permanent mana!
-<br>  Price: between 90.4 and 135.6
+Description: This Scalable Mana Boost gives you 10 times your level more permanent mana!
+<br>  Rarity: ![##1eff00](https://placehold.it/15/#1eff00/000000?text=+) `Strong`
+<br>Price: between 90 and 136
 #### Thran Spear
-Rarity: Strong
-<br>  Description: A spear from Thran. Damages 15 in a range of 3.
+Description: A spear from Thran. Damages 15 in a range of 3.
 <br>  Range: 3
 <br>  Level: 7
 <br>  Attack speed: 1
 <br>  Damage: 15
-<br>  Price: between 189.6 and 284.4
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Price: between 190 and 284
 #### Two-handed Sword
-Rarity: Strong
-<br>  Description: A big old nasty sword. 10 damage, 0.6 seconds attack speed. Level: 12
+Description: A big old nasty sword. 10 damage, 0.6 seconds attack speed. Level: 12
 <br>  Range: 2
 <br>  Level: 12
 <br>  Attack speed: 0.6
 <br>  Damage: 10
 <br>  Damage type: Melee
-<br>  Price: between 60 and 90
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Price: between 60 and 90
 #### Vigilant Blessing
 Hook: Before damage
 <br>  Resistance type: Magical
 <br>  Resistance percentage: 0.4
-<br>  Rarity: Strong
 <br>  Level: 4
 <br>  Wield type: Armor
 <br>  Description: Reduces magical damage by 40%.
-<br>  Price: between 90.4 and 135.6
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Price: between 90 and 136
 #### Winged Shoes
-Rarity: Strong
-<br>  Description: Hold down that movement button! Adds 5 to stamina. Stacks.
+Description: Hold down that movement button! Adds 5 to stamina. Stacks.
 <br>  Level: 4
 <br>  Hook: Before stamina use
 <br>  Extra stamina: 5
-<br>  Can be bought in: Dwarven Market, 
+<br>  Rarity: ![##0070ff](https://placehold.it/15/#0070ff/000000?text=+) `Strong`
+<br>Can be bought in: Dwarven Market, 
 <br>Price: between 100 and 140
 ### Epic
 
 #### Angelic Shoes
-Rarity: Epic
-<br>  Description: Hold down that movement button even more! Adds 10 to stamina. Stacks.
+Description: Hold down that movement button even more! Adds 10 to stamina. Stacks.
 <br>  Level: 7
 <br>  Hook: Before stamina use
 <br>  Extra stamina: 10
-<br>  Price: between 170 and 250
+<br>  Rarity: ![##a335ee](https://placehold.it/15/#a335ee/000000?text=+) `Epic`
+<br>Price: between 170 and 250
 #### Health Jug
-Rarity: Epic
-<br>  Description: This Health Jug grants you full HP.
-<br>  Price: between 280 and 420
+Description: This Health Jug grants you full HP.
+<br>  Rarity: ![##a335ee](https://placehold.it/15/#a335ee/000000?text=+) `Epic`
+<br>Price: between 280 and 420
 #### Mana Jug
-Rarity: Epic
-<br>  Description: This Mana Jug grants you full mana.
-<br>  Can be bought in: Dwarven Market, Magical Store, 
+Description: This Mana Jug grants you full mana.
+<br>  Rarity: ![##a335ee](https://placehold.it/15/#a335ee/000000?text=+) `Epic`
+<br>Can be bought in: Dwarven Market, Magical Store, 
 <br>Price: between 280 and 420
 #### Rescroller
-Rarity: Epic
-<br>  Description: Rescroller allows you to convert an active spell back into a scroll, to be read at a later time again.
-<br>  Can be bought in: Magical Store, 
+Description: Rescroller allows you to convert an active spell back into a scroll, to be read at a later time again.
+<br>  Rarity: ![##a335ee](https://placehold.it/15/#a335ee/000000?text=+) `Epic`
+<br>Can be bought in: Magical Store, 
 <br>Price: between 280 and 420
 ### Legendary
 
 #### 1st Shard of Fjallrung
-Rarity: Legendary
-<br>  Description: Combine all three shards and get the legendary weapon "Fjallrung".
+Description: Combine all three shards and get the legendary weapon "Fjallrung".
 <br>  Level: 1
-<br>  Price: between 840 and 1260
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 840 and 1260
 #### 2nd Shard of Fjallrung
-Rarity: Legendary
-<br>  Description: Combine all three shards and get the legendary weapon "Fjallrung".
+Description: Combine all three shards and get the legendary weapon "Fjallrung".
 <br>  Level: 1
-<br>  Price: between 840 and 1260
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 840 and 1260
 #### 3rd Shard of Fjallrung
-Rarity: Legendary
-<br>  Description: Combine all three shards and get the legendary weapon "Fjallrung".
+Description: Combine all three shards and get the legendary weapon "Fjallrung".
 <br>  Level: 1
-<br>  Price: between 840 and 1260
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 840 and 1260
 #### Amulet of Yendor
-Rarity: Legendary
-<br>  Description: You've found the Amulet of Yendor. You can now leave the dungeon, to live happily ever after!
+Description: You've found the Amulet of Yendor. You can now leave the dungeon, to live happily ever after!
 <br>  Level: 1
-<br>  Price: between 2147383647 and 2147383647
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 2147383647 and 2147383647
 #### Ezorvio's Stone
-Rarity: Legendary
-<br>  Description: Ezorvio's Stone will teleport you to your waypoint. 1 use.
-<br>  Price: between 840 and 1260
+Description: Ezorvio's Stone will teleport you to your waypoint. 1 use.
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 840 and 1260
 #### Fjallrung
-Rarity: Legendary
-<br>  Description: Fjallrung damages all players, excluding yourself, a random amount between 320 and 420.
+Description: Fjallrung damages all players, excluding yourself, a random amount between 320 and 420.
 <br>  Level: 16
-<br>  Price: between 840 and 1260
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 840 and 1260
 #### Heavenly Shoes
-Rarity: Legendary
-<br>  Description: What even is stamina? You've essentially got unlimited.
+Description: What even is stamina? You've essentially got unlimited.
 <br>  Level: 13
 <br>  Hook: Before stamina use
 <br>  Extra stamina: 10000
-<br>  Price: between 2000 and 2600
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 2000 and 2600
 #### Noxzirah's Kiss
-Rarity: Legendary
-<br>  Description: Noxzirah's Kiss will ensure that you do not die. While in inventory, you will survive your next death.
+Description: Noxzirah's Kiss will ensure that you do not die. While in inventory, you will survive your next death.
 <br>  Hook: Before monster death, before player death
-<br>  Price: between 840 and 1260
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 840 and 1260
 #### Scroll of Invincibility
-Rarity: Legendary
-<br>  Description: This Scroll of Invincibility grants you the spell of invincibility.
+Description: This Scroll of Invincibility grants you the spell of invincibility.
 <br>  Level: 15
-<br>  Price: between 800 and 1000
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 800 and 1000
 #### Skull Armor
 Hook: Before damage, after kill
 <br>  Resistance percentage: 0.1
-<br>  Rarity: Legendary
 <br>  Level: 12
 <br>  Wield type: Armor
-<br>  Price: between 3000 and 5000
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 3000 and 5000
 #### Skullbringer's Axe
-Rarity: Legendary
-<br>  Description: The axe of Barynn the Skullbringer.
+Description: The axe of Barynn the Skullbringer.
 <br>  Range: 1
 <br>  Level: 1
 <br>  Damage: 10
-<br>  Price: between 3000 and 10000
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 3000 and 10000
 #### THE SHIELDGIVER
-Rarity: Legendary
-<br>  Description: This THE SHIELDGIVER grants you full shield.
-<br>  Price: between 840 and 1260
+Description: This THE SHIELDGIVER grants you full shield.
+<br>  Rarity: ![##ff8000](https://placehold.it/15/#ff8000/000000?text=+) `Legendary`
+<br>Price: between 840 and 1260

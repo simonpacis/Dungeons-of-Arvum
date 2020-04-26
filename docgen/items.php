@@ -25,7 +25,7 @@ $scanpath = $orgpath."/classes/items";
 $files = scandir($scanpath);
 
 $exclusions = ["Item", "Armor", "Weapon", "item", "weapon"];
-$key_exclusions = ["name", "wielded", "minprice", "maxprice", "radius_var_1", "radius_var_2", "maxuses", "curuses", "color", "id", "radius_type", "last_attack"];
+$key_exclusions = ["rarity", "name", "wielded", "minprice", "maxprice", "radius_var_1", "radius_var_2", "maxuses", "curuses", "color", "id", "radius_type", "last_attack"];
 $common = [];
 $uncommon = [];
 $strong = [];
@@ -87,6 +87,8 @@ function parse_object($object)
 			$parsed_string .= "Range: " . $object->radius_var_1 . "\n<br>  ";
 		}
 
+
+
 		$bought_in = "";
 
 		$userDefinedClasses = array_diff(get_declared_classes(), $predefinedClasses);
@@ -122,6 +124,10 @@ function parse_object($object)
 		}
 		
 	}
+
+	$parsed_string .= "Rarity: ![#".$object->color."](https://placehold.it/15/".$object->color."/000000?text=+) `".ucfirst($object->rarity)."`\n<br>";
+
+
 		$parsed_string .= $bought_in;
 	if(isset($object->minprice))
 	{
