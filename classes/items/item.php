@@ -10,8 +10,8 @@ class Item
 	{
 		if(!isset($this->minprice))
 		{
-			$this->minprice = $this->calculate_cost()*0.8;
-			$this->maxprice = $this->calculate_cost()*1.2;
+			$this->minprice = round($this->calculate_cost()*0.8);
+			$this->maxprice = round($this->calculate_cost()*1.2);
 		}
 	}
 
@@ -124,6 +124,11 @@ class Item
 		} else {
 			return $this->name;
 		}
+	}
+
+	public function created($thisplayer)
+	{
+		return true;
 	}
 
 

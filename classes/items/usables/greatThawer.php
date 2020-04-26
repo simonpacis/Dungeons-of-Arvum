@@ -14,6 +14,7 @@ class greatThawer extends Item
 		$this->rarity = "strong";
 		$this->id = "0051";
 		$this->description = $this->name . " will remove any freeze effect you have.";
+		$this->level = 1;
 		parent::__construct();
 	}
 

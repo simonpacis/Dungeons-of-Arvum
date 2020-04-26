@@ -22,6 +22,14 @@ class amuletOfYendor extends Item
 
 	public function use($thisplayer)
 	{
+		global $single_player_mode, $start_time, $end_time;
+		if($single_player_mode == true)
+		{
+			status($thisplayer->clientid, "Start timestamp is " . $start_time . " seconds.");
+			status($thisplayer->clientid, "End timestamp is " . $end_time . " seconds.");
+			status($thisplayer->clientid, "Total time spent from start to finish was: " . ($end_time - $start_time) . " seconds.");
+
+		}
 		$thisplayer->action_target = $this;
 		$thisplayer->in_shop = true;
 		return false;
@@ -33,8 +41,10 @@ class amuletOfYendor extends Item
 		if($single_player_mode == true)
 		{
 			$end_time = round(microtime(true));
-			echo "\nEnd timestamp is " . $end_time;
-			echo "\nTotal time spent from start to finish is: " . ($end_time - $start_time) . " seconds.";
+			status($thisplayer->clientid, "Start timestamp is " . $start_time . " seconds.");
+			status($thisplayer->clientid, "End timestamp is " . $end_time . " seconds.");
+			status($thisplayer->clientid, "Total time spent from start to finish was: " . ($end_time - $start_time) . " seconds.");
+
 		}
 		$thisplayer->action_target = $this;
 		$thisplayer->in_shop = true;

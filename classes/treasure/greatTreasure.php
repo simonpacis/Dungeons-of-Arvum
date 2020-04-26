@@ -11,12 +11,17 @@ class Greattreasure
 		$this->solid = false;
 		$this->representation = "£";
 		$this->color = "#ffd700";
-		$this->loot = getItem("strong", "epic", false, true);
+		$this->loot = getItem("uncommon", "strong", false, true);
 	}
 
 	public function pickup($player)
 	{
-		$player->addToInventory($this->loot);
-
+		$lootorgold = rand(1,100);
+		if($lootorgold > 50)
+		{		
+			$player->addToInventory($this->loot);
+		} else {
+			$player->addCoins(rand(60,200));
+		}
 	}
 }

@@ -13,6 +13,7 @@ class thawer extends Item
 		$this->color = "#1eff00";
 		$this->rarity = "uncommon";
 		$this->id = "0050";
+		$this->level = 1;
 		$this->description = $this->name . " will remove any slow effect you have.";
 		parent::__construct();
 	}

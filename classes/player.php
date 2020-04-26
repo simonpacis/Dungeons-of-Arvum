@@ -161,14 +161,14 @@ class Player
 		$this->userid = 0;
 		$this->characterid = 0;
 		$this->lastmove = 0;
-		$this->$burned = false;
-		$this->$burn_damage = 0;
-		$this->$burn_frequency = 0;
-		$this->$burn_duration = 0;
-		$this->$last_burn = 0;
-		$this->$first_burn = 0;
-		$this->$burn_player = null;
-		$this->$is_burn_player = false;
+		$this->burned = false;
+		$this->burn_damage = 0;
+		$this->burn_frequency = 0;
+		$this->burn_duration = 0;
+		$this->last_burn = 0;
+		$this->first_burn = 0;
+		$this->burn_player = null;
+		$this->is_burn_player = false;
 		$this->invincible = false;
 		$this->invincible_duration = 0;
 		$this->last_invincible = 0;
@@ -176,8 +176,8 @@ class Player
 		$this->legendary_kills = 0;
 		$this->lowest_level_bonus = 1;
 		$this->frozen = false;
-		$this->$frozen_duration = 0;
-		$this->$frozen_time = 0;
+		$this->frozen_duration = 0;
+		$this->frozen_time = 0;
 		$this->slowed = false;
 		$this->slowmovementspeed = 0;
 		$this->slowmaxstamina = 0;
@@ -729,6 +729,16 @@ class Player
 			$arm["color"] = "#fff";
 			return $arm;
 		}
+	}
+
+	public function addCoins($coins, $notify = true)
+	{
+		$this->coins = $this->coins + $coins;
+		if($notify)
+		{
+			status($this->clientid, "You gained " . $coins . " coins.", "#ffff00");
+		}
+
 	}
 
 	public function addToInventory($item, $faux = false, $notify = true, $send_to_server = true)

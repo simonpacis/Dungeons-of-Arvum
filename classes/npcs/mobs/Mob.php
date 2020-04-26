@@ -582,10 +582,9 @@ class Mob
 		{
 			$this->resetColor($player->clientid);
 			$this->showAggroColor($player, false);
-			if($this->playercolors[$player->clientid] != null)
+			if(isset($this->playercolors[$player->clientid]))
 			{
 				$color = $this->playercolors[$player->clientid];
-
 				return $color;
 			} else {
 				$color = $this->playercolors[$player->clientid];

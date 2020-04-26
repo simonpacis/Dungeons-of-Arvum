@@ -71,7 +71,7 @@ function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_onl
 {
 	global $generic_items, $limited_items, $rarity_ladder, $potion_items;
 	$gen_items = $generic_items;
-	$lim_items = $lim_items;
+	$lim_items = 0;
 	if($potions_only)
 	{
 		$gen_items = $potion_items;
@@ -175,10 +175,6 @@ $limited_characters = [
 	new waypointTeleporter(),
 	new waypointTeleporter(),
 	new waypointTeleporter(),
-	new waypointTeleporter(),
-	new waypointTeleporter(),
-	new waypointTeleporter(),
-	new waypointTeleporter()
 ];
 
 function populateMap()
@@ -339,7 +335,7 @@ function treasureRoom($room)
 		} else {
 			setTile($xcoord, $ycoord, new Tile(new manapotTile(rand(1,2), $room['id'])));
 		}*/
-		setTile($xcoord, $ycoord, new Tile(new potTreasure()));
+		setTile($xcoord, $ycoord, new Tile(new Treasure()));
 	} elseif($itemdist > 50 && $itemdist < 85)
 	{
 		$xcoord = rand($room["_x1"], $room["_x2"]);

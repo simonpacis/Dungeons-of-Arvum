@@ -110,6 +110,8 @@ function parse_object($object)
 						}
 					}
 					
+				}elseif (is_subclass_of($class, 'Mob')) {
+					$class = new $class;
 				}
 				
 			

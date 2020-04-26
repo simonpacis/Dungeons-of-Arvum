@@ -33,4 +33,5 @@ class invincibilityScroll extends Item
 			return false;
 		}
 	}
+
 }

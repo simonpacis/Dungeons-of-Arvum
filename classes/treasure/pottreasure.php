@@ -16,7 +16,7 @@ class potTreasure
 
 	public function pickup($player)
 	{
-		$player->addToInventory($this->loot);
-		
+		//$player->addToInventory($this->loot);
+		$player->addCoins(rand(1,50));
 	}
 }

@@ -45,7 +45,8 @@ class seller extends Shop
 		{
 			if(!isset($item->no_sell))
 			{
-				array_push($this->stock, ["index" => $i, "item" => $item, "price" => (int) floor($item->minprice/2.2)]);
+				$price = round($item->minprice + (($item->maxprice - $item->minprice)/2));
+				array_push($this->stock, ["index" => $i, "item" => $item, "price" => (int) $price]);
 
 			}
 				$i++;

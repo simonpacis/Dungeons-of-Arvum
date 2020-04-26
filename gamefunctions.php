@@ -204,303 +204,303 @@ function chat($clientID, $message)
 	$msg = ['type' => 'message', 'message' => $message, 'name' => $players[$clientID]->name];
 	if($players[$clientID]->requestVar == null)
 	{
-	if(count($message) > 0 && $message != "\r")
-	{
-		if($single_player_mode == true)
+		if(count($message) > 0 && $message != "\r")
 		{
-			echo "\n" . $message . "\n";
-			if (strpos($message, 'time') !== false) 
+			if($single_player_mode == true)
 			{
-				status($clientID, "You've currently spent " . (round(microtime(true)) - $start_time) . " seconds playing.");
-			}
-		}
-		if(substr($message, 0, 1) == "!") // This is a command.
-		{
-			preg_match("~!(.*?) ~", $message, $cmd);
- 			$cmd = $cmd[1];
- 			$arg = substr($message, strpos($message, " ") + 1);
-			if($cmd == "cheats")
-			{
-				if($allow_cheats && $players[$clientID]->cheats == false)
+				if (strpos($message, 'time') !== false) 
 				{
-					$players[$clientID]->cheats = true;
-					status($clientID, "Cheats are now enabled – please know that these can crash the server.", "#5CCC6B");
-				} elseif($allow_cheats && $players[$clientID]->cheats == true)
-				{
-					$players[$clientID]->cheats = false;
-					status($clientID, "Cheats are now disabled.", "#ff5c5c");
-				}elseif(!$allow_cheats)
-				{
-					status($clientID, "Cheats are not allowed on this server.", "#ff5c5c");
+					status($clientID, "You've currently spent " . (round(microtime(true)) - $start_time) . " seconds playing.");
 				}
-			} else {
-				if($allow_cheats)
+			}
+			if(substr($message, 0, 1) == "!") // This is a command.
+			{
+				preg_match("~!(.*?) ~", $message, $cmd);
+	 			$cmd = $cmd[1];
+	 			$arg = substr($message, strpos($message, " ") + 1);
+				if($cmd == "cheats")
 				{
-					switch ($cmd) {
-						case 'slow':
-							if(isset($arg[0]))
-							{
-								$arg = explode(" ", $arg);
-								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
-								$arg[1] = preg_replace('/\s+/', '', $arg[1]);
-								if(is_numeric($arg[0]) && is_numeric($arg[1]))
+					if($allow_cheats && $players[$clientID]->cheats == false)
+					{
+						$players[$clientID]->cheats = true;
+						status($clientID, "Cheats are now enabled – please know that these can crash the server.", "#5CCC6B");
+					} elseif($allow_cheats && $players[$clientID]->cheats == true)
+					{
+						$players[$clientID]->cheats = false;
+						status($clientID, "Cheats are now disabled.", "#ff5c5c");
+					}elseif(!$allow_cheats)
+					{
+						status($clientID, "Cheats are not allowed on this server.", "#ff5c5c");
+					}
+				} else {
+					if($allow_cheats)
+					{
+						switch ($cmd) {
+							case 'slow':
+								if(isset($arg[0]))
 								{
-									$arg[0] = (int)$arg[0];
-									$arg[1] = (int)$arg[1];
-									$players[$clientID]->slow($arg[0], $arg[1], $players[$clientID]);
-								} else {
-									status($clientID, "Not a number.");
-								}
-							} else {
-								status($clientID, "The \"slow\" cheat works like this: \"!freeze amount_of_seconds percentage\".");
-							}
-							break;							
-						case 'freeze':
-							if(isset($arg[0]))
-							{
-								$arg = explode(" ", $arg);
-								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
-								if(is_numeric($arg[0]))
-								{
-									$arg[0] = (int)$arg[0];
-									$players[$clientID]->freeze($arg[0], $players[$clientID]);
-								} else {
-									status($clientID, "Not a number.");
-								}
-							} else {
-								status($clientID, "The \"freeze\" cheat works like this: \"!freeze amount_of_seconds\".");
-							}
-							break;							
-						case 'full':
-							$players[$clientID]->curmana = $players[$clientID]->maxmana;
-							$players[$clientID]->curhp = $players[$clientID]->maxhp; 
-							$players[$clientID]->curstamina = $players[$clientID]->maxstamina; 
-						case 'coins':
-							if(isset($arg[0]))
-							{
-								$arg = explode(" ", $arg);
-								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
-								if(is_numeric($arg[0]))
-								{
-									$arg[0] = (int)$arg[0];
-									$players[$clientID]->coins = $players[$clientID]->coins + $arg[0];
-								} else {
-									status($clientID, "Not a number.");
-								}
-							} else {
-								status($clientID, "The \"coins\" cheat works like this: \"!coins amount_of_coins\".");
-							}
-							break;
-						case 'levelup':
-							if(isset($arg[0]))
-							{
-								$arg = explode(" ", $arg);
-								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
-								if(is_numeric($arg[0]))
-								{
-									$arg[0] = (int)$arg[0];
-									for ($i=0; $i < $arg[0]; $i++) { 
-										$players[$clientID]->curxp = $players[$clientID]->maxxp;
-										$players[$clientID]->levelUp();
+									$arg = explode(" ", $arg);
+									$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+									$arg[1] = preg_replace('/\s+/', '', $arg[1]);
+									if(is_numeric($arg[0]) && is_numeric($arg[1]))
+									{
+										$arg[0] = (int)$arg[0];
+										$arg[1] = (int)$arg[1];
+										$players[$clientID]->slow($arg[0], $arg[1], $players[$clientID]);
+									} else {
+										status($clientID, "Not a number.");
 									}
 								} else {
-									status($clientID, "Not a number.");
+									status($clientID, "The \"slow\" cheat works like this: \"!freeze amount_of_seconds percentage\".");
 								}
-							} else {
-								status($clientID, "The \"levelup\" cheat works like this: \"!levelup amount_of_levels_to_gain\".");
-							}
-
-							break;
-						case 'grant':
-
-							if(isset($arg[0]))
-							{
-								$arg = explode(" ", $arg);
-								$arg[0] = preg_replace('/\s+/', '', $arg[0]);
-								if(class_exists($arg[0]))
+								break;							
+							case 'freeze':
+								if(isset($arg[0]))
 								{
-									$newitem = eval("return new " . $arg[0] . "();");
-									if(isset($arg[1]) && is_numeric((int)$arg[1]))
+									$arg = explode(" ", $arg);
+									$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+									if(is_numeric($arg[0]))
 									{
-										$arg[1] = (int) $arg[1];
-										for($i = 0; $i < $arg[1]; $i++)
+										$arg[0] = (int)$arg[0];
+										$players[$clientID]->freeze($arg[0], $players[$clientID]);
+									} else {
+										status($clientID, "Not a number.");
+									}
+								} else {
+									status($clientID, "The \"freeze\" cheat works like this: \"!freeze amount_of_seconds\".");
+								}
+								break;							
+							case 'full':
+								$players[$clientID]->curmana = $players[$clientID]->maxmana;
+								$players[$clientID]->curhp = $players[$clientID]->maxhp; 
+								$players[$clientID]->curstamina = $players[$clientID]->maxstamina; 
+							case 'coins':
+								if(isset($arg[0]))
+								{
+									$arg = explode(" ", $arg);
+									$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+									if(is_numeric($arg[0]))
+									{
+										$arg[0] = (int)$arg[0];
+										$players[$clientID]->coins = $players[$clientID]->coins + $arg[0];
+									} else {
+										status($clientID, "Not a number.");
+									}
+								} else {
+									status($clientID, "The \"coins\" cheat works like this: \"!coins amount_of_coins\".");
+								}
+								break;
+							case 'levelup':
+								if(isset($arg[0]))
+								{
+									$arg = explode(" ", $arg);
+									$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+									if(is_numeric($arg[0]))
+									{
+										$arg[0] = (int)$arg[0];
+										for ($i=0; $i < $arg[0]; $i++) { 
+											$players[$clientID]->curxp = $players[$clientID]->maxxp;
+											$players[$clientID]->levelUp();
+										}
+									} else {
+										status($clientID, "Not a number.");
+									}
+								} else {
+									status($clientID, "The \"levelup\" cheat works like this: \"!levelup amount_of_levels_to_gain\".");
+								}
+
+								break;
+							case 'grant':
+
+								if(isset($arg[0]))
+								{
+									$arg = explode(" ", $arg);
+									$arg[0] = preg_replace('/\s+/', '', $arg[0]);
+									if(class_exists($arg[0]))
+									{
+										$newitem = eval("return new " . $arg[0] . "();");
+										if(isset($arg[1]) && is_numeric((int)$arg[1]))
 										{
+											$arg[1] = (int) $arg[1];
+											for($i = 0; $i < $arg[1]; $i++)
+											{
+												$players[$clientID]->addToInventory($newitem, false, false);
+												$newitem->created($players[$clientID]);
+											}
+										} else {
 											$players[$clientID]->addToInventory($newitem, false, false);
 											$newitem->created($players[$clientID]);
 										}
 									} else {
-										$players[$clientID]->addToInventory($newitem, false, false);
-										$newitem->created($players[$clientID]);
+										status($clientID, "Item does not exist.");
 									}
 								} else {
-									status($clientID, "Item does not exist.");
+									status($clientID, "The \"grant\" cheat works like this: \"!grant itemClassToSpawn\". E.g. \"!grant fireScroll\"");
 								}
-							} else {
-								status($clientID, "The \"grant\" cheat works like this: \"!grant itemClassToSpawn\". E.g. \"!grant fireScroll\"");
-							}
-							break;
-						case 'lkill': //Kill a legendary
-							$players[$clientID]->killed(new ezorvio());
-							break;
-						case 'killkali':
-							foreach($mobs as $mob)
-							{
-								if($mob->name == "Kali the King of Thieves")
+								break;
+							case 'lkill': //Kill a legendary
+								$players[$clientID]->killed(new ezorvio());
+								break;
+							case 'killkali':
+								foreach($mobs as $mob)
 								{
-									$mob->die($players[$clientID]);
-									break;
+									if($mob->name == "Kali the King of Thieves")
+									{
+										$mob->die($players[$clientID]);
+										break;
+									}
 								}
-							}
-							break;
-						case 'tile':
-							if($allow_map_cheats)
-							{
-								$arg = explode(" ", $arg);
-								if(isset($arg[1]))
+								break;
+							case 'tile':
+								if($allow_map_cheats)
 								{
-									try {
-										/*$arg[1] = ucfirst($arg[1]);
-										if(class_exists($arg[1]))
-										{*/
-											$newtile = eval("return new " . ucfirst($arg[1]) . ";");
-										/*} else {
-											status($clientID, "Tile does not exist.");
-											break;
-										}*/
-										if($arg[0] == "u")
-										{
-											setTile($players[$clientID]->x, $players[$clientID]->y - 1, new Tile($newtile));
-										} elseif($arg[0] == "d")
-										{
-											setTile($players[$clientID]->x, $players[$clientID]->y + 1, new Tile($newtile));	
-										} elseif($arg[0] == "l")
-										{
-											setTile($players[$clientID]->x - 1, $players[$clientID]->y, new Tile($newtile));
-										} elseif($arg[0] == "r")
-										{
-											setTile($players[$clientID]->x + 1, $players[$clientID]->y, new Tile($newtile));
-										} else
-										{
+									$arg = explode(" ", $arg);
+									if(isset($arg[1]))
+									{
+										try {
+											/*$arg[1] = ucfirst($arg[1]);
+											if(class_exists($arg[1]))
+											{*/
+												$newtile = eval("return new " . ucfirst($arg[1]) . ";");
+											/*} else {
+												status($clientID, "Tile does not exist.");
+												break;
+											}*/
+											if($arg[0] == "u")
+											{
+												setTile($players[$clientID]->x, $players[$clientID]->y - 1, new Tile($newtile));
+											} elseif($arg[0] == "d")
+											{
+												setTile($players[$clientID]->x, $players[$clientID]->y + 1, new Tile($newtile));	
+											} elseif($arg[0] == "l")
+											{
+												setTile($players[$clientID]->x - 1, $players[$clientID]->y, new Tile($newtile));
+											} elseif($arg[0] == "r")
+											{
+												setTile($players[$clientID]->x + 1, $players[$clientID]->y, new Tile($newtile));
+											} else
+											{
+												status($clientID, "The \"tile\" cheat works like this: \"!tile direction tiletospawn\".");
+											}
+											
+										} catch (Exception $e) {
 											status($clientID, "The \"tile\" cheat works like this: \"!tile direction tiletospawn\".");
 										}
-										
-									} catch (Exception $e) {
+									}else{
 										status($clientID, "The \"tile\" cheat works like this: \"!tile direction tiletospawn\".");
 									}
-								}else{
-									status($clientID, "The \"tile\" cheat works like this: \"!tile direction tiletospawn\".");
+								} else {
+									status($clientID, "Map cheats not allowed.");
 								}
-							} else {
-								status($clientID, "Map cheats not allowed.");
-							}
 
-							break;
-						case 'teleport':
-							$arg = explode(" ", $arg);
-							echo("teleport:\n");
-							var_dump($arg);
-							moveTile($players[$clientID]->x, $players[$clientID]->y, $arg[0], $arg[1], $players[$clientID]);
-							$players[$clientID]->x = $arg[0];
-							$players[$clientID]->y = $arg[1];
-						case 'hold':
-							if(!$players[$clientID]->hold)
-							{
-								$players[$clientID]->hold = true;
-								status($clientID, "You're on hold.");
-							} else {
-								$players[$clientID]->hold = false;
-								status($clientID, "You're off hold.");
-							}
-							break;
-						case 'name':
-							if($players[$clientID]->state == "lobby")
-							{
-								statusBroadcast($players[$clientID]->name . " changed their name to " . preg_replace('/\s+/', '', $arg) . ".", "#ffff00", false, $clientID);
-								$players[$clientID]->name = preg_replace('/\s+/', '', $arg);
-								status($clientID, "Your name has been set.");
-							} else {
-								status($clientID, "You can only set your name in the lobby.");
-							}
-							break;
-						case 'autotimeout':
-							(int)$arg = explode(" ", $arg)[0];
-							$arg = preg_replace('/\s+/', '', $arg);
-							if(is_numeric($arg))
-							{
-								status($clientID, "You will now automatically use a timeout, if you have one, when you hit " . $arg . " HP.");
-								$players[$clientID]->auto_timeout = $arg;
-
-							} else {
-								status($clientID, "You have to enter a number. Enter 0 to disable auto timeout.");
-							}
-							break;
-						case 'settings':
-							$players[$clientID]->displaySettings();
-							break;
-						case 'time':
-							if($single_player_mode == true)
-							{
-								status($clientID, "You've currently spent " . (round(microtime(true)) - $start_time) . " seconds playing.");
-							} else {
-								status($clientID, "This functions is only enabled in single player.");
-							}
-							break;
-						default:
-							status($clientID, "This cheat does not exist. Implement it in gamefunctions.php");
-							break;
-					}
-					bigBroadcast();
-				} else {
-					switch ($cmd) {
-						case 'time':
-							if($single_player_mode == true)
-							{
-								status($clientID, "You've currently spent " . (microtime(true) - $start_time) . " seconds playing.");
-							} else {
-								status($clientID, "This functions is only enabled in single player.");
-							}
-							break;
-						default:
-							status($clientID, "Cheats are not enabled.", "#ff5c5c");
-							break;
-					}
-					
-				}
-			}
-		} else {
-			foreach($Server->wsClients as $id => $client)
-				{
-						if($clientID == $id && $players[$id]->state == "lobby")
-						{
-							if(!$massive)
-							{
-								if (strpos($message, 'startgame') !== false) //If I type startgame, start game!
+								break;
+							case 'teleport':
+								$arg = explode(" ", $arg);
+								echo("teleport:\n");
+								var_dump($arg);
+								moveTile($players[$clientID]->x, $players[$clientID]->y, $arg[0], $arg[1], $players[$clientID]);
+								$players[$clientID]->x = $arg[0];
+								$players[$clientID]->y = $arg[1];
+							case 'hold':
+								if(!$players[$clientID]->hold)
 								{
-									if($single_player_mode == true)
-									{
-										$start_time = round(microtime(true));
-										echo "\nStart timestamp is " . $start_time;
-									}
-									unsetLobby();
+									$players[$clientID]->hold = true;
+									status($clientID, "You're on hold.");
+								} else {
+									$players[$clientID]->hold = false;
+									status($clientID, "You're off hold.");
+								}
+								break;
+							case 'name':
+								if($players[$clientID]->state == "lobby")
+								{
+									statusBroadcast($players[$clientID]->name . " changed their name to " . preg_replace('/\s+/', '', $arg) . ".", "#ffff00", false, $clientID);
+									$players[$clientID]->name = preg_replace('/\s+/', '', $arg);
+									status($clientID, "Your name has been set.");
+								} else {
+									status($clientID, "You can only set your name in the lobby.");
+								}
+								break;
+							case 'autotimeout':
+								(int)$arg = explode(" ", $arg)[0];
+								$arg = preg_replace('/\s+/', '', $arg);
+								if(is_numeric($arg))
+								{
+									status($clientID, "You will now automatically use a timeout, if you have one, when you hit " . $arg . " HP.");
+									$players[$clientID]->auto_timeout = $arg;
 
 								} else {
-									$Server->wsSend($id, json_encode($msg)); //If I don't, chat out what I wrote!
+									status($clientID, "You have to enter a number. Enter 0 to disable auto timeout.");
+								}
+								break;
+							case 'settings':
+								$players[$clientID]->displaySettings();
+								break;
+							case 'time':
+								if($single_player_mode == true)
+								{
+									status($clientID, "You've currently spent " . (round(microtime(true)) - $start_time) . " seconds playing.");
+								} else {
+									status($clientID, "This functions is only enabled in single player.");
+								}
+								break;
+							default:
+								status($clientID, "This cheat does not exist. Implement it in gamefunctions.php");
+								break;
+						}
+						bigBroadcast();
+					} else {
+						switch ($cmd) {
+							case 'time':
+								if($single_player_mode == true)
+								{
+									status($clientID, "You've currently spent " . (microtime(true) - $start_time) . " seconds playing.");
+								} else {
+									status($clientID, "This functions is only enabled in single player.");
+								}
+								break;
+							default:
+								status($clientID, "Cheats are not enabled.", "#ff5c5c");
+								break;
+						}
+						
+					}
+				}
+			} else {
+				foreach($Server->wsClients as $id => $client)
+					{
+							if($clientID == $id && $players[$id]->state == "lobby")
+							{
+								if(!$massive)
+								{
+									if (strpos($message, 'startgame') !== false) //If I type startgame, start game!
+									{
+										if($single_player_mode == true)
+										{
+											$start_time = round(microtime(true));
+											status($clientID, "Start timestamp is " . $start_time . " seconds.");
+										}
+										unsetLobby();
+
+									} else {
+										$Server->wsSend($id, json_encode($msg)); //If I don't, chat out what I wrote!
+									}
+								} else {
+									$Server->wsSend($id, json_encode($msg));
 								}
 							} else {
 								$Server->wsSend($id, json_encode($msg));
 							}
-						} else {
-							$Server->wsSend($id, json_encode($msg));
-						}
+					}
 				}
 			}
+		} else {
+			if($players[$clientID]->{$players[$clientID]->requestVar . "Response"}(preg_replace('/\s+/', '', $message)))
+			{
+				$players[$clientID]->unsetRequest();
+			}
 		}
-	} else {
-		if($players[$clientID]->{$players[$clientID]->requestVar . "Response"}(preg_replace('/\s+/', '', $message)))
-		{
-			$players[$clientID]->unsetRequest();
-		}
-	}
+	
 }
 
 function setLobby($clientID)
@@ -684,9 +684,13 @@ function checkMobs()
 									{
 										$map[$ix][$i]->tick($players, $player);
 									}
-									if($map[$ix][$i]->dead == true)
+									if(property_exists($map[$ix][$i], 'dead'))
 									{
-										unset($map[$ix][$i]);
+										if($map[$ix][$i]->dead == true)
+										{
+											unset($map[$ix][$i]);
+										}
+
 									}
 								}
 							}
