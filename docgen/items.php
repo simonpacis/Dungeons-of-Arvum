@@ -125,7 +125,7 @@ function parse_object($object)
 		
 	}
 
-	$parsed_string .= "Rarity: ![#".$object->color."](https://placehold.it/15/".$object->color."/000000?text=+) `".ucfirst($object->rarity)."`\n<br>";
+	$parsed_string .= "Rarity: ![#".$object->color."](https://dummyimage.com/15x15/".str_replace("#", "", $object->color)."/fff/&text=+) `".ucfirst($object->rarity)."`\n<br>";
 
 
 		$parsed_string .= $bought_in;
