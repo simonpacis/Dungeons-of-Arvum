@@ -14,7 +14,7 @@ class fireScroll extends Item
 	public function __construct()
 	{
 		$this->name = "Scroll of Fire";
-		$this->color = "#fff";
+		$this->color = "#1eff00";
 		$this->rarity = "uncommon";
 		$this->id = "0019";
 		$this->description = "This " . $this->name . " grants you spells of fire.";

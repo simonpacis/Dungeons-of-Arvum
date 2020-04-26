@@ -1,5 +1,10 @@
 <?php
 
+function resetMap()
+{
+	
+}
+
 function newMap()
 {
 	global $map_height, $map_width, $map, $mapset, $rooms, $generate_new_map;

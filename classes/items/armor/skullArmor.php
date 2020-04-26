@@ -28,6 +28,7 @@ class skullArmor extends Armor
 		$this->level = 12;
 		$this->minprice = 3000;
 		$this->maxprice = 5000;
+		$this->description = "Reduces all damage by 10%. For each kill you get, this will go up by another 0.5%. Maxes out at 60%.";
 		parent::__construct();
 	}
 

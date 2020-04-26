@@ -15,7 +15,7 @@ class reScroll extends Item
 	public function __construct()
 	{
 		$this->name = "Rescroll";
-		$this->color = "#fff";
+		$this->color = "#1eff00";
 		$this->rarity = "uncommon";
 		$this->id = "0046";
 		$this->description = "Rescroll is the object obtained after using rescroller. ";

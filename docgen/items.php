@@ -25,7 +25,7 @@ $scanpath = $orgpath."/classes/items";
 $files = scandir($scanpath);
 
 $exclusions = ["Item", "Armor", "Weapon", "item", "weapon"];
-$key_exclusions = ["rarity", "name", "wielded", "minprice", "maxprice", "radius_var_1", "radius_var_2", "maxuses", "curuses", "color", "id", "radius_type", "last_attack"];
+$key_exclusions = ["rarity", "name", "wielded", "minprice", "maxprice", "radius_var_1", "radius_var_2", "maxuses", "curuses", "color", "id", "radius_type", "last_attack", "spell"];
 $common = [];
 $uncommon = [];
 $strong = [];
@@ -87,6 +87,14 @@ function parse_object($object)
 			$parsed_string .= "Range: " . $object->radius_var_1 . "\n<br>  ";
 		}
 
+		if($key == "spell")
+		{
+			if($object->spell != null)
+			{
+				$parsed_string .= "Spell: [" . $object->spell->name . "](https://github.com/simonpacis/Dungeons-of-Arvum/wiki/Spells#". strtolower(str_replace(" ", "-", $object->spell->name)) . ")\n<br>";
+			}
+		}
+
 
 
 		$bought_in = "";
@@ -125,7 +133,7 @@ function parse_object($object)
 		
 	}
 
-	$parsed_string .= "Rarity: ![#".$object->color."](https://dummyimage.com/15x15/".str_replace("#", "", $object->color)."/fff/&text=+) `".ucfirst($object->rarity)."`\n<br>";
+	$parsed_string .= "Rarity: ![".$object->color."](https://dummyimage.com/15x15/".str_replace("#", "", $object->color)."/fff/&text=+) `".ucfirst($object->rarity)."`\n<br>";
 
 
 		$parsed_string .= $bought_in;

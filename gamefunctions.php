@@ -236,6 +236,9 @@ function chat($clientID, $message)
 					if($allow_cheats)
 					{
 						switch ($cmd) {
+							case 'restart':
+								restartServer();
+								break;
 							case 'slow':
 								if(isset($arg[0]))
 								{
@@ -273,7 +276,8 @@ function chat($clientID, $message)
 							case 'full':
 								$players[$clientID]->curmana = $players[$clientID]->maxmana;
 								$players[$clientID]->curhp = $players[$clientID]->maxhp; 
-								$players[$clientID]->curstamina = $players[$clientID]->maxstamina; 
+								$players[$clientID]->curstamina = $players[$clientID]->maxstamina;
+								break; 
 							case 'coins':
 								if(isset($arg[0]))
 								{
@@ -866,6 +870,13 @@ function movePlayer($clientID, $key)
 	}
 
 }
+
+function restartServer()
+{
+	resetMap();
+	newMap();
+
+}	
 
 function updateplayercount()
 {

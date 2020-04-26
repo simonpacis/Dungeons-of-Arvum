@@ -42,6 +42,7 @@ $mdoa_api_base = "http://127.0.0.1:8000/api/"; // EXPERIMENTAL: Base URL for ser
 
 */
 
+$restart_php_string = "php"; //EXPERIMENTAL. Restart not implemented. When restarting the script from within the game, it executes the command 'php $path_to_script'. If you need to use a different version of php than the default installation, change this to something else. Eg 'php73'.
 $display_width = 41; //Default: 41 – Only touch this if you're using a custom client.
 $display_height = 21; //Default: 21 – Only touch this if you're using a custom client.
 $allow_cheats = false; //Used for debugging. Very easy to crash server with this.

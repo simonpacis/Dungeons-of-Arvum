@@ -11,7 +11,7 @@ class scalableManaBoost extends Item
 	public function __construct()
 	{
 		$this->name = "Scalable Mana Boost";
-		$this->color = "#1eff00";
+		$this->color = "#0070ff";
 		$this->rarity = "strong";
 		$this->id = "0040";
 		$this->description = "This " . $this->name . " gives you 10 times your level more permanent mana!";

@@ -1,0 +1,121 @@
+Loaded: config.php
+Dungeons of Arvum Server
+
+Loading classes...
+Loaded: bootstrap.php
+Loaded: Armor.php
+Loaded: chainBreastplate.php
+Loaded: chainmail.php
+Loaded: leatherArmor.php
+Loaded: platemail.php
+Loaded: protectiveBlessing.php
+Loaded: angelicShoes.php
+Loaded: heavenlyShoes.php
+Loaded: wingedShoes.php
+Loaded: skullArmor.php
+Loaded: vigilantBlessing.php
+Loaded: healthJug.php
+Loaded: healthPotion.php
+Loaded: majorManaPotion.php
+Loaded: majorShield.php
+Loaded: manaJug.php
+Loaded: manaPotion.php
+Loaded: mediumShield.php
+Loaded: noxzirahsKiss.php
+Loaded: permanentHealthboost.php
+Loaded: rangedBuff.php
+Loaded: scalableManaBoost.php
+Loaded: smallShield.php
+Loaded: theShieldgiver.php
+Loaded: item.php
+Loaded: fireScroll.php
+Loaded: iceScroll.php
+Loaded: invincibilityScroll.php
+Loaded: lightningScroll.php
+Loaded: reScroll.php
+Loaded: amuletOfYendor.php
+Loaded: greatThawer.php
+Loaded: legendaryLocator.php
+Loaded: portableWaypointTeleporter.php
+Loaded: rescroller.php
+Loaded: thawer.php
+Loaded: fjallrung.php
+Loaded: shardOfFjallRung1.php
+Loaded: shardOfFjallRung2.php
+Loaded: shardOfFjallRung3.php
+Loaded: skullbringersAxe.php
+Loaded: brandistock.php
+Loaded: ironSpear.php
+Loaded: pike.php
+Loaded: thranSpear.php
+Loaded: dagger.php
+Loaded: longSword.php
+Loaded: rapier.php
+Loaded: shortSword.php
+Loaded: twohandedsword.php
+Loaded: weapon.php
+Loaded: blank.php
+Loaded: door.php
+Loaded: floor.php
+Loaded: wall.php
+Loaded: waypointTeleporter.php
+Loaded: bountyHunter.php
+Loaded: bowSeller.php
+Loaded: dwarvenMarket.php
+Loaded: generalStore.php
+Loaded: scrollStore.php
+Loaded: seller.php
+Loaded: Mob.php
+Loaded: archerBandit.php
+Loaded: bandit.php
+Loaded: oakOwl.php
+Loaded: wolfbat.php
+Loaded: ezorvio.php
+Loaded: kali.php
+Loaded: noxzirah.php
+Loaded: skullMan.php
+Loaded: symeon.php
+Loaded: wyvern.php
+Loaded: bannerBear.php
+Loaded: mage.php
+Loaded: player.php
+Loaded: frostBall.php
+Loaded: invincibilitySpell.php
+Loaded: lightningBall.php
+Loaded: spell.php
+Loaded: tile.php
+Loaded: greatTreasure.php
+Loaded: healspot.php
+Loaded: healthpotTile.php
+Loaded: itemtile.php
+Loaded: manapotTile.php
+Loaded: pottreasure.php
+Loaded: treasure.php
+
+Generating map.
+Loading map from file.
+
+Populating map.
+Room overview:
+Amount of rooms: 1276
+Amount of vacant rooms: 518
+Amount of saferooms: 126
+Amount of mob or treasure rooms: 632
+Map population done.
+Spawning tick.
+
+----------------------------------------------------------
+|                                                        |
+|      __                          _                     |
+|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |
+|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |
+|               _/                                       |
+|                                                        |
+|                                                        |
+|          The first real multiplayer roguelike          |
+|                                                        |
+|                   by: Simon Pacis                      |
+|                                                        |
+----------------------------------------------------------
+
+Ready to connect!

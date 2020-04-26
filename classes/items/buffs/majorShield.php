@@ -11,7 +11,7 @@ class majorShield extends Item
 	public function __construct()
 	{
 		$this->name = "Major Shieldgiver";
-		$this->color = "#a335ee";
+		$this->color = "#0070ff";
 		$this->rarity = "strong";
 		$this->id = "0027";
 		$this->shield = 10;
