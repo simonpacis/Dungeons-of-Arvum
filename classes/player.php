@@ -983,7 +983,7 @@ class Player
 						$this->usedItem = $index;
 						if($this->level >= $this->inventory[$index]->level)
 						{
-							if($this->inventory[$index]->use($this))
+							if($this->inventory[$index]->use($this, $index))
 							{
 
 								$this->inventory[$index]->curuses--;
@@ -1729,6 +1729,17 @@ class Player
 				}
 			}
 		}
+	}
+
+	public function getInventoryIndex($item)
+	{
+		foreach ($this->inventory as $index => $value) {
+			if($item == $value)
+			{
+				return $index;
+			}
+		}
+		return -1;
 	}
 
 	public function itemUseRequest($item)

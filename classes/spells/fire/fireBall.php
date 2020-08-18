@@ -30,6 +30,8 @@ class fireBall extends Spell
 		$this->burn_frequency = 2;
 		$this->mana_use = 5;
 		$this->damage = 3;
+		$this->basedamage = 3;
+		$this->basemanause = 5;
 		$this->panel_value = "brn " . round($this->damage/3) . "dmg/". $this->burn_frequency ."s for ". $this->burn_duration ."s";
 	}
 
@@ -46,8 +48,9 @@ class fireBall extends Spell
 
 	public function duplicate($thisplayer, $notify = true)
 	{
-		$this->damage = $this->damage * 2;
-		$this->mana_use = round($this->mana_use * 2);
+		$this->level++;
+		$this->damage = $this->basedamage * ($this->level - 1);
+		$this->mana_use = round($this->basemanause * ($this->level - 1));
 		if(!$notify)
 		{
 			status($thisplayer->clientid, "You obtained another " . $this->name . ", which increased the damage to " . round($this->damage) . ", and the mana usage to " . $this->mana_use . ".");
