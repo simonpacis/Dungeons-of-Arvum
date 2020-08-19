@@ -36,6 +36,12 @@ Description: This Health Potion grants you 10 HP
 <br>  Heal: 10
 <br>  Rarity: ![#ffffff](https://dummyimage.com/15x15/ffffff/fff/&text=+) `Common`
 <br>Price: between 2 and 4
+#### Iron Ingot
+Description: An iron ingot. I should talk to the blacksmith about this.
+<br>  Range: 
+<br>  Level: 1
+<br>  Rarity: ![#fff](https://dummyimage.com/15x15/fff/fff/&text=+) `Common`
+<br>Price: between 10 and 30
 #### Leather Armor
 Hook: Before damage
 <br>  Resistance type: Melee
@@ -82,6 +88,12 @@ Description: An ordinary sword that cuts.
 <br>  Attack speed: 0.5
 <br>  Rarity: ![#fff](https://dummyimage.com/15x15/fff/fff/&text=+) `Common`
 <br>Price: between 30 and 40
+#### Yew Stick
+Description: An yew stick. I should talk to the bowyer about this.
+<br>  Range: 
+<br>  Level: 1
+<br>  Rarity: ![#fff](https://dummyimage.com/15x15/fff/fff/&text=+) `Common`
+<br>Price: between 10 and 30
 ### Uncommon
 
 #### Iron Spear
@@ -130,7 +142,7 @@ Description: Rescroll is the object obtained after using rescroller.
 <br>Price: between 50 and 70
 #### Scroll of Constitution
 Description: Scroll of Constitution grants you between 1 and 5 additional permanent health.
-<br>  Additional health: 5
+<br>  Additional health: 4
 <br>  Rarity: ![#1eff00](https://dummyimage.com/15x15/1eff00/fff/&text=+) `Uncommon`
 <br>Price: between 24 and 36
 #### Scroll of Fire
@@ -287,6 +299,15 @@ Description: Hold down that movement button even more! Adds 10 to stamina. Stack
 <br>  Extra stamina: 10
 <br>  Rarity: ![#a335ee](https://dummyimage.com/15x15/a335ee/fff/&text=+) `Epic`
 <br>Price: between 170 and 250
+#### Britta's Longbow
+Description: A taller bow crafted by the masterful Britta.
+<br>  Range: 8
+<br>  Level: 13
+<br>  Damage type: Ranged
+<br>  Damage: 10
+<br>  Attack speed: 0.5
+<br>  Rarity: ![#a335ee](https://dummyimage.com/15x15/a335ee/fff/&text=+) `Epic`
+<br>Price: between 406 and 608
 #### Health Jug
 Description: This Health Jug grants you full HP.
 <br>  Rarity: ![#a335ee](https://dummyimage.com/15x15/a335ee/fff/&text=+) `Epic`
@@ -296,6 +317,16 @@ Description: This Mana Jug grants you full mana.
 <br>  Rarity: ![#a335ee](https://dummyimage.com/15x15/a335ee/fff/&text=+) `Epic`
 <br>Can be bought in: Dwarven Market, Magical Store, 
 <br>Price: between 280 and 420
+#### Queron's Longsword
+Description: A sword smithed by the legendary Queron.
+<br>  Range: 2
+<br>  Level: 13
+<br>  Attack speed: 1
+<br>  Damage: 25
+<br>  Damage type: Melee
+<br>  Type: Melee
+<br>  Rarity: ![#a335ee](https://dummyimage.com/15x15/a335ee/fff/&text=+) `Epic`
+<br>Price: between 490 and 734
 #### Rescroller
 Description: Rescroller allows you to convert an active spell back into a scroll, to be read at a later time again.
 <br>  Rarity: ![#a335ee](https://dummyimage.com/15x15/a335ee/fff/&text=+) `Epic`
@@ -324,7 +355,7 @@ Description: You've found the Amulet of Yendor. You can now leave the dungeon, t
 <br>  Rarity: ![#ff8000](https://dummyimage.com/15x15/ff8000/fff/&text=+) `Legendary`
 <br>Price: between 2147383647 and 2147383647
 #### Ezorvio's Stone
-Description: Ezorvio's Stone will teleport you to your waypoint. 1 use.
+Description: Ezorvio's Stone will teleport you to your waypoint. 3 uses.
 <br>  Rarity: ![#ff8000](https://dummyimage.com/15x15/ff8000/fff/&text=+) `Legendary`
 <br>Price: between 840 and 1260
 #### Fjallrung
@@ -349,6 +380,10 @@ Description: This Scroll of Invincibility grants you the spell of invincibility.
 <br>  Level: 15
 <br>  Rarity: ![#ff8000](https://dummyimage.com/15x15/ff8000/fff/&text=+) `Legendary`
 <br>Price: between 800 and 1000
+#### Scroll of Symeon
+Description: The Scroll of Symeon grants you fifteen upgrades in a given scroll type.
+<br>  Rarity: ![#ff8000](https://dummyimage.com/15x15/ff8000/fff/&text=+) `Legendary`
+<br>Price: between 1100 and 1600
 #### Skull Armor
 Hook: Before damage, after kill
 <br>  Resistance percentage: 0.1

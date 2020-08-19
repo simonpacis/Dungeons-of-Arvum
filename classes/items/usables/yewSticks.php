@@ -1,6 +1,6 @@
 <?php
 
-class ironIngot extends Item
+class yewSticks extends Item
 {
 	public $name;
 	public $id;
@@ -15,11 +15,11 @@ class ironIngot extends Item
 	public $level;
 	public function __construct()
 	{
-		$this->name = "Iron Ingot";
+		$this->name = "Yew Stick";
 		$this->color = "#fff";
-		$this->id = "0053";
+		$this->id = "0055";
 		$this->rarity = "common";
-		$this->description = "An iron ingot. I should talk to the blacksmith about this.";
+		$this->description = "An yew stick. I should talk to the bowyer about this.";
 		$this->maxuses = 1;
 		$this->curuses = 1;
 		$this->level = 1;

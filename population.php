@@ -36,7 +36,12 @@ $generic_items=[
 	new iceScroll(),
 	new fireScroll(),	
 	new rescroller(),
-	new ironIngot()
+	new ironIngot(),
+	new yewSticks(),
+	new chainBreastplate(),
+	new chainmail(),
+	new leatherArmor(),
+	new platemail()
 ];
 $potion_items = [
 	/*new healthPotion(),
@@ -176,7 +181,8 @@ $limited_characters = [
 	new waypointTeleporter(),
 	new waypointTeleporter(),
 	new waypointTeleporter(),
-	new blacksmith()
+	new blacksmith(),
+	new bowyer()
 ];
 
 function populateMap()

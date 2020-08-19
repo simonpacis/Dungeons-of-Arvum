@@ -31,7 +31,7 @@ class legendaryLocator extends Item
 			{
 				status($thisplayer->clientid, $mob->name . " has been found. Check your waypoint!", "#ff8000");
 				status($thisplayer->clientid, "Waypoint set.");
-				$thisplayer->waypoint_x = $mob->x;
+				$thisplayer->waypoint_x = $mob->x + 1;
 				$thisplayer->waypoint_y = $mob->y;
 				break;
 			}

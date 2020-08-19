@@ -85,6 +85,11 @@ class Mob
 		}
 	}
 
+	public function isSafe()
+	{
+		return false;
+	}
+
 	public function levelUp()
 	{
 		$this->level++;

@@ -19,7 +19,6 @@ class queronsLongSword extends Weapon
 		$this->color = "#a335ee";
 		$this->id = "0054";
 		$this->rarity = "epic";
-		$this->description = "Damage: 25. Atk. spd.: 25 dps. Level: 13. A sword smithed by the legendary Queron.";
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 2;
 		$this->radius_var_2 = 2;
@@ -27,7 +26,9 @@ class queronsLongSword extends Weapon
 		$this->last_attack = 0;
 		$this->damage = 25;
 		$this->damage_type = "melee";
+		$this->type = "melee";
 		$this->level = 13;
+		$this->description = "A sword smithed by the legendary Queron.";
 		parent::__construct();
 	}
 

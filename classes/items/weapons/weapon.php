@@ -6,6 +6,17 @@ class Weapon extends Item
 	{
 		parent::__construct();
 	}
+
+	public function dps()
+	{
+		if(isset($this->attack_speed))
+		{
+			return ((1/$this->attack_speed)*$this->damage);
+		} else {
+			return 0;
+		}
+	}
+
 	public function create_radius($thisplayer, $radius_type, $radius_var_1, $radius_var_2, $color = "#fff")
 	{
 		global $map;
@@ -57,17 +68,31 @@ class Weapon extends Item
 				$attackspeed = $weapon->attack_speed * 1000;
 				if($weapon->last_attack == 0 or ($curtime - $weapon->last_attack) >= $attackspeed)
 				{
-					if($set_new_time)
+					if(!$thisplayer->isSafe())
 					{
-						$weapon->last_attack = $curtime;
+						if($set_new_time)
+						{
+							$weapon->last_attack = $curtime;
+						}
+						return true;
+					} else {
+						status($thisplayer->clientid, "You cannot attack when you're in a saferoom.");
+						return false;
+						
 					}
-					return true;
 				}
 			} else {
-				return true;
+				if(!$thisplayer->isSafe())
+				{
+					return true;
+				} else {
+					status($thisplayer->clientid, "You cannot attack when you're in a saferoom.");
+					return false;
+					
+				}
 			}
 		} else {
-			status($this->clientid, "You need to be level " . $weapon->level . " to use \"<span style='color:".$weapon->color." !important;'>" . $weapon->name . "</span>\"" . ".");
+			status($thisplayer->clientid, "You need to be level " . $weapon->level . " to use \"<span style='color:".$weapon->color." !important;'>" . $weapon->name . "</span>\"" . ".");
 
 		}
 	}
@@ -93,7 +118,13 @@ class Weapon extends Item
 							{
 								if($map[$ix][$i]->clientid != $thisplayer->clientid)
 								{
-									$map[$ix][$i]->damage($damage, $damage_type, $thisplayer);
+									if(!$map[$ix][$i]->isSafe())
+									{
+										$map[$ix][$i]->damage($damage, $damage_type, $thisplayer);
+									} else {
+										status($thisplayer->clientid, $map[$ix][$i]->name . " were not damaged because they are in a saferoom.");
+										
+									}
 								}
 							}
 						}

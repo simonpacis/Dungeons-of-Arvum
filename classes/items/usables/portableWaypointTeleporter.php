@@ -13,7 +13,9 @@ class portableWaypointTeleporter extends Item
 		$this->color = "#ff8000";
 		$this->rarity = "legendary";
 		$this->id = "0041";
-		$this->description = $this->name . " will teleport you to your waypoint. 1 use.";
+		$this->curuses = 3;
+		$this->maxuses = 3;
+		$this->description = $this->name . " will teleport you to your waypoint. 3 uses.";
 		parent::__construct();
 	}
 

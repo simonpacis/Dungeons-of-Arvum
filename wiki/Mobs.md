@@ -132,7 +132,7 @@ Basedamage: 5
 ### Legendary
 
 #### B́arynn the Skullbringer
-Basedamage: 25
+Basedamage: 35
 <br>  Basehp: 300
 <br>  Maxhp: 300
 <br>  Level: 10
@@ -141,7 +141,7 @@ Basedamage: 25
 <br>  Viewrange: 15
 <br>  Loot: Skull Armor
 <br>  Rarity: Legendary
-<br>  Damage: 25
+<br>  Damage: 35
 <br>  Damage type: Melee
 <br>  Movementspeed: 1
 <br>  Attackspeed: 1
@@ -200,7 +200,7 @@ Basedamage: 20
 <br>  Range: 2
 <br>  Representation: S
 <br>  Viewrange: 30
-<br>  Loot: Ezorvio's Stone
+<br>  Loot: Scroll of Symeon
 <br>  Rarity: Legendary
 <br>  Damage: 20
 <br>  Damage type: Melee

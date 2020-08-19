@@ -2198,7 +2198,20 @@ class Player
 						if(method_exists($this->inventory[$string-1], "describe")) {
 							$this->inventory[$string-1]->describe($this->clientid);
 						} else {
-							status($this->clientid, "<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>: " .$this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ".", "#ffff00");
+							if(isset($this->inventory[$string-1]->type))
+							{
+								$curitem = $this->inventory[$string-1];
+								switch ($curitem->type) {
+									case 'melee':
+										status($this->clientid, "<span style='color:".$curitem->color." !important;'>" . $curitem->name . "</span>: Damage: ".$curitem->damage . ". Atk. spd.: " .$curitem->dps() . " dps. Level: " .$curitem->level . ". Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ". " . $curitem->description, "#ffff00");
+										break;
+									default:
+										# code...
+										break;
+								}
+							} else {
+								status($this->clientid, "<span style='color:".$this->inventory[$string-1]->color." !important;'>" . $this->inventory[$string-1]->name . "</span>: " .$this->inventory[$string-1]->description . " Rarity: " . ucfirst($this->inventory[$string-1]->rarity) . ".", "#ffff00");
+							}
 						}
 						//return true;
 					} else {

@@ -17,6 +17,8 @@ Rarity: Common
 <br>  Burn duration: 6
 <br>  Burn frequency: 2
 <br>  Damage: 3
+<br>  Basedamage: 3
+<br>  Basemanause: 5
 <br>  
 #### Frostball
 Rarity: Common
