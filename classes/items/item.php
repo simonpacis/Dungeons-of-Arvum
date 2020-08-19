@@ -15,6 +15,20 @@ class Item
 		}
 	}
 
+	public function spend($thisplayer, $uses = 1)
+	{
+		if(isset($this->maxuses))
+		{
+			$this->curuses = $this->curuses - $uses;
+			if($this->curuses == 0)
+			{
+				status($thisplayer->clientid, $this->name . " broke.", "#ffff00");
+				unset($thisplayer->inventory[$thisplayer->getInventoryIndex($this)]);
+				$thisplayer->inventory = array_values($thisplayer->inventory);
+			}
+		}
+	}
+
 	public function calculate_cost()
 	{
 

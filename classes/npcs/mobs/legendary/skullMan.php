@@ -24,7 +24,7 @@ class skullMan extends Mob
 	public function __construct()
 	{
 		$this->name = "B́arynn the Skullbringer";
-		$this->basedamage = 25;
+		$this->basedamage = 35;
 		$this->damage = $this->basedamage;
 		$this->damage_type = "melee";
 		$this->basehp = 300;
