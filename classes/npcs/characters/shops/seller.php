@@ -88,9 +88,9 @@ class seller extends Shop
 		$lines = array_merge($strings, $options);
 		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "Use the arrows to move up and down"]);
-		array_push($lines, ["text" => "and press \"".str_replace("VK_", "", $keybindings['SPACE'])."\" to sell."]);
+		array_push($lines, ["text" => "and press \"".$thisplayer->getKeybinding("SPACE")."\" to sell."]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Press \"".str_replace("VK_", "", $keybindings['ESCAPE'])."\" to leave shop."]);
+		array_push($lines, ["text" => "Press \"".$thisplayer->getKeybinding("ESCAPE")."\" to leave shop."]);
 
 		return $lines;
 	}

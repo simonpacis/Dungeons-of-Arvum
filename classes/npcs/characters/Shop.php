@@ -28,7 +28,7 @@ class Shop extends Character
 			$this->stock_set = true;
 		}
 		$thisplayer->in_shop = true;
-		status($thisplayer->clientid, "Press \"".str_replace("VK_", "", $keybindings['DESCRIBE'])."\" to describe the items in the shop.");
+		status($thisplayer->clientid, "Press \"".$thisplayer->getKeybinding("DESCRIBE")."\" to describe the items in the shop.");
 
 	}
 
@@ -67,9 +67,9 @@ class Shop extends Character
 		$lines = array_merge($strings, $options);
 		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "Use the arrows to move up and down"]);
-		array_push($lines, ["text" => "and press \"".str_replace("VK_", "", $keybindings['SPACE'])."\" to purchase."]);
+		array_push($lines, ["text" => "and press \"".$thisplayer->getKeybinding("SPACE")."\" to purchase."]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Press \"".str_replace("VK_", "", $keybindings['ESCAPE'])."\" to leave shop."]);
+		array_push($lines, ["text" => "Press \"".$thisplayer->getKeybinding("ESCAPE")."\" to leave shop."]);
 
 		return $lines;
 	}

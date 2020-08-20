@@ -87,10 +87,11 @@ class Player
 	public $slow_for;
 	public $slowed;
 	public $slowmaxstamina;
+	public $keybindings;
 
 	public function __construct($Clientid)
 	{
-		global $default_auto_timeout;
+		global $default_auto_timeout, $keybindings;
 		$this->clientid = $Clientid;
 		$this->name = "null";
 		$this->level = 1;
@@ -183,6 +184,29 @@ class Player
 		$this->slowmaxstamina = 0;
 		$this->slowed_at = 0;
 		$this->slow_for = 0;
+		$this->keybindings = $keybindings;
+	}
+
+	public function parseKeybindings()
+	{
+		return $this->keybindings;
+	}
+
+	public function updateKeybindings($keybindings)
+	{
+		$this->keybindings = $keybindings;
+		return true;
+	}
+
+	public function updateKeybinding($key, $newkey)
+	{
+		$this->keybindings[$key] = $newkey;
+		return true;
+	}
+
+	public function getKeybinding($key)
+	{
+		return str_replace("VK_", "", $this->keybindings[$key]);
 	}
 
 	public function tick()
@@ -1969,14 +1993,14 @@ class Player
 		$this->name = preg_replace('/\s+/', '', $name);
 		$ready = true;
 		setLobby($this->clientid);
-		status($this->clientid, "Your name has been set. Press \"".str_replace("VK_", "", $keybindings['SHOW_SETTINGS'])."\" to open settings, if you want to change your name.");
+		status($this->clientid, "Your name has been set. Press \"".$this->getKeybinding("SHOW_SETTINGS")."\" to open settings, if you want to change your name.");
 		return true;
 	}
 
 	public function dropRequest()
 	{
 		global $keybindings;
-		status($this->clientid, "Which item(s) would you like to drop? Press ".str_replace("VK_", "", $keybindings['ESCAPE'])." to cancel.", "#ffff00", true);
+		status($this->clientid, "Which item(s) would you like to drop? Press ".$this->getKeybinding("ESCAPE")." to cancel.", "#ffff00", true);
 		return true;
 	}
 
@@ -2077,12 +2101,10 @@ class Player
 				status($this->clientid, "Please enter the percentage of HP at which you would like to auto suspend. Type 0 to disable auto suspend.", "#ffff00", true);
 				$this->request('setting');
 				break;
-			case 2:
-				status($this->clientid, "Please enter 1 to enable, and 0 to disable", "#ffff00", true);
-				$this->request('setting');
-				break;
 			default:
-				status($this->clientid, "Setting 2.");
+				$i = ($this->selected_setting-2);
+				//array_values($this->keybindings)[$i]
+				status($this->clientid, "Enter new keybinding for " . array_keys($this->keybindings)[$i] . ". Has to be a VK keycode without VK_ prepended.");
 				$this->request('setting');
 				break;
 		}
@@ -2095,7 +2117,7 @@ class Player
 
 	public function settingResponse($string)
 	{
-		global $default_auto_timeout;
+		global $default_auto_timeout, $Server;
 			switch ($this->selected_setting) {
 				case 0:
 					if($this->state == "lobby")
@@ -2121,21 +2143,12 @@ class Player
 						status($this->clientid, "Please enter a valid number.");
 					}
 					break;
-				case 2:
-					if(is_numeric($string))
-					{
-						if($string == 1)
-						{
-							$this->describe_function = true;
-							status($this->clientid, "Functional describes enabled");
-						} else {
-							$this->describe_function = false;
-							status($this->clientid, "Functional describes disabled");
-						}
-					}
-					break;
 				default:
-					status($this->clientid, "Setting 2.");
+					$key = str_replace("VK_", "", trim($string));
+					$i = ($this->selected_setting-2);
+					$this->keybindings[array_keys($this->keybindings)[$i]] = "VK_" . strtoupper($string);
+					status($this->clientid, "The new keybinding for " . array_keys($this->keybindings)[$i] . " is now "  . array_values($this->keybindings)[$i] . ".");
+					sendKeybindings($this->clientid);
 					break;
 			}
 
@@ -2147,8 +2160,16 @@ class Player
 		global $keybindings;
 		$strings = [];
 		$options = [];
-		array_push($options, ["text" => "Name: " . $this->name]);
-		array_push($options, ["text" => "Auto suspend at " . $this->auto_timeout . "% of max HP."]);
+		$localoptions = [];
+		array_push($localoptions, ["text" => "Name: " . $this->name]);
+		array_push($localoptions, ["text" => "Auto suspend at " . $this->auto_timeout . "% of max HP."]);
+		$i = 1;
+		foreach($this->keybindings as $key => $binding)
+		{
+			array_push($localoptions, ["text" => "Key for " . $key . ": " . str_replace("VK_", "", $binding)]);
+			$i++;
+		}
+		$this->max_settings = $i;
 		if($this->describe_function)
 		{
 			$funcdesc = "true";
@@ -2157,8 +2178,8 @@ class Player
 		}
 		//array_push($options, ["text" => "Show function next to name: " . $funcdesc]);
 
-		$i = 0;
-		foreach ($options as $key => $value) {
+		//$i = 0;
+		/*foreach ($options as $key => $value) {
 			if($this->selected_setting == $key)
 			{
 				$options[$i]["text"] = "[X] " . $options[$i]["text"];
@@ -2166,9 +2187,46 @@ class Player
 				$options[$i]["text"] = "[ ] " . $options[$i]["text"];
 			}
 			$i++;
+		}*/
+
+		if($this->selected_setting > 4)
+		{
+			$start = $this->selected_setting-4;
+			for($i = $start; $i < ($start+5); $i++)
+			{
+				if($this->selected_setting == ($i))
+				{
+					$options[$i]["text"] = "[X] " . $localoptions[$i]["text"];
+				} else {
+					$options[$i]["text"] = "[ ] " . $localoptions[$i]["text"];
+				}
+			}
+		} else {
+			for($i = 0; $i < 5; $i++)
+			{
+				if($this->selected_setting == ($i))
+				{
+					$options[$i]["text"] = "[X] " . $localoptions[$i]["text"];
+				} else {
+					$options[$i]["text"] = "[ ] " . $localoptions[$i]["text"];
+				}
+			}
 		}
 
-		array_push($strings, ["text" => "Your settings:"]);
+
+		/*for($i = (ceil(($this->selected_setting+1)/5)); $i < (ceil(($this->selected_setting+1)/5)) + 5; $i++)
+		{
+			if(($i-1) <= $this->max_settings)
+			{
+					if($this->selected_setting == ($i-1))
+					{
+						$options[$i]["text"] = "[X] " . $localoptions[$i]["text"];
+					} else {
+						$options[$i]["text"] = "[ ] " . $localoptions[$i]["text"];
+					}
+				}
+		}*/
+		array_push($strings, ["text" => "Your settings: (".($this->selected_setting+1)." of ".($this->max_settings+1).")"]);
 		array_push($strings, ["text" => " "]);
 		$lines = array_merge($strings, $options);
 		array_push($lines, ["text" => " "]);

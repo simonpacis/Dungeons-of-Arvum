@@ -11,27 +11,27 @@ function keypress($clientID, $key)
 	{
 	checkMobs();
 	$players[$clientID]->regenerate();
-	if($key == $keybindings['UP'] or $key == $keybindings['DOWN'] OR $key == $keybindings['LEFT'] OR $key == $keybindings['RIGHT'] OR $key == $keybindings['UP_1'] OR $key == $keybindings['DOWN_1'] OR $key == $keybindings['RIGHT_1'] OR $key == $keybindings['LEFT_1'])
+	if($key == $players[$clientID]->keybindings['UP'] or $key == $players[$clientID]->keybindings['DOWN'] OR $key == $players[$clientID]->keybindings['LEFT'] OR $key == $players[$clientID]->keybindings['RIGHT'] OR $key == $players[$clientID]->keybindings['UP_1'] OR $key == $players[$clientID]->keybindings['DOWN_1'] OR $key == $players[$clientID]->keybindings['RIGHT_1'] OR $key == $players[$clientID]->keybindings['LEFT_1'])
 	{
 		if(!$players[$clientID]->show_settings && !$players[$clientID]->in_shop)
 		{
 			$players[$clientID]->escape();
 			movePlayer($clientID, $key);
 		} else {
-			if(($key == $keybindings['DOWN'] OR $key == $keybindings['DOWN_1']))
+			if(($key == $players[$clientID]->keybindings['DOWN'] OR $key == $players[$clientID]->keybindings['DOWN_1']))
 			{
 				if($players[$clientID]->selected_setting < $players[$clientID]->max_settings)
 				{
 					$players[$clientID]->selected_setting++;
 
 				}
-			} else if(($key == $keybindings['UP'] OR $key == $keybindings['UP_1']))
+			} else if(($key == $players[$clientID]->keybindings['UP'] OR $key == $players[$clientID]->keybindings['UP_1']))
 			{
 				if($players[$clientID]->selected_setting > 0)
 				{
 					$players[$clientID]->selected_setting--;	
 				}
-			} else if($key == $keybindings['LEFT'])
+			} else if($key == $players[$clientID]->keybindings['LEFT'])
 			{
 				if($players[$clientID]->selected_setting > 5)
 				{
@@ -42,7 +42,7 @@ function keypress($clientID, $key)
 						$players[$clientID]->selected_setting--;
 					}
 				}
-			} else if($key == $keybindings['RIGHT'])
+			} else if($key == $players[$clientID]->keybindings['RIGHT'])
 			{
 				if(ceil($players[$clientID]->selected_setting/5) < ceil($players[$clientID]->max_settings/5))
 				{
@@ -53,7 +53,10 @@ function keypress($clientID, $key)
 	}
 	if($players[$clientID]->show_settings == false || $players[$clientID]->in_shop == false)
 	{
-		if($key == $keybindings['INVENTORY_1'] or $key == $keybindings['INVENTORY_2'] or $key == $keybindings['INVENTORY_3'] or $key == $keybindings['INVENTORY_4'] or $key == $keybindings['INVENTORY_5'] or $key == $keybindings['INVENTORY_6'] or $key == $keybindings['INVENTORY_7'] or $key == $keybindings['INVENTORY_8'] or $key == $keybindings['INVENTORY_9'])
+
+
+
+		if($key == $players[$clientID]->keybindings['INVENTORY_1'] or $key == $players[$clientID]->keybindings['INVENTORY_2'] or $key == $players[$clientID]->keybindings['INVENTORY_3'] or $key == $players[$clientID]->keybindings['INVENTORY_4'] or $key == $players[$clientID]->keybindings['INVENTORY_5'] or $key == $players[$clientID]->keybindings['INVENTORY_6'] or $key == $players[$clientID]->keybindings['INVENTORY_7'] or $key == $players[$clientID]->keybindings['INVENTORY_8'] or $key == $players[$clientID]->keybindings['INVENTORY_9'])
 		{
 			if(!$players[$clientID]->inTimeout())
 			{
@@ -90,14 +93,14 @@ function keypress($clientID, $key)
 			
 		}
 
-		if($key == $keybindings["SPELL_1"] or $key == $keybindings["SPELL_2"])
+		if($key == $players[$clientID]->keybindings["SPELL_1"] or $key == $players[$clientID]->keybindings["SPELL_2"])
 		{
-			if($key == $keybindings["SPELL_1"])
+			if($key == $players[$clientID]->keybindings["SPELL_1"])
 			{
 				$key = "VK_U";
 			}
 
-			if($key == $keybindings["SPELL_2"])
+			if($key == $players[$clientID]->keybindings["SPELL_2"])
 			{
 				$key = "VK_I";
 			}
@@ -109,7 +112,7 @@ function keypress($clientID, $key)
 			}
 		}
 
-		if($key == $keybindings["SUSPEND"])
+		if($key == $players[$clientID]->keybindings["SUSPEND"])
 		{
 			if(!$players[$clientID]->inTimeout())
 			{
@@ -120,13 +123,13 @@ function keypress($clientID, $key)
 		}
 
 
-		if($key == $keybindings["SWAP"])
+		if($key == $players[$clientID]->keybindings["SWAP"])
 		{
 			$players[$clientID]->request('swap');
 		}
 
 
-		if($key == $keybindings["DESCRIBE"])
+		if($key == $players[$clientID]->keybindings["DESCRIBE"])
 		{
 			if(!$players[$clientID]->in_shop)
 			{
@@ -135,34 +138,34 @@ function keypress($clientID, $key)
 				$players[$clientID]->describeResponse($players[$clientID]->selected_setting+1);
 			}
 		}
-		if($key == $keybindings["DROP"])
+		if($key == $players[$clientID]->keybindings["DROP"])
 		{
 			$players[$clientID]->request('drop');
 		}
-		if($key == $keybindings["ACTION"])
+		if($key == $players[$clientID]->keybindings["ACTION"])
 		{
 			$players[$clientID]->performAction();
 		}
-		if($key == $keybindings["SET_WAYPOINT"])
+		if($key == $players[$clientID]->keybindings["SET_WAYPOINT"])
 		{
 			$players[$clientID]->setWaypoint();
 		}
-		if($key == $keybindings["USE_HEALTHPOTION"])
+		if($key == $players[$clientID]->keybindings["USE_HEALTHPOTION"])
 		{
 			$players[$clientID]->useHealthpot();
 		}
-		if($key == $keybindings["USE_MANAPOTION"])
+		if($key == $players[$clientID]->keybindings["USE_MANAPOTION"])
 		{
 			$players[$clientID]->useManapot();
 		}
 	}
 	
-	if($key == $keybindings["ESCAPE"])
+	if($key == $players[$clientID]->keybindings["ESCAPE"])
 	{
 		$players[$clientID]->escape();
 	}
 
-	if($key == $keybindings["SPACE"])
+	if($key == $players[$clientID]->keybindings["SPACE"])
 	{
 		if(file_exists(dirname(__FILE__) . "/dev"))
 		{
@@ -181,7 +184,7 @@ function keypress($clientID, $key)
 		}
 	}
 
-	if($key == $keybindings["SHOW_SETTINGS"])
+	if($key == $players[$clientID]->keybindings["SHOW_SETTINGS"])
 	{
 		if(!$players[$clientID]->show_settings)
 		{
@@ -793,6 +796,13 @@ function statusBroadcast($message, $color = "#ffff00", $include_self = true, $pl
 	}
 }
 
+function sendKeybindings($clientID)
+{
+	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms, $keybindings;
+	$state = ["type" => "keybindings", "keybindings" => $players[$clientID]->parseKeybindings()];
+	$Server->wsSend($clientID, json_encode($state));
+}
+
 function newPlayer($clientID)
 {
 	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms, $keybindings;
@@ -802,7 +812,7 @@ function newPlayer($clientID)
 		if(!array_key_exists($clientID, $players)) //If we already have a character for this player.
 		{
 			$players[$clientID] = new Player($clientID);
-			$state = ["type" => "keybindings", "keybindings" => $keybindings];
+			$state = ["type" => "keybindings", "keybindings" => $players[$clientID]->parseKeybindings()];
 			$Server->wsSend($clientID, json_encode($state));
 			
 			if($massive)
@@ -846,28 +856,28 @@ function movePlayer($clientID, $key)
 {
 	global $players, $map, $keybindings;
 	switch ($key) {
-		case $keybindings['UP']:
+		case $players[$clientID]->keybindings['UP']:
 			$players[$clientID]->move(0, -1);
 			break;
-		case $keybindings['DOWN']:
+		case $players[$clientID]->keybindings['DOWN']:
 			$players[$clientID]->move(0, 1);
 			break;
-		case $keybindings['RIGHT']:
+		case $players[$clientID]->keybindings['RIGHT']:
 			$players[$clientID]->move(1);
 			break;
-		case $keybindings['LEFT']:
+		case $players[$clientID]->keybindings['LEFT']:
 			$players[$clientID]->move(-1);
 			break;
-		case $keybindings['UP_1']:
+		case $players[$clientID]->keybindings['UP_1']:
 			$players[$clientID]->move(0, -1);
 			break;
-		case $keybindings['DOWN_1']:
+		case $players[$clientID]->keybindings['DOWN_1']:
 			$players[$clientID]->move(0, 1);
 			break;
-		case $keybindings['RIGHT_1']:
+		case $players[$clientID]->keybindings['RIGHT_1']:
 			$players[$clientID]->move(1);
 			break;
-		case $keybindings['LEFT_1']:
+		case $players[$clientID]->keybindings['LEFT_1']:
 			$players[$clientID]->move(-1);
 			break;
 		default:
