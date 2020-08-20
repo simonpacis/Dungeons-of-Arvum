@@ -762,7 +762,7 @@ function requestName($clientID)
 
 function getState($clientID)
 {
-	global $players, $status;
+	global $players, $status, $keybindings;
 	$state = [];
 	$state['type'] = "state";
 	$state['map'] = parseMap($clientID);
@@ -795,13 +795,16 @@ function statusBroadcast($message, $color = "#ffff00", $include_self = true, $pl
 
 function newPlayer($clientID)
 {
-	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms;
+	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms, $keybindings;
 
 	if(count($players) < $max_players)
 	{
 		if(!array_key_exists($clientID, $players)) //If we already have a character for this player.
 		{
 			$players[$clientID] = new Player($clientID);
+			$state = ["type" => "keybindings", "keybindings" => $keybindings];
+			$Server->wsSend($clientID, json_encode($state));
+			
 			if($massive)
 			{
 				/*setLobby($clientID);

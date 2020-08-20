@@ -8,6 +8,7 @@ class Shop extends Character
 
 	public function action($thisplayer)
 	{
+		global $keybindings;
 		if(!$this->stock_set)
 		{
 			shuffle($this->selection);
@@ -27,7 +28,7 @@ class Shop extends Character
 			$this->stock_set = true;
 		}
 		$thisplayer->in_shop = true;
-		status($thisplayer->clientid, "Press \"Z\" to describe the items in the shop.");
+		status($thisplayer->clientid, "Press \"".str_replace("VK_", "", $keybindings['DESCRIBE'])."\" to describe the items in the shop.");
 
 	}
 
@@ -40,6 +41,7 @@ class Shop extends Character
 
 	public function getMenu($thisplayer)
 	{
+		global $keybindings;
 		$shop = $this;
 		$strings = [];
 		$options = [];
@@ -65,9 +67,9 @@ class Shop extends Character
 		$lines = array_merge($strings, $options);
 		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "Use the arrows to move up and down"]);
-		array_push($lines, ["text" => "and press \"space\" to purchase."]);
+		array_push($lines, ["text" => "and press \"".str_replace("VK_", "", $keybindings['SPACE'])."\" to purchase."]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Press \"escape\" to leave shop."]);
+		array_push($lines, ["text" => "Press \"".str_replace("VK_", "", $keybindings['ESCAPE'])."\" to leave shop."]);
 
 		return $lines;
 	}

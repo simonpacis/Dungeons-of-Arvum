@@ -21,9 +21,9 @@
             <span class="fade">HP:</span> <span class="playercurhp"></span>/<span style="color:#5CCC6B;" class="playermaxhp"></span><br>
     		<span class="fade">Mana:</span> <span style="color:#6495ED;" class="playercurmana"></span>/<span style="color:#6495ED;" class="playermaxmana"></span><br>
             <p><span class="fade">Stamina:</span> <span class="stamina"></span><br></p>
-            <p><span class="fade">R: Suspensions </span> (<span class="curtimeout"></span>/<span class="maxtimeout"></span>)</p>
-            <p><span class="fade">G: Waypoint: X: </span> <span class="waypoint_x"></span> <span class="fade">Y: </span><span class="waypoint_y"></span></p>
-            <p><span class="fade">F: </span> <span class="playeraction"></span></p>
+            <p><span class="fade"><span id="SUSPEND"></span>: Suspensions </span> (<span class="curtimeout"></span>/<span class="maxtimeout"></span>)</p>
+            <p><span class="fade"><span id="SET_WAYPOINT"></span>: Waypoint: X: </span> <span class="waypoint_x"></span> <span class="fade">Y: </span><span class="waypoint_y"></span></p>
+            <p><span class="fade"><span id="ACTION"></span>: </span> <span class="playeraction"></span></p>
        		<!--<span class="fade">X: </span> <span class="playerx"></span> <span class="fade">Y: </span><span class="playery"></span><br>-->
 
     	</div>
@@ -32,21 +32,21 @@
 		</div>
     	<div class="container otherinfo">
     		<p><span class="fade">Spells</span></p>
-    		<span class="fade">Q: </span><span class="abs s1"></span><br>
-    		<span class="fade">E: </span><span class="abs s2"></span><br>
+    		<span class="fade"><span id="SPELL_1"></span>: </span><span class="abs s1"></span><br>
+    		<span class="fade"><span id="SPELL_2"></span>: </span><span class="abs s2"></span><br>
     		<p><span class="fade">Inventory</span></p>
-    		<span class="fade">1: </span><span class="abs i1"></span><br>
-    		<span class="fade">2: </span><span class="abs i2"></span><br>
-    		<span class="fade">3: </span><span class="abs i3"></span><br>
-    		<span class="fade">4: </span><span class="abs i4"></span><br>
-    		<span class="fade">5: </span><span class="abs i5"></span><br>
-    		<span class="fade">6: </span><span class="abs i6"></span><br>
-    		<span class="fade">7: </span><span class="abs i7"></span><br>
-    		<span class="fade">8: </span><span class="abs i8"></span><br>
-    		<span class="fade">9: </span><span class="abs i9"></span><br>
+    		<span class="fade"><span id="INVENTORY_1"></span>: </span><span class="abs i1"></span><br>
+    		<span class="fade"><span id="INVENTORY_2"></span>: </span><span class="abs i2"></span><br>
+    		<span class="fade"><span id="INVENTORY_3"></span>: </span><span class="abs i3"></span><br>
+    		<span class="fade"><span id="INVENTORY_4"></span>: </span><span class="abs i4"></span><br>
+    		<span class="fade"><span id="INVENTORY_5"></span>: </span><span class="abs i5"></span><br>
+    		<span class="fade"><span id="INVENTORY_6"></span>: </span><span class="abs i6"></span><br>
+    		<span class="fade"><span id="INVENTORY_7"></span>: </span><span class="abs i7"></span><br>
+    		<span class="fade"><span id="INVENTORY_8"></span>: </span><span class="abs i8"></span><br>
+    		<span class="fade"><span id="INVENTORY_9"></span>: </span><span class="abs i9"></span><br>
             <p><span class="fade">Potions</span></p>
-            <span class="fade">M: Health potions (10%mxhp) </span>(<span class="healthpotions"></span>)<br>
-            <span class="fade">N: Mana potions </span>(<span class="manapotions"></span>)<br>
+            <span class="fade"><span id="USE_HEALTHPOTION"></span>: Health potions (10%mxhp) </span>(<span class="healthpotions"></span>)<br>
+            <span class="fade"><span id="USE_MANAPOTION"></span>: Mana potions </span>(<span class="manapotions"></span>)<br>
     	</div>
     </div>
         <div class="chat">

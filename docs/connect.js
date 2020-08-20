@@ -127,6 +127,9 @@
 					{
 						drawFromData(payload['map']);
 						setPlayerInfo(payload['player']);
+					} else if (payload['type'] == "keybindings")
+					{
+						updateKeybindings(payload['keybindings']);
 					}else if (payload['type'] == "lobby")
 					{
 						if(inLobby == false)

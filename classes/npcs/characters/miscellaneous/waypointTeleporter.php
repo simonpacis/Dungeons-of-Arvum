@@ -34,6 +34,7 @@ class waypointTeleporter extends Character
 
 	public function getMenu($thisplayer)
 	{
+		global $keybindings;
 		$strings = [];
 		$options = [];
 		$lines = [];
@@ -44,9 +45,9 @@ class waypointTeleporter extends Character
 		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "%c{white}[X] Teleport to my waypoint (100gp)"]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Press \"space\" to select."]);
+		array_push($lines, ["text" => "Press \"".str_replace("VK_", "", $keybindings['SPACE'])."\" to select."]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Press \"escape\" to leave."]);
+		array_push($lines, ["text" => "Press \"".str_replace("VK_", "", $keybindings['ESCAPE'])."\" to leave."]);
 		return $lines;
 	}
 

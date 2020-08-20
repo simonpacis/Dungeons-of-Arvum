@@ -1965,17 +1965,18 @@ class Player
 
 	public function nameResponse($name)
 	{
-		global $ready;
+		global $ready, $keybindings;
 		$this->name = preg_replace('/\s+/', '', $name);
 		$ready = true;
 		setLobby($this->clientid);
-		status($this->clientid, "Your name has been set. Press \"H\" to open settings, if you want to change your name.");
+		status($this->clientid, "Your name has been set. Press \"".str_replace("VK_", "", $keybindings['SHOW_SETTINGS'])."\" to open settings, if you want to change your name.");
 		return true;
 	}
 
 	public function dropRequest()
 	{
-		status($this->clientid, "Which item(s) would you like to drop? Press esc to cancel.", "#ffff00", true);
+		global $keybindings;
+		status($this->clientid, "Which item(s) would you like to drop? Press ".str_replace("VK_", "", $keybindings['ESCAPE'])." to cancel.", "#ffff00", true);
 		return true;
 	}
 
@@ -2143,6 +2144,7 @@ class Player
 
 	public function getSettings()
 	{
+		global $keybindings;
 		$strings = [];
 		$options = [];
 		array_push($options, ["text" => "Name: " . $this->name]);
@@ -2171,16 +2173,17 @@ class Player
 		$lines = array_merge($strings, $options);
 		array_push($lines, ["text" => " "]);
 		array_push($lines, ["text" => "Use the arrows to move up and down"]);
-		array_push($lines, ["text" => "and press \"space\" to change value."]);
+		array_push($lines, ["text" => "and press \"".str_replace("VK_", "", $keybindings['SPACE'])."\" to change value."]);
 		array_push($lines, ["text" => " "]);
-		array_push($lines, ["text" => "Press \"escape\" to leave menu."]);
+		array_push($lines, ["text" => "Press \"".str_replace("VK_", "", $keybindings['ESCAPE'])."\" to leave menu."]);
 
 		return $lines;
 	}
 
 	public function describeRequest()
 	{
-		status($this->clientid, "What would you like to have described? Press esc to cancel.", "#ffff00", true);
+		global $keybindings;
+		status($this->clientid, "What would you like to have described? Press ".str_replace("VK_", "", $keybindings['ESCAPE'])." to cancel.", "#ffff00", true);
 		return true;
 	}
 

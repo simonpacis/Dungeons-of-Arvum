@@ -78,6 +78,26 @@ drawText = function(text)
 
 }
 
+updateKeybindings = function(keybindings)
+{
+	$("#SUSPEND").text(keybindings.SUSPEND.replace("VK_", ""));
+	$("#SET_WAYPOINT").text(keybindings.SET_WAYPOINT.replace("VK_", ""));
+	$("#ACTION").text(keybindings.ACTION.replace("VK_", ""));
+	$("#SPELL_1").text(keybindings.SPELL_1.replace("VK_", ""));
+	$("#SPELL_2").text(keybindings.SPELL_2.replace("VK_", ""));
+	$("#INVENTORY_1").text(keybindings.INVENTORY_1.replace("VK_", ""));
+	$("#INVENTORY_2").text(keybindings.INVENTORY_2.replace("VK_", ""));
+	$("#INVENTORY_3").text(keybindings.INVENTORY_3.replace("VK_", ""));
+	$("#INVENTORY_4").text(keybindings.INVENTORY_4.replace("VK_", ""));
+	$("#INVENTORY_5").text(keybindings.INVENTORY_5.replace("VK_", ""));
+	$("#INVENTORY_6").text(keybindings.INVENTORY_6.replace("VK_", ""));
+	$("#INVENTORY_7").text(keybindings.INVENTORY_7.replace("VK_", ""));
+	$("#INVENTORY_8").text(keybindings.INVENTORY_8.replace("VK_", ""));
+	$("#INVENTORY_9").text(keybindings.INVENTORY_9.replace("VK_", ""));
+	$("#USE_HEALTHPOTION").text(keybindings.USE_HEALTHPOTION.replace("VK_", ""));
+	$("#USE_MANAPOTION").text(keybindings.USE_MANAPOTION.replace("VK_", ""));
+}
+
 setPlayerInfo = function(playerinfo)
 {
 	$(".playername").html(playerinfo['name']);
