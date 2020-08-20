@@ -1,36 +1,37 @@
 <?php
 include('mapfunctions.php');
+include('keybindings.php');
 
 
 function keypress($clientID, $key)
 {
-	global $players;
+	global $players, $keybindings;
 
 	if(!$players[$clientID]->dead)
 	{
 	checkMobs();
 	$players[$clientID]->regenerate();
-	if($key == "VK_UP" or $key == "VK_DOWN" OR $key == "VK_LEFT" OR $key == "VK_RIGHT" OR $key == "VK_W" OR $key == "VK_S" OR $key == "VK_D" OR $key == "VK_A")
+	if($key == $keybindings['UP'] or $key == $keybindings['DOWN'] OR $key == $keybindings['LEFT'] OR $key == $keybindings['RIGHT'] OR $key == $keybindings['UP_1'] OR $key == $keybindings['DOWN_1'] OR $key == $keybindings['RIGHT_1'] OR $key == $keybindings['LEFT_1'])
 	{
 		if(!$players[$clientID]->show_settings && !$players[$clientID]->in_shop)
 		{
 			$players[$clientID]->escape();
 			movePlayer($clientID, $key);
 		} else {
-			if(($key == "VK_DOWN" OR $key == "VK_S"))
+			if(($key == $keybindings['DOWN'] OR $key == $keybindings['DOWN_1']))
 			{
 				if($players[$clientID]->selected_setting < $players[$clientID]->max_settings)
 				{
 					$players[$clientID]->selected_setting++;
 
 				}
-			} else if(($key == "VK_UP" OR $key == "VK_W"))
+			} else if(($key == $keybindings['UP'] OR $key == $keybindings['UP_1']))
 			{
 				if($players[$clientID]->selected_setting > 0)
 				{
 					$players[$clientID]->selected_setting--;	
 				}
-			} else if($key == "VK_LEFT")
+			} else if($key == $keybindings['LEFT'])
 			{
 				if($players[$clientID]->selected_setting > 5)
 				{
@@ -41,7 +42,7 @@ function keypress($clientID, $key)
 						$players[$clientID]->selected_setting--;
 					}
 				}
-			} else if($key == "VK_RIGHT")
+			} else if($key == $keybindings['RIGHT'])
 			{
 				if(ceil($players[$clientID]->selected_setting/5) < ceil($players[$clientID]->max_settings/5))
 				{
@@ -52,11 +53,12 @@ function keypress($clientID, $key)
 	}
 	if($players[$clientID]->show_settings == false || $players[$clientID]->in_shop == false)
 	{
-		if($key == "VK_1" or $key == "VK_2" or $key == "VK_3" or $key == "VK_4" or $key == "VK_5" or $key == "VK_6" or $key == "VK_7" or $key == "VK_8" or $key == "VK_9")
+		if($key == $keybindings['INVENTORY_1'] or $key == $keybindings['INVENTORY_2'] or $key == $keybindings['INVENTORY_3'] or $key == $keybindings['INVENTORY_4'] or $key == $keybindings['INVENTORY_5'] or $key == $keybindings['INVENTORY_6'] or $key == $keybindings['INVENTORY_7'] or $key == $keybindings['INVENTORY_8'] or $key == $keybindings['INVENTORY_9'])
 		{
 			if(!$players[$clientID]->inTimeout())
 			{
-				$players[$clientID]->useInventory(substr($key, -1));
+				$inventory_index = substr(array_search($key, $keybindings), -1);
+				$players[$clientID]->useInventory($inventory_index);
 			} else {
 				status($clientID, "You're unable to use items when you're suspended.");
 			}
@@ -88,14 +90,14 @@ function keypress($clientID, $key)
 			
 		}
 
-		if($key == "VK_E" or $key == "VK_Q")
+		if($key == $keybindings["SPELL_1"] or $key == $keybindings["SPELL_2"])
 		{
-			if($key == "VK_Q")
+			if($key == $keybindings["SPELL_1"])
 			{
 				$key = "VK_U";
 			}
 
-			if($key == "VK_E")
+			if($key == $keybindings["SPELL_2"])
 			{
 				$key = "VK_I";
 			}
@@ -107,7 +109,7 @@ function keypress($clientID, $key)
 			}
 		}
 
-		if($key == "VK_R")
+		if($key == $keybindings["SUSPEND"])
 		{
 			if(!$players[$clientID]->inTimeout())
 			{
@@ -118,13 +120,13 @@ function keypress($clientID, $key)
 		}
 
 
-		if($key == "VK_C")
+		if($key == $keybindings["SWAP"])
 		{
 			$players[$clientID]->request('swap');
 		}
 
 
-		if($key == "VK_Z")
+		if($key == $keybindings["DESCRIBE"])
 		{
 			if(!$players[$clientID]->in_shop)
 			{
@@ -133,34 +135,34 @@ function keypress($clientID, $key)
 				$players[$clientID]->describeResponse($players[$clientID]->selected_setting+1);
 			}
 		}
-		if($key == "VK_X")
+		if($key == $keybindings["DROP"])
 		{
 			$players[$clientID]->request('drop');
 		}
-		if($key == "VK_F")
+		if($key == $keybindings["ACTION"])
 		{
 			$players[$clientID]->performAction();
 		}
-		if($key == "VK_G")
+		if($key == $keybindings["SET_WAYPOINT"])
 		{
 			$players[$clientID]->setWaypoint();
 		}
-		if($key == "VK_M")
+		if($key == $keybindings["USE_HEALTHPOTION"])
 		{
 			$players[$clientID]->useHealthpot();
 		}
-		if($key == "VK_N")
+		if($key == $keybindings["USE_MANAPOTION"])
 		{
 			$players[$clientID]->useManapot();
 		}
 	}
 	
-	if($key == "VK_ESCAPE")
+	if($key == $keybindings["ESCAPE"])
 	{
 		$players[$clientID]->escape();
 	}
 
-	if($key == "VK_SPACE")
+	if($key == $keybindings["SPACE"])
 	{
 		if(file_exists(dirname(__FILE__) . "/dev"))
 		{
@@ -179,7 +181,7 @@ function keypress($clientID, $key)
 		}
 	}
 
-	if($key == "VK_H")
+	if($key == $keybindings["SHOW_SETTINGS"])
 	{
 		if(!$players[$clientID]->show_settings)
 		{
@@ -839,30 +841,30 @@ function newPlayer($clientID)
 
 function movePlayer($clientID, $key)
 {
-	global $players, $map;
+	global $players, $map, $keybindings;
 	switch ($key) {
-		case 'VK_UP':
+		case $keybindings['UP']:
 			$players[$clientID]->move(0, -1);
 			break;
-		case 'VK_DOWN':
+		case $keybindings['DOWN']:
 			$players[$clientID]->move(0, 1);
 			break;
-		case 'VK_RIGHT':
+		case $keybindings['RIGHT']:
 			$players[$clientID]->move(1);
 			break;
-		case 'VK_LEFT':
+		case $keybindings['LEFT']:
 			$players[$clientID]->move(-1);
 			break;
-		case 'VK_W':
+		case $keybindings['UP_1']:
 			$players[$clientID]->move(0, -1);
 			break;
-		case 'VK_S':
+		case $keybindings['DOWN_1']:
 			$players[$clientID]->move(0, 1);
 			break;
-		case 'VK_D':
+		case $keybindings['RIGHT_1']:
 			$players[$clientID]->move(1);
 			break;
-		case 'VK_A':
+		case $keybindings['LEFT_1']:
 			$players[$clientID]->move(-1);
 			break;
 		default:
