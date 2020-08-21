@@ -87,7 +87,14 @@ class Spell
 						{
 							if($map[$ix][$i]->clientid != $thisplayer->clientid)
 							{
-								$map[$ix][$i]->damage($damage, $damage_type, $thisplayer);
+								if(!$map[$ix][$i]->isSafe())
+								{
+									$map[$ix][$i]->damage($damage, $damage_type, $thisplayer);
+								} else {
+									status($thisplayer->clientid, $map[$ix][$i]->name . " were not damaged because they are in a saferoom.");
+									
+								}
+							
 							}
 						}
 					}
@@ -124,7 +131,13 @@ class Spell
 								$rand = rand(1,100);
 								if($rand <= $chance)
 								{
-									$map[$ix][$i]->freeze($damage, $thisplayer);
+									if(!$map[$ix][$i]->isSafe())
+									{
+										$map[$ix][$i]->freeze($damage, $thisplayer);
+									} else {
+										status($thisplayer->clientid, $map[$ix][$i]->name . " were not frozen because they are in a saferoom.");
+										
+									}
 								} else {
 									status($thisplayer->clientid, "You failed to freeze " . $map[$ix][$i]->name . ".", "#42eef4");
 								}
@@ -164,7 +177,12 @@ class Spell
 								$rand = rand(1,100);
 								if($rand <= $chance)
 								{
-									call_user_func_array(array($map[$ix][$i], $action), $args);
+									if(!$map[$ix][$i]->isSafe())
+									{
+										call_user_func_array(array($map[$ix][$i], $action), $args);
+									} else {
+										status($thisplayer->clientid, $map[$ix][$i]->name . " were not " . $action . " because they are in a saferoom.");
+									}
 									//$map[$ix][$i]->freeze($damage, $thisplayer);
 								} else {
 									call_user_func_array(array($map[$ix][$i], $action . "Failed"), [$thisplayer]);

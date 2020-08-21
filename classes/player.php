@@ -88,6 +88,11 @@ class Player
 	public $slowed;
 	public $slowmaxstamina;
 	public $keybindings;
+	public $charmed;
+	public $charm;
+	public $charm_duration;
+	public $charm_time;
+	public $first_charm;
 
 	public function __construct($Clientid)
 	{
@@ -185,6 +190,11 @@ class Player
 		$this->slowed_at = 0;
 		$this->slow_for = 0;
 		$this->keybindings = $keybindings;
+		$this->charmed = false;
+		$this->charm = null;
+		$this->charm_duration = 0;
+		$this->charm_time = 0;
+		$this->first_charm = 0;
 	}
 
 	public function parseKeybindings()
@@ -218,6 +228,10 @@ class Player
 		if($this->invincible)
 		{
 			$this->performInvincible();
+		}
+		if($this->charmed)
+		{
+			$this->performCharm();
 		}
 		if($this->slowed)
 		{
@@ -1434,6 +1448,31 @@ class Player
 		}
 	}
 
+	public function performCharm($first = false)
+	{
+		if($this->charmed)
+		{
+
+			$curtime = round(microtime(true) * 1000);
+			
+			if(($this->charm_time+($this->charm_duration*1000)) > $curtime)
+			{
+				if($first)
+				{
+					$this->charm->charm($this);
+				}
+				$this->charm->charmTick($this);
+				return true;
+			} else {
+				status($this->clientid, "Your charm has worn off.", "#ff5c5c");
+				$this->charm->uncharm($this);
+				$this->charmed = false;
+				$this->charm = null;
+				$this->charm_time = 0;
+				return true;
+			}
+		}
+	}
 
 	public function performBurn()
 	{
@@ -1507,6 +1546,17 @@ class Player
 		$this->first_invincible = 0;
 		status($this->clientid, "You are invincible for " . $duration ." seconds.", "#fff");
 		return true;
+	}
+
+	public function charm($charm, $duration)
+	{
+		$this->charm_duration = $duration;
+		$this->charm_time = round(microtime(true) * 1000);
+		$this->charmed = true;
+		$this->charm = $charm;
+		$this->performCharm(true);
+		return true;
+		
 	}
 
 

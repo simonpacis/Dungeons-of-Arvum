@@ -14,23 +14,35 @@ class lightningBall extends Spell
 	public $radius_var_2;
 	public $level;
 	public $mana_use;
+	public $basestamina;
+	public $stamina;
+	public $basehp;
+	public $hp;
+	public $duration;
+	public $baseduration;
+
 	public function __construct()
 	{
-		$this->name = "Lightningball";
+		$this->name = "Lightning";
 		$this->color = "#ffffff";
 		$this->id = "0037";
 		$this->rarity = "common";
-		$this->description = "Shoots a mighty fireball from your hands.";
+		$this->description = "Empower yourself through the magic of lightning.";
 		$this->damage_type = "magical";
 		$this->radius_type = "cube";
 		$this->radius_var_1 = 5;
 		$this->radius_var_2 = 5;
 		$this->level = 1;
-		$this->burn_duration = 6;
-		$this->burn_frequency = 2;
+		$this->basemanause = 5;
 		$this->mana_use = 5;
 		$this->damage = 3;
-		$this->panel_value = "brn " . round($this->damage/3) . "dmg/". $this->burn_frequency ."s for ". $this->burn_duration ."s";
+		$this->basestamina = 2;
+		$this->stamina = $this->basestamina;
+		$this->basehp = 5;
+		$this->hp = $this->basehp;
+		$this->baseduration = 5;
+		$this->duration = $this->baseduration;
+		$this->panel_value = "+sta " . $this->stamina . ", +hp ". $this->hp .", for ". $this->duration ."s";
 	}
 
 	public function panelValue()
@@ -46,18 +58,49 @@ class lightningBall extends Spell
 
 	public function duplicate($thisplayer, $notify = true)
 	{
-		$this->damage = $this->damage * 1.3;
-		$this->mana_use = round($this->mana_use * 1.5);
+		$this->level++;
+		$this->hp = $this->basehp * (($this->level - 1)*2);
+		$this->stamina = $this->basestamina * ($this->level - 1);
+		$this->duration = $this->baseduration + ($this->baseduration * round((($this->level - 1)*0.2)));
+		$this->mana_use = round($this->basemanause * ($this->level - 1));
 		if(!$notify)
 		{
 			status($thisplayer->clientid, "You obtained another " . $this->name . ", which increased the damage to " . round($this->damage) . ", and the mana usage to " . $this->mana_use . ".");
 		}
+		$this->panel_value = "+sta " . $this->stamina . ", +hp ". $this->hp .", for ". $this->duration ."s";
 		return true;
 	}
 
+	public function charmTick($thisplayer)
+	{
+		$curtime = round(microtime(true) * 1000);		
+		$this->panel_value = "+sta " . $this->stamina . ", +hp ". $this->hp .", ". round((($thisplayer->charm_time+($thisplayer->charm_duration*1000)) - $curtime)/1000) ."s left";
+	}
+
+	public function charm($thisplayer)
+	{
+		$thisplayer->maxhp = $thisplayer->maxhp + $this->hp;
+		$thisplayer->curhp = $thisplayer->curhp + $this->hp;
+		$thisplayer->maxstamina = $thisplayer->maxstamina + $this->stamina;
+		$thisplayer->curstamina = $thisplayer->curstamina + $this->stamina;
+		return true;
+	}
+
+	public function uncharm($thisplayer)
+	{
+		$thisplayer->maxhp = $thisplayer->maxhp - $this->hp;
+		$thisplayer->curhp = $thisplayer->curhp - $this->hp;
+		$thisplayer->maxstamina = $thisplayer->maxstamina - $this->stamina;
+		$thisplayer->curstamina = $thisplayer->curstamina - $this->stamina;
+		$this->panel_value = "+sta " . $this->stamina . ", +hp ". $this->hp .", for ". $this->duration ."s";
+		return true;
+	}
+
+
 	public function use($thisplayer)
 	{
-		parent::create_radius($thisplayer, $this->radius_type, $this->radius_var_1, $this->radius_var_2, $this->color);
+		$thisplayer->charm($this, $this->duration);
+		return true;
 	}
 
 	public function useRadius($thisplayer)

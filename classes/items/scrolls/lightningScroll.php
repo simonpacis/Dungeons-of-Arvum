@@ -22,14 +22,17 @@ class lightningScroll extends Item
 		$this->maxprice = 70;
 		$this->minprice = 0;
 		$this->maxprice = 0;
+		$this->spell = new lightningBall();
 		parent::__construct();
 	}
 
 	public function use($thisplayer)
 	{
-		status($thisplayer->clientid, "Lightning spells are not yet implemented.", "#ffffff");
-		return false;
-		//$thisplayer->addToSpells(new frostBall());
-		//return true;
+		if($thisplayer->addToSpells($this->spell, $this))
+		{
+			return true;
+		} else {
+			return false;
+		}
 	}
 }
