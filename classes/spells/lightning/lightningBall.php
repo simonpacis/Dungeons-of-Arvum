@@ -23,8 +23,8 @@ class lightningBall extends Spell
 
 	public function __construct()
 	{
-		$this->name = "Lightning";
-		$this->color = "#ffffff";
+		$this->name = "Lightning Shield";
+		$this->color = "#FDD023";
 		$this->id = "0037";
 		$this->rarity = "common";
 		$this->description = "Empower yourself through the magic of lightning.";
@@ -40,19 +40,19 @@ class lightningBall extends Spell
 		$this->stamina = $this->basestamina;
 		$this->basehp = 5;
 		$this->hp = $this->basehp;
-		$this->baseduration = 5;
+		$this->baseduration = 10;
 		$this->duration = $this->baseduration;
-		$this->panel_value = "+sta " . $this->stamina . ", +hp ". $this->hp .", for ". $this->duration ."s";
+		$this->panel_value = "+" . $this->stamina . "sta, +". $this->hp ."hp, for ". $this->duration ."s";
 	}
 
 	public function panelValue()
 	{
-		return [$this->panel_value, "#ff5c5c"];
+		return [$this->panel_value, "#FDD023"];
 	}
 
 	public function describe($clientid)
 	{
-		status($clientid, "<span style='color:".$this->color." !important;'>" . $this->name . "</span>: " .$this->description . " Damage: " . round($this->damage) . ". Rarity: " . ucfirst($this->rarity) . ". Level: " . $this->level . ".", "#ffff00");
+		status($clientid, "<span style='color:".$this->color." !important;'>" . $this->name . "</span>: " .$this->description . ". Rarity: " . ucfirst($this->rarity) . ". Level: " . $this->level . ".", "#ffff00");
 		return true;
 	}
 
@@ -67,7 +67,7 @@ class lightningBall extends Spell
 		{
 			status($thisplayer->clientid, "You obtained another " . $this->name . ", which increased the damage to " . round($this->damage) . ", and the mana usage to " . $this->mana_use . ".");
 		}
-		$this->panel_value = "+sta " . $this->stamina . ", +hp ". $this->hp .", for ". $this->duration ."s";
+		$this->panel_value = "+" . $this->stamina . "sta, +". $this->hp ."hp, for ". $this->duration ."s";
 		return true;
 	}
 
