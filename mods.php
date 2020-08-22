@@ -1,3 +1,3 @@
 <?php
 
-$active_mods = [];
+$active_mods = ["core"];

@@ -52,7 +52,7 @@ function get_string_between($string, $start, $end){
      * @param string  $dir
      * @param int     $depth (optional)
      */
-function include_all($dir, $echo = true, &$results = array()){
+function include_all($dir, $echo = true, $results = array(), $except = array()){
     $files = scandir($dir);
 
     foreach($files as $key => $value){
@@ -64,7 +64,11 @@ function include_all($dir, $echo = true, &$results = array()){
                 {
         		  echo "Loaded: " . $value . "\n";
                 }
-        		include_once($path);
+                if(!in_array($value, $except))
+                {
+                    include_once($path);
+                }
+        		
         	}
             $results[] = $path;
         } else if($value != "." && $value != "..") {

@@ -6,73 +6,9 @@
 */
 $rarity_ladder = ["common", "uncommon", "strong", "epic", "legendary"];
 
-$limited_items=[
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new theShieldgiver(),
-	new legendaryLocator(),
-	new legendaryLocator(),
-	new legendaryLocator(),
-	new legendaryLocator(),
-	new legendaryLocator(),
-	new legendaryLocator(),
-	new legendaryLocator(),
-];
-$generic_items=[
-	new shortBow(),
-	new shortSword(),
-	new longBow(),
-	new pike(),
-	new brandiStock(),
-	new ironSpear(),
-	new longSword(),
-	new rapier(),
-	new iceScroll(),
-	new fireScroll(),
-	new lightningScroll(),	
-	new rescroller(),
-	new ironIngot(),
-	new yewSticks(),
-	new chainBreastplate(),
-	new chainmail(),
-	new leatherArmor(),
-	new platemail()
-];
-$potion_items = [
-	/*new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),
-	new healthPotion(),*/
-	new healthJug(),
-	/*new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),
-	new manaPotion(),*/
-	new majorManaPotion(),
-	new majorManaPotion(),
-	new manaJug(),
-	new smallShield(),
-	new smallShield(),
-	new smallShield(),
-	new mediumShield(),
-	new mediumShield(),
-	new majorShield()
-];
 
-foreach($potion_items as $item)
-{
-	array_push($generic_items, $item);
-}
 
-// Shuffle item arrays for extra randomization.
-shuffle($limited_items);
-shuffle($generic_items);
+
 
 function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_only = false, $generic_only = false, $loot_chance = 1, $potions_only = false)
 {
@@ -153,43 +89,11 @@ function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_onl
 	return clone $item;
 }
 
-$spawnable_mobs =[
-	new archerBandit(),
-	new bandit(),
-	new oakOwl(),
-	new wolfbat(),
-	new wyvern(),
-	new bannerBear(),
-	new mage()
-];
 
-$limited_mobs = [
-	new skullMan(),
-	new noxzirah(),
-	new ezorvio()
-];
-
-$spawnable_characters = [
-	new dwarvenMarket(),
-	new generalStore(),
-	new seller(),
-	new scrollStore(),
-	new bowSeller(),
-	new bountyHunter()
-];
-
-$limited_characters = [
-	new waypointTeleporter(),
-	new waypointTeleporter(),
-	new waypointTeleporter(),
-	new blacksmith(),
-	new bowyer()
-];
 
 function populateMap()
 {
 	global $ip, $port, $limited_characters, $constant_tick;
-
 	/*
 		Rules of room distribution.
 
@@ -199,11 +103,23 @@ function populateMap()
 
 	*/
 
-	global $map, $rooms, $limited_mobs, $vacant_rooms, $predefinedClasses, $spawnable_mobs, $safe_rooms;
+	global $map, $rooms, $limited_mobs, $vacant_rooms, $predefinedClasses, $spawnable_mobs, $potion_items, $generic_items, $limited_items, $safe_rooms;
+
+	foreach($potion_items as $item)
+	{
+		array_push($generic_items, $item);
+	}
+
+	// Shuffle item arrays for extra randomization.
+	shuffle($limited_items);
+	shuffle($generic_items);
+
 	echo "Populating map.\n";
 	$i = 0;
+	
 	foreach($rooms as &$room)
 	{
+
 		$room['id'] = $i;
 		$dist = rand(0,100);
 		if($dist <= 20)
@@ -312,11 +228,16 @@ function safeRoom($room)
 
 	if(rand(1,100) > 50)
 	{
-		$curchar = $spawnable_characters[array_rand($spawnable_characters, 1)];
-		$curmobclass = get_class($curchar);
-		$curmob = new $curmobclass;
-		$curmob->room = $room['id'];
-		setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($curmob));
+		if(count($spawnable_characters) > 0)
+		{
+			$curchar = $spawnable_characters[array_rand($spawnable_characters, 1)];
+			$curmobclass = get_class($curchar);
+			$curmob = new $curmobclass;
+			$curmob->room = $room['id'];
+			setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($curmob));
+		} else {
+			return true;
+		}
 	}
 
 	array_push($safe_rooms, $room);
@@ -388,6 +309,8 @@ function mobRoom($room)
 {
 	global $map, $rooms, $predefinedClasses, $spawnable_mobs;
 		$mob_selected = false;
+		if(count($spawnable_mobs) > 0)
+		{
 		while(!$mob_selected)
 		{
 			$mobtype = rand(0,100);
@@ -459,4 +382,7 @@ function mobRoom($room)
 			}
 			$mob_selected = true;
 		}
+	} else {
+		return true;
+	}
 }

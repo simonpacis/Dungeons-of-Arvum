@@ -805,7 +805,7 @@ function sendKeybindings($clientID)
 
 function newPlayer($clientID)
 {
-	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms, $keybindings;
+	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms, $keybindings, $starting_items;
 
 	if(count($players) < $max_players)
 	{
@@ -839,7 +839,11 @@ function newPlayer($clientID)
 			} else {
 				setLobby($clientID);
 				$players[$clientID]->request('name');
-				$players[$clientID]->addToInventory(new dagger(), false, false);
+				foreach($starting_items as $item)
+				{
+					$players[$clientID]->addToInventory(new $item, false, false);
+				}
+				
 
 				//$players[$clientID]->addToInventory(new healthPotion(), false, false);
 

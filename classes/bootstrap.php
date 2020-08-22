@@ -1,21 +1,28 @@
 <?php
 echo "\nDungeons of Arvum Server\n\n";
 echo "Loading classes...\n";
-include_once('items/item.php');
-include_once('items/weapons/weapon.php');
-include_once('spells/spell.php');
-
-
+include_once('classes/item.php');
+include_once('classes/weapon.php');
+include_once('classes/spell.php');
+include_once('classes/Armor.php');
+include_once('classes/Mob.php');
+include_once('classes/Character.php');
+include_once('classes/Shop.php');
 include_all(realpath(dirname(__FILE__)));
-echo "\nGenerating map.\n";
 
-include('population.php');
-include('gamestate.php');
-include('gamefunctions.php');
-include('tick/tick_spawn.php');
+include_once('population.php');
 
 include_once('mods.php');
+echo "\nLoading mods...\n";
+
 foreach($active_mods as $mod)
 {
-    include_all(realpath(dirname(__DIR__, 1)) . "/mods/".$mod, false);
+	echo "\nLoading mod \"".$mod."\"\n";
+	include_once(realpath(dirname(__DIR__, 1)) . "/mods/".$mod."/bootstrap.php");
 }
+
+
+include_once('gamestate.php');
+include_once('gamefunctions.php');
+include_once('tick/tick_spawn.php');
+
