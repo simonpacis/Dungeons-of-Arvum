@@ -75,3 +75,26 @@ function include_all($dir, $echo = true, &$results = array()){
 
     return $results;
 }
+
+function callableToString($callable) {
+    $refFunc = new ReflectionFunction($callable);
+    $startLine = $refFunc->getStartLine();
+    $endLine   = $refFunc->getEndLine();
+
+    $f      = fopen($refFunc->getFileName(), 'r');
+    $lineNo = 0;
+
+    $methodBody = '';
+    while($line = fgets($f)) {
+        $lineNo++;
+        if($lineNo > $startLine) {
+            $methodBody .= $line;
+        }
+        if($lineNo == $endLine - 1) {
+            break;
+        }
+    }
+    fclose($f);
+
+    return $methodBody;
+}
