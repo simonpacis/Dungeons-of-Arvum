@@ -2,6 +2,7 @@
 $ready = false;
 $players = [];
 $mobs = [];
+$characters = [];
 $map = [];
 $bigbroadcast = false;
 $status = [];

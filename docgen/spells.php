@@ -14,7 +14,7 @@ $orgpath = realpath(dirname(__FILE__));
 $orgpath = explode("/", $orgpath);
 array_pop($orgpath);
 $orgpath = implode("/", $orgpath);
-$scanpath = $orgpath."/classes/spells";
+$scanpath = $orgpath."/mods/core/spells";
 $files = scandir($scanpath);
 
 $exclusions = ["Item", "Armor", "Weapon", "item", "weapon", "spell", "Spell"];

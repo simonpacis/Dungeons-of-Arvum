@@ -22,6 +22,7 @@ class Mob
 	public $burn_player;
 	public $dead = false;
 	public $attack_in_safe = false;
+	public $players_hit = [];
 	public function tick($players, $player)
 	{
 			global $map;
@@ -134,7 +135,7 @@ class Mob
 
 	public function die($player)
 	{
-		global $vacant_rooms, $rooms;
+		global $vacant_rooms, $rooms, $mobs;
 		status($player->clientid, "You killed " . $this->name . ".", "#5CCC6B");
 		if($this->rarity == "legendary")
 		{
@@ -160,8 +161,38 @@ class Mob
 		$room = $vacant_rooms[array_rand($vacant_rooms, 1)];
 		mobRoom($room);
 		array_push($vacant_rooms, $rooms[$this->room]);
+		$i = 0;
+		foreach($mobs as $mob)
+		{
+			if($mob == $this)
+			{
+				unset($mobs[$i]);
+			}
+			$i++;
+		}
 		$this->dead = true;
 		//unset($this);
+	}
+
+	public function hasHit($player)
+	{
+		if(in_array($player->clientid, $this->players_hit))
+		{
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public function hit($player)
+	{
+		if(in_array($player->clientid, $this->players_hit))
+		{
+			return false;
+		} else {
+			array_push($this->players_hit, $player->clientid);
+			return true;
+		}
 	}
 
 	public function move()

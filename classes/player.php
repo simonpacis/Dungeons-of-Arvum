@@ -1379,6 +1379,7 @@ class Player
 		{
 			$amount = $this->runHook("before_damage", $amount, $type, $this);
 		}
+
 		$oldshield = $this->curshield;
 		if($this->curshield > 0)
 		{
@@ -1396,6 +1397,12 @@ class Player
 		} else {
 			$amount = 0;
 		}
+
+		if($this->hasHook("first_damage"))
+		{
+			$amount = $this->runHook("first_damage", $amount, $type, $this, $dealer);
+		}
+
 		if(!$this->invincible)
 		{
 			$this->curhp = $this->curhp - $amount;
@@ -1405,7 +1412,7 @@ class Player
 				$reducedamount = $orgamount - $amount;
 				if(!$this->invincible)
 				{
-					status($this->clientid, $dealer->name . " dealt " . $orgamount . " " . $type . " damage.", "#ff5c5c");
+					status($this->clientid, $dealer->name . " dealt " . $amount . " " . $type . " damage.", "#ff5c5c");
 				} else {
 					status($this->clientid, $dealer->name . " tried to deal you " . $orgamount . " " . $type . " damage, but you're invincible.", "#00ff00");
 				}

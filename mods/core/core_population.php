@@ -82,7 +82,8 @@ $spawnable_characters = [
 	new seller(),
 	new scrollStore(),
 	new bowSeller(),
-	new bountyHunter()
+	new bountyHunter(),
+	new armorSeller()
 ];
 
 $limited_characters = [

@@ -916,3 +916,45 @@ function newInventoryMassive($item, $character)
 	exec('curl --data "id='.$character->characterid.'&item_id='.$item->id.'" '.$mdoa_api_base.'inventory/add > /dev/null 2>&1 &');
 	return true;
 }
+
+
+function saveGame()
+{
+	global $safe_rooms, $rooms, $vacant_rooms, $spawnable_characters, $spawnable_mobs, $mobs, $characters;
+	file_put_contents("saves/rooms.json", json_encode($rooms));
+	file_put_contents("saves/safe_rooms.json", json_encode($safe_rooms));
+	file_put_contents("saves/vacant_rooms.json", json_encode($vacant_rooms));
+	$character_strings = [];
+	foreach($spawnable_characters as $character)
+	{
+		array_push($character_strings, get_class($character));
+	}
+	file_put_contents("saves/spawnable_characters.json", json_encode($character_strings));
+	$character_strings = [];
+	foreach($characters as $character)
+	{
+		array_push($character_strings, ["name" => get_class($character), "x" => $character->x, "y" => $character->y]);
+	}
+	file_put_contents("saves/characters.json", json_encode($character_strings));
+	$mob_strings = [];
+	foreach($spawnable_mobs as $mob)
+	{
+		array_push($mob_strings, get_class($mob));
+	}
+	file_put_contents("saves/spawnable_mobs.json", json_encode($mob_strings));
+	$mob_strings = [];
+	foreach($mobs as $mob)
+	{
+		array_push($mob_strings, ["name" => get_class($mob), "x" => $mob->x, "y" => $mob->y]);
+	}
+	file_put_contents("saves/mobs.json", json_encode($mob_strings));
+}
+
+function loadGame()
+{
+	$mobs = json_decode(file_put_contents("saves/mobs.json"));
+	foreach($mobs as $mob)
+	{
+		spawnMob(new $mob->name, $mob->x, $mob->y);
+	}
+}

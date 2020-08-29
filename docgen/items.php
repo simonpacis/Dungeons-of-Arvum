@@ -21,7 +21,7 @@ $orgpath = realpath(dirname(__FILE__));
 $orgpath = explode("/", $orgpath);
 array_pop($orgpath);
 $orgpath = implode("/", $orgpath);
-$scanpath = $orgpath."/classes/items";
+$scanpath = $orgpath."/mods/core/items";
 $files = scandir($scanpath);
 
 $exclusions = ["Item", "Armor", "Weapon", "item", "weapon"];

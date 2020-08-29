@@ -5,7 +5,8 @@
 	In the items array, we add all the items that we want to be spawnable, and how many of them. When spawned, added as loot or the likes, we remove them from the items array. Except for the generic_items array, from which we do not remove the items, but spawn a clone of it.
 */
 $rarity_ladder = ["common", "uncommon", "strong", "epic", "legendary"];
-
+$spawned_mobs = [];
+$spawned_characters = [];
 
 
 
@@ -103,7 +104,7 @@ function populateMap()
 
 	*/
 
-	global $map, $rooms, $limited_mobs, $vacant_rooms, $predefinedClasses, $spawnable_mobs, $potion_items, $generic_items, $limited_items, $safe_rooms;
+	global $map, $rooms, $limited_mobs, $vacant_rooms, $predefinedClasses, $spawnable_mobs, $potion_items, $generic_items, $limited_items, $safe_rooms, $characters;
 
 	foreach($potion_items as $item)
 	{
@@ -155,14 +156,18 @@ function populateMap()
 		spawnMob($mob, $xcoord, $ycoord);
 		unset($mob);
 	}
-
+	$i = 0;
 	foreach($limited_characters as $character)
 	{
 		$room = $safe_rooms[array_rand($safe_rooms, 1)];
 		$xcoord = rand($room["_x1"], $room["_x2"]);
 		$ycoord = rand($room["_y1"], $room["_y2"]);
+		$character->x = round($room["_x2"]-(($room["_x2"]-$room["_x1"])/2));
+		$character->y = round($room["_y2"]-(($room["_y2"]-$room["_y1"])/2));
+		array_push($characters, $character);
 		setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($character));
-		unset($character);
+		unset($limited_characters[$i]);
+		$i++;
 	}
 
 	echo "Map population done.\n";
@@ -172,12 +177,13 @@ function populateMap()
 	}
 	echo "\n\n----------------------------------------------------------\n|                                                        |\n|      __                          _                     |\n|     |  \    _  _  _ _  _  _   _ (_   /\  _      _      |\n|     |__/|_|| )(_)(-(_)| )_)  (_)|   /--\| \/|_||||     |\n|               _/                                       |\n|                                                        |\n|                                                        |\n|          The first real multiplayer roguelike          |\n|                                                        |\n|                   by: Simon Pacis                      |\n|                                                        |\n----------------------------------------------------------\n\n";
 	echo "Ready to connect!\n";
+	saveGame();
 
 }
 
 function safeRoom($room)
 {
-	global $safe_rooms, $spawnable_characters;
+	global $safe_rooms, $spawnable_characters, $characters;
 	foreach($room['_doors'] as $door => $value)
 	{
 		$door_coords = explode(",", $door, 2);
@@ -234,6 +240,9 @@ function safeRoom($room)
 			$curmobclass = get_class($curchar);
 			$curmob = new $curmobclass;
 			$curmob->room = $room['id'];
+			$curmob->x = round($room["_x2"]-(($room["_x2"]-$room["_x1"])/2));
+			$curmob->y = round($room["_y2"]-(($room["_y2"]-$room["_y1"])/2));
+			array_push($characters, $curmob);
 			setTile(($room["_x2"]-(($room["_x2"]-$room["_x1"])/2)), ($room["_y2"]-(($room["_y2"]-$room["_y1"])/2)), new Tile($curmob));
 		} else {
 			return true;
@@ -307,7 +316,7 @@ function treasureRoom($room)
 
 function mobRoom($room)
 {
-	global $map, $rooms, $predefinedClasses, $spawnable_mobs;
+	global $map, $rooms, $predefinedClasses, $spawnable_mobs, $spawned_mobs;
 		$mob_selected = false;
 		if(count($spawnable_mobs) > 0)
 		{
