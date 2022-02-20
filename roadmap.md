@@ -15,6 +15,7 @@ No respawns ever.
 Roguelike Royale will be a lot more complicated, and the games should be considerably longer.
 20-30 different weapons, 5-10 different spells, armor + shield, buffs and debuffs.
 A much steeper learning curve, but potentially much more rewarding gameplay.
+Monster death respawns through certain items, no player death respawn.
 
 The following is the old roadmap from back in the day.
 Still relevant, but not the focus atm.
