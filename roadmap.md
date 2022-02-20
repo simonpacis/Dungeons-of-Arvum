@@ -4,6 +4,7 @@ The ambitions for Dungeons of Arvum were a little too large when I started, so I
 ## Battle Royale
 A classic battle royale inspired by all the popular games.
 This means something like 5 different weapons, all available in different rarity types with different strengths.
+3 spells.
 But same weapon.
 No armor, just shield.
 Leveling is still in the game, but different rarities will now dictate, so e.g.
@@ -12,6 +13,7 @@ No respawns ever.
 
 ## Roguelike Royale
 Roguelike Royale will be a lot more complicated, and the games should be considerably longer.
+20-30 different weapons
 
 The following is the old roadmap from back in the day.
 Still relevant, but not the focus atm.
