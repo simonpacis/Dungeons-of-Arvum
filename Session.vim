@@ -28,8 +28,12 @@ nnoremap <NL> j
 nnoremap  k
 nnoremap  l
 nnoremap <silent>  :CtrlP
+vnoremap -d ""d
+nnoremap -D ""D
+nnoremap -d ""d
 nnoremap -ø :Mdto docx
 nnoremap -æ :Mdto pdf
+nnoremap -p :call WlTable()
 nmap -u [unite]
 nmap -bl :ls
 nmap -bq :bp | bd #
@@ -67,6 +71,7 @@ imap ¨d <Plug>(emmet-balance-tag-inward)
 imap ¨u <Plug>(emmet-update-tag)
 imap ¨; <Plug>(emmet-expand-word)
 imap ¨, <Plug>(emmet-expand-abbr)
+nnoremap D "_D
 xmap S <Plug>VSurround
 nnoremap <silent> [unite]cx :exec "Unite  -default-action=start citation/key:" . escape(input('Search Key : '),' ') 
 nnoremap <silent> [unite]c :Unite -buffer-name=citation-start-insert -default-action=append      citation/key
@@ -74,14 +79,18 @@ nnoremap [unite] <Nop>
 nmap cS <Plug>CSurround
 nmap cs <Plug>Csurround
 nmap ds <Plug>Dsurround
+vnoremap d "_d
+nnoremap d "_d
 vmap gx <Plug>NetrwBrowseXVis
 nmap gx <Plug>NetrwBrowseX
 xmap gS <Plug>VgSurround
+nnoremap x "_x
 nmap ySS <Plug>YSsurround
 nmap ySs <Plug>YSsurround
 nmap yss <Plug>Yssurround
 nmap yS <Plug>YSurround
 nmap ys <Plug>Ysurround
+nnoremap <SNR>127_: :=v:count ? v:count : ''
 nnoremap <SNR>100_: :=v:count ? v:count : ''
 vnoremap <silent> <Plug>NetrwBrowseXVis :call netrw#BrowseXVis()
 nnoremap <silent> <Plug>NetrwBrowseX :call netrw#BrowseX(netrw#GX(),netrw#CheckIfRemote(netrw#GX()))
@@ -148,11 +157,13 @@ unlet s:cpo_save
 set autoindent
 set background=dark
 set backspace=indent,eol,start
+set clipboard=unnamed
 set fileencodings=ucs-bom,utf-8,default,latin1
 set helplang=en
 set hidden
 set laststatus=2
 set listchars=tab:|\ 
+set mouse=n
 set runtimepath=
 set runtimepath+=~/.vim
 set runtimepath+=~/.vim/pack/vendor/start/nerdtree
@@ -179,6 +190,7 @@ set runtimepath+=~/.vim/pack/themes/start/dracula/after
 set runtimepath+=/usr/local/share/vim/vimfiles/after
 set runtimepath+=~/.vim/bundle/vim-javascript/after
 set runtimepath+=~/.vim/after
+set shiftwidth=4
 set showtabline=2
 set tabline=%!airline#extensions#tabline#get()
 set tabstop=4
@@ -194,7 +206,7 @@ endif
 set shortmess=aoO
 argglobal
 %argdel
-edit readme.md
+edit classes/player.php
 set splitbelow splitright
 wincmd _ | wincmd |
 vsplit
@@ -343,7 +355,7 @@ setlocal norightleft
 setlocal rightleftcmd=search
 setlocal noscrollbind
 setlocal scrolloff=-1
-setlocal shiftwidth=8
+setlocal shiftwidth=4
 setlocal noshortname
 setlocal showbreak=
 setlocal sidescrolloff=-1
@@ -382,18 +394,22 @@ setlocal nowrap
 setlocal wrapmargin=0
 wincmd w
 argglobal
-balt dev
+balt readme.md
 let s:cpo_save=&cpo
 set cpo&vim
 imap <buffer> <C-N> <Plug>SparkupNext
 imap <buffer> <C-E> <Plug>SparkupExecute
+onoremap <buffer> <silent> [[ ?\(.*\%#\)\@!\_^\s*\zs\(\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\|\(abstract\s\+\|final\s\+\)*class\|interface\)?:nohls
+nnoremap <buffer> <silent> [[ ?\(.*\%#\)\@!\_^\s*\zs\(\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\|\(abstract\s\+\|final\s\+\)*class\|interface\)?:nohls
+onoremap <buffer> <silent> ]] /\(.*\%#\)\@!\_^\s*\zs\(\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\|\(abstract\s\+\|final\s\+\)*class\|interface\)/:nohls
+nnoremap <buffer> <silent> ]] /\(.*\%#\)\@!\_^\s*\zs\(\(abstract\s\+\|final\s\+\|private\s\+\|protected\s\+\|public\s\+\|static\s\+\)*function\|\(abstract\s\+\|final\s\+\)*class\|interface\)/:nohls
 imap <buffer>  <Plug>SparkupExecute
 imap <buffer>  <Plug>SparkupNext
 let &cpo=s:cpo_save
 unlet s:cpo_save
 setlocal keymap=
 setlocal noarabic
-setlocal autoindent
+setlocal noautoindent
 setlocal backupcopy=
 setlocal balloonexpr=
 setlocal nobinary
@@ -407,8 +423,8 @@ setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
 setlocal cinoptions=
 setlocal cinwords=if,else,while,do,for,switch
 setlocal colorcolumn=
-setlocal comments=fb:*,fb:-,fb:+,n:>
-setlocal commentstring=<!--%s-->
+setlocal comments=s1:/*,mb:*,ex:*/,://,:#
+setlocal commentstring=/*%s*/
 setlocal complete=.,w,b,u,t,i
 setlocal concealcursor=
 setlocal conceallevel=0
@@ -425,8 +441,8 @@ setlocal nodiff
 setlocal equalprg=
 setlocal errorformat=
 setlocal noexpandtab
-if &filetype != 'markdown'
-setlocal filetype=markdown
+if &filetype != 'php'
+setlocal filetype=php
 endif
 setlocal fixendofline
 setlocal foldcolumn=0
@@ -440,16 +456,16 @@ setlocal foldminlines=1
 setlocal foldnestmax=20
 setlocal foldtext=foldtext()
 setlocal formatexpr=
-setlocal formatoptions=tcqln
-setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\|^[-*+]\\s\\+\\|^\\[^\\ze[^\\]]\\+\\]:
+setlocal formatoptions=qrocb
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
 setlocal formatprg=
 setlocal grepprg=
 setlocal iminsert=0
 setlocal imsearch=-1
-setlocal include=
+setlocal include=\\(require\\|include\\)\\(_once\\)\\?
 setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal indentexpr=GetPhpIndent()
+setlocal indentkeys=0{,0},0),0],:,!^F,o,O,e,*<Return>,=?>,=<?,=*/
 setlocal noinfercase
 setlocal iskeyword=@,48-57,_,192-255,$
 setlocal keywordprg=
@@ -468,7 +484,7 @@ setlocal nrformats=bin,octal,hex
 set number
 setlocal number
 setlocal numberwidth=4
-setlocal omnifunc=htmlcomplete#CompleteTags
+setlocal omnifunc=phpcomplete#CompletePHP
 setlocal path=
 setlocal nopreserveindent
 setlocal nopreviewwindow
@@ -479,14 +495,14 @@ setlocal norightleft
 setlocal rightleftcmd=search
 setlocal noscrollbind
 setlocal scrolloff=-1
-setlocal shiftwidth=8
+setlocal shiftwidth=4
 setlocal noshortname
 setlocal showbreak=
 setlocal sidescrolloff=-1
 setlocal signcolumn=auto
 setlocal nosmartindent
 setlocal softtabstop=0
-setlocal spell
+setlocal nospell
 setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
 setlocal spellfile=
 setlocal spelllang=en
@@ -495,8 +511,8 @@ setlocal statusline=%!airline#statusline(2)
 setlocal suffixesadd=
 setlocal swapfile
 setlocal synmaxcol=3000
-if &syntax != 'markdown'
-setlocal syntax=markdown
+if &syntax != 'php'
+setlocal syntax=php
 endif
 setlocal tabstop=4
 setlocal tagcase=
@@ -518,19 +534,20 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 57 - ((56 * winheight(0) + 28) / 57)
+let s:l = 1714 - ((28 * winheight(0) + 28) / 57)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 57
-normal! 0
+keepjumps 1714
+normal! 097|
 wincmd w
 2wincmd w
 exe 'vert 1resize ' . ((&columns * 31 + 104) / 208)
 exe 'vert 2resize ' . ((&columns * 176 + 104) / 208)
 tabnext 1
+badd +57 readme.md
 badd +1 dev
-badd +0 readme.md
+badd +0 classes/player.php
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif

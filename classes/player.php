@@ -1711,7 +1711,7 @@ class Player
 		$this->y = 1000;
 		$this->hold = true;
 		$this->force_hold = true;
-		statusBroadcast($this->name . " has died a horrible death. There's " . $playersalive . " contestants left.", "#ff5c5c");
+		statusBroadcast($this->name . " has died a horrible death. There's " . ($playersalive-1) . " contestants left.", "#ff5c5c");
 	}
 
 	public function heal($amount, $notify = true)
