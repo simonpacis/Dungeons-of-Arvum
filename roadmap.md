@@ -18,6 +18,8 @@ A much steeper learning curve, but potentially much more rewarding gameplay.
 Monster death respawns through certain items, no player death respawn.
 Items are locked to levels not based on rarity, but individually.
 
+
+# Old roadmap
 The following is the old roadmap from back in the day.
 Still relevant, but not the focus atm.
 The following are major updates and changes coming to Dungeons of Arvum in the future.
