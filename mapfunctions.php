@@ -3,12 +3,22 @@
 function resetMap()
 {
 	
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 }
 
 function newMap()
 {
 	global $map_height, $map_width, $map, $mapset, $rooms, $generate_new_map;
 
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	/* Running digger map generation function from rot.js – using phantomjs. Need some way to change lib based on OS server is running on, right now only macOS compatible. */
 
 	if($generate_new_map && !file_exists(dirname(__FILE__) . "/dev"))
@@ -59,12 +69,24 @@ function newMap()
 function setTile($x, $y, $object) // Used to be &$object, but can't remember why.
 {
 	global $map;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$map[$x][$y] = $object;
 }
 
 function moveTile($oldx, $oldy, $newx, $newy, $object) // Used to be &$object, but can't remember why.
 {
 	global $map;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$tile = $object;
 	if($newx >= 0 && $newy >= 0)
 		{
@@ -86,6 +108,12 @@ function moveTile($oldx, $oldy, $newx, $newy, $object) // Used to be &$object, b
 function movePlayerTile($oldx, $oldy, $newx, $newy, $object) // Used to be &$object, but can't remember why.
 {
 	global $map;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$tile = $object;
 	if($newx >= 0 && $newy >= 0)
 		{
@@ -127,6 +155,12 @@ function parseMap($clientid)
 	*/
 
 	global $map, $players, $map_width, $map_height, $display_width, $display_height;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$player = $players[$clientid];
 
 	$x = $player->x;
@@ -191,6 +225,12 @@ function parseMap($clientid)
 
 function parseRepresentation($string)
 {
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	if($string == "#")
 	{
 		return new Tile(new Wall());

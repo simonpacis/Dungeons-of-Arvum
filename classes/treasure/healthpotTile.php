@@ -9,6 +9,12 @@ class healthpotTile
 	public $room;
 	public function __construct($amount = 1, $thisroom = null)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->solid = false;
 		$this->representation = "&";
 		$this->color = "#5CCC6B";
@@ -19,6 +25,12 @@ class healthpotTile
 	public function pickup($player)
 	{
 		global $vacant_rooms, $rooms;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		
 
 		$room = $vacant_rooms[array_rand($vacant_rooms, 1)];

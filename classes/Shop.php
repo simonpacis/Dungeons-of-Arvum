@@ -6,9 +6,25 @@ class Shop extends Character
 	public $action_text = "Open shop";
 	public $stock_set = false;
 
+	public function __construct()
+	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
+	}
+
 	public function action($thisplayer)
 	{
 		global $keybindings;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(!$this->stock_set)
 		{
 			shuffle($this->selection);
@@ -35,6 +51,12 @@ class Shop extends Character
 	public function tick()
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		
 	}
 
@@ -42,6 +64,12 @@ class Shop extends Character
 	public function getMenu($thisplayer)
 	{
 		global $keybindings;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$shop = $this;
 		$strings = [];
 		$options = [];
@@ -76,6 +104,12 @@ class Shop extends Character
 
 	public function performMenuAction($thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$shop = $this;
 		if($thisplayer->coins >= $shop->stock[$thisplayer->selected_setting]->price)
 		{

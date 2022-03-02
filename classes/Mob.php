@@ -23,28 +23,51 @@ class Mob
 	public $dead = false;
 	public $attack_in_safe = false;
 	public $players_hit = [];
+
+	public function __construct()
+	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
+	}
+
 	public function tick($players, $player)
 	{
-			global $map;
-			$this->move();
-			$this->showAggroColor($players);
-			if($this->target == null)
+		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
+		$this->move();
+		$this->showAggroColor($players);
+		if($this->target == null)
+		{
+			if($player->level <= $this->level)
 			{
-				if($player->level <= $this->level)
-				{
-					$this->target = $this->acquireTarget($this->x, $this->y, $this->viewrange, $map, $player);
-				}
+				$this->target = $this->acquireTarget($this->x, $this->y, $this->viewrange, $map, $player);
 			}
-			$this->checked = microtime(true);
-			if($this->burned)
-			{
-				$this->performBurn();
-			}
+		}
+		$this->checked = microtime(true);
+		if($this->burned)
+		{
+			$this->performBurn();
+		}
 
 	}
 
 	public function showAggroColor($players, $all_players = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($all_players)
 		{
 			foreach($players as $player)
@@ -67,32 +90,44 @@ class Mob
 				}
 			}
 		} else {
-				$this->resetColor($players->clientid);
-				$should_aggro = $players->level <= $this->level;
-				if($this->rarity == "legendary")
-				{
-					$should_aggro = true;
-				}
-				if($this->target == $players)
-				{
-					$should_aggro = true;
-				}
-				if($should_aggro)
-				{
-					$this->setColor($players->clientid, "#ff0000");			
-				} else {
-					$this->setColor($players->clientid, "#00ff00");
-				}
+			$this->resetColor($players->clientid);
+			$should_aggro = $players->level <= $this->level;
+			if($this->rarity == "legendary")
+			{
+				$should_aggro = true;
+			}
+			if($this->target == $players)
+			{
+				$should_aggro = true;
+			}
+			if($should_aggro)
+			{
+				$this->setColor($players->clientid, "#ff0000");			
+			} else {
+				$this->setColor($players->clientid, "#00ff00");
+			}
 		}
 	}
 
 	public function isSafe()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return false;
 	}
 
 	public function levelUp()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->level++;
 		$additionalhp = round(pow(($this->level + $this->basehp),0.2));
 		$this->maxhp = $this->maxhp + $additionalhp;
@@ -110,6 +145,12 @@ class Mob
 
 	public function acquireTarget($x, $y, $viewrange, $map, $player)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 
 		if(is_between_coords($player->x, $player->y, $x, $y, $viewrange))
 		{
@@ -121,6 +162,12 @@ class Mob
 
 	public function damage($amount, $type, $player)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->target == null)
 		{
 			$this->target = $player;
@@ -136,6 +183,12 @@ class Mob
 	public function die($player)
 	{
 		global $vacant_rooms, $rooms, $mobs;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($player->clientid, "You killed " . $this->name . ".", "#5CCC6B");
 		if($this->rarity == "legendary")
 		{
@@ -176,6 +229,12 @@ class Mob
 
 	public function hasHit($player)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(in_array($player->clientid, $this->players_hit))
 		{
 			return true;
@@ -186,6 +245,12 @@ class Mob
 
 	public function hit($player)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(in_array($player->clientid, $this->players_hit))
 		{
 			return false;
@@ -198,6 +263,12 @@ class Mob
 	public function move()
 	{
 		global $map, $mob_safe_room_check;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$allowed_to_move = false;
 		if(($this->slowed_at + $this->slow_for) >= time())
 		{
@@ -249,8 +320,8 @@ class Mob
 								$this->lastattack = round(microtime(true) * 1000);
 							}
 						} else {
-								$this->doAttack();
-								$this->lastattack = round(microtime(true) * 1000);
+							$this->doAttack();
+							$this->lastattack = round(microtime(true) * 1000);
 						}
 					} else {
 						$this->doAttack();
@@ -258,7 +329,7 @@ class Mob
 					}
 				}
 			} elseif($allowed_to_move) {
-			
+
 				if($this->target == null)
 				{
 					$found_direction = false;
@@ -270,39 +341,39 @@ class Mob
 					{
 						$direction = rand(1,4);
 						switch ($direction) {
-							case 1:
-								if($map[($this->x + 1)][$this->y]->representation() == ".")
-								{
-									$found_direction = true;
-									$newx++;
-									
-								}
-								break;
-							case 2:
-								if($map[($this->x - 1)][$this->y]->representation() == ".")
-								{
-									$found_direction = true;
-									$newx--;
-									continue 2;
-								}
-								break;
-							case 3:
-								if($map[($this->x)][($this->y + 1)]->representation() == ".")
-								{
-									$found_direction = true;
-									$newy++;
-									
-								}
+						case 1:
+							if($map[($this->x + 1)][$this->y]->representation() == ".")
+							{
+								$found_direction = true;
+								$newx++;
 
-								break;
-							case 4:
-								if($map[($this->x)][($this->y - 1)]->representation() == ".")
-								{
-									$found_direction = true;
-									$newy--;
-									
-								}
-								break;
+							}
+							break;
+						case 2:
+							if($map[($this->x - 1)][$this->y]->representation() == ".")
+							{
+								$found_direction = true;
+								$newx--;
+								continue 2;
+							}
+							break;
+						case 3:
+							if($map[($this->x)][($this->y + 1)]->representation() == ".")
+							{
+								$found_direction = true;
+								$newy++;
+
+							}
+
+							break;
+						case 4:
+							if($map[($this->x)][($this->y - 1)]->representation() == ".")
+							{
+								$found_direction = true;
+								$newy--;
+
+							}
+							break;
 						}
 					}
 					setTile($oldx, $oldy, new Tile(new Floor()));
@@ -314,7 +385,7 @@ class Mob
 					$ran = 0;
 					$moved = false;
 					$attack = false;
-						
+
 					$gox = null;
 					$goy = null;
 					if(($this->target->x < ($this->x - ($this->viewrange*2)) or $this->target->x > ($this->x + ($this->viewrange*2))) or $this->target->y < ($this->y - ($this->viewrange*2)) or $this->target->y > ($this->y + ($this->viewrange*2)))
@@ -392,74 +463,86 @@ class Mob
 					{
 						if($gox == "left")
 						{
-								if($map[($this->x-1)][($this->y)]->representation() == ".")
-								{
-									$this->doMove(-1,0);
-									$moved = true;
-								} else {
-									//
-								}
+							if($map[($this->x-1)][($this->y)]->representation() == ".")
+							{
+								$this->doMove(-1,0);
+								$moved = true;
+							} else {
+								//
+							}
 						}elseif($gox == "right")
 						{
-								if($map[($this->x+1)][($this->y)]->representation() == ".")
-								{
-									$this->doMove(1,0);
-									$moved = true;
-								} else {
-									//
-								}
+							if($map[($this->x+1)][($this->y)]->representation() == ".")
+							{
+								$this->doMove(1,0);
+								$moved = true;
+							} else {
+								//
+							}
 						}
 					}elseif($goy != "still" && $gox == "still")
 					{
 						if($goy == "up")
 						{
-								if($map[$this->x][($this->y-1)]->representation() == ".")
-								{
-									$this->doMove(0,-1);
-									$moved = true;
-								} else {
-									//
-								}
+							if($map[$this->x][($this->y-1)]->representation() == ".")
+							{
+								$this->doMove(0,-1);
+								$moved = true;
+							} else {
+								//
+							}
 						}elseif($goy == "down")
 						{
-								if($map[$this->x][($this->y+1)]->representation() == ".")
-								{
-									$this->doMove(0,1);
-									$moved = true;
-								} else {
-									//
-								}
+							if($map[$this->x][($this->y+1)]->representation() == ".")
+							{
+								$this->doMove(0,1);
+								$moved = true;
+							} else {
+								//
+							}
 						}
 					} else {
 						$moved = true;
 						//
 					}
-				
+
 					$ran = 0;
 					$moved = false;
 				}
 			}
 		}
-		
+
 	}
 
 
 	public function doAttackType($attack_type)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		switch ($attack_type) {
-			case 'burn':
-				$this->target->burn($this->burn_damage, $this->burn_duration, $this->burn_frequency, $this, false);
-				break;
-			
-			default:
-				# code...
-				break;
+		case 'burn':
+			$this->target->burn($this->burn_damage, $this->burn_duration, $this->burn_frequency, $this, false);
+			break;
+
+		default:
+			# code...
+			break;
 		}
 	}
 
 	public function doAttack()
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 
 		if(isset($this->attack_type))
 		{
@@ -485,6 +568,12 @@ class Mob
 	public function doMove($x, $y)
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$oldx = $this->x;
 		$oldy = $this->y;
 		$newx = $this->x + $x;
@@ -493,11 +582,17 @@ class Mob
 		setTile($newx, $newy, $this);
 		$this->x = $newx;
 		$this->y = $newy;
-		
+
 	}
 
 	public function isFrozen()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->frozen_time == 0)
 		{
 			$this->frozen_time = time();
@@ -519,6 +614,12 @@ class Mob
 
 	public function performBurn()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->burned)
 		{
 			$curtime = round(microtime(true) * 1000);
@@ -546,6 +647,12 @@ class Mob
 	// Frequency = how often the damage is done. 1 = 1 second.
 	public function burn($damage, $duration, $frequency, $thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->burned = true;
 		$this->burn_damage = $damage;
 		$this->burn_duration = $duration;
@@ -559,11 +666,23 @@ class Mob
 
 	public function burnFailed($thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($thisplayer->clientid, "You failed to burn " . $this->name . ".", "#ff5c5c");
 	}
 
 	public function freeze($duration, $thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(!$this->frozen)
 		{
 			$this->frozen_duration = $duration;
@@ -575,11 +694,23 @@ class Mob
 
 	public function freezeFailed($thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($thisplayer->clientid, "You failed to freeze " . $this->name . ".", "#42eef4");
 	}
 
 	public function slow($duration, $percentage, $thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$perc = $percentage / 100;
 		$this->slowmovementspeed = round($this->movementspeed*$perc);
 		$this->slowed_at = time();
@@ -589,21 +720,45 @@ class Mob
 
 	public function slowFailed($thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($thisplayer->clientid, "You failed to slow " . $this->name . ".", "#42eef4");
 	}
 
 	public function representation()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $this->representation;
 	}
 
 	public function solid()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return true;
 	}
 
 	public function type()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(!isset($this->type))
 		{
 			return "npc";
@@ -614,6 +769,12 @@ class Mob
 
 	public function color($player = null)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($player != null)
 		{
 			$this->resetColor($player->clientid);
@@ -634,12 +795,24 @@ class Mob
 
 	public function setColor($clientid, $color)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->playercolors[$clientid] = $color;
 		return $this->color($clientid);
 	}
 
 	public function resetColor($clientid)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		unset($this->playercolors[$clientid]);
 		return true;
 	}

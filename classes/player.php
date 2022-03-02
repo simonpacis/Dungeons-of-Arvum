@@ -97,6 +97,12 @@ class Player
 	public function __construct($Clientid)
 	{
 		global $default_auto_timeout, $keybindings;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->clientid = $Clientid;
 		$this->name = "null";
 		$this->level = 1;
@@ -199,28 +205,58 @@ class Player
 
 	public function parseKeybindings()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $this->keybindings;
 	}
 
 	public function updateKeybindings($keybindings)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->keybindings = $keybindings;
 		return true;
 	}
 
 	public function updateKeybinding($key, $newkey)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->keybindings[$key] = $newkey;
 		return true;
 	}
 
 	public function getKeybinding($key)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return str_replace("VK_", "", $this->keybindings[$key]);
 	}
 
 	public function tick()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->burned)
 		{
 			$this->performBurn();
@@ -248,6 +284,12 @@ class Player
 
 		global $enable_player_movement_speed;
 
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->currentmovementspeed = $this->movementspeed;
 
 		if($enable_player_movement_speed)
@@ -308,6 +350,12 @@ class Player
 
 	public function unsetActionTarget()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->action_text = "(No action)";
 		$this->action_target = null;
 	}
@@ -315,6 +363,12 @@ class Player
 	public function checkForAction()
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$ystart = $this->y + 1;
 		$yend = $this->y - 1;
 		$xstart = $this->x - 1;
@@ -338,6 +392,12 @@ class Player
 	public function killed($enemy)
 	{
 		global $vacant_rooms, $single_player_mode;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->hasHook("after_kill"))
 		{
 			$this->runHook("after_kill", $enemy, $this);
@@ -369,6 +429,12 @@ class Player
 
 	public function gainExp($exp)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->hasHook("before_gain_exp"))
 		{
 			$exp = $this->runHook("before_gain_exp", $this);
@@ -387,6 +453,12 @@ class Player
 	public function levelUp()
 	{
 		global $players, $mobs;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->level++;
 		phonehome($this);
 		if($this->level % 10 == 0) //Every tenth level, suspensions are reset.
@@ -483,6 +555,12 @@ class Player
 
 	public function regenerate()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->last_mana_regen == 0)
 		{
 			$this->last_mana_regen = time();
@@ -534,6 +612,12 @@ class Player
 	public function inTimeout()
 	{
 		global $default_timeout_duration;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->in_timeout)
 		{
 			if(($this->last_timeout + $default_timeout_duration) <= time()) //Time has passed.
@@ -554,6 +638,12 @@ class Player
 
 	public function unsetTimeout()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->in_timeout = false;
 		$this->force_hold = false;
 		status($this->clientid, "You've been unsuspended.", "#ff33cc");
@@ -562,6 +652,12 @@ class Player
 	public function setTimeout()
 	{
 		global $default_auto_timeout, $default_timeout_duration;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($default_auto_timeout != -1)
 		{
 			if(!$this->in_timeout && $this->curtimeout > 0 && $this->state == "game")
@@ -581,6 +677,12 @@ class Player
 
 	public function addHealthpot($amount = 1, $healthpot)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->healthpots = $this->healthpots + $amount;
 		if($amount != 1)
 		{
@@ -594,6 +696,12 @@ class Player
 
 	public function useHealthpot()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->healthpots > 0 && $this->curhp != $this->maxhp)
 		{
 			$this->heal(round($this->maxhp*0.2));
@@ -611,6 +719,12 @@ class Player
 
 	public function addManapot($amount = 1, $manapot)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->manapots = $this->manapots + $amount;
 		if($amount != 1)
 		{
@@ -624,6 +738,12 @@ class Player
 
 	public function useManapot()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->curmana == $this->maxmana && $this->manapots != 0)
 		{
 			status($this->clientid, "You do not need to use a \"<span style='color:#6495ED !important;'>Mana Potion</span>\".", "#ffff00");
@@ -641,27 +761,57 @@ class Player
 
 	public function type()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return "player";
 	}
 
 	public function representation()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $this->representation;
 	}
 
 	public function color()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $this->color;
 	}
 
 	public function solid()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $this->solid;
 	}
 
 	public function parse()
 	{
 		global $enable_player_movement_speed;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->waypoint_x < 0)
 		{
 			$waypoint_x = 0;
@@ -729,6 +879,12 @@ class Player
 
 	public function setWaypoint()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($this->clientid, "Waypoint set.");
 		$this->waypoint_x = $this->x;
 		$this->waypoint_y = $this->y;
@@ -738,6 +894,12 @@ class Player
 	public function isSafe()
 	{
 		global $safe_rooms;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		foreach ($safe_rooms as $room)
 		{
 			if($this->x >= $room['_x1'] && $this->x <= $room['_x2'] && $this->y >= $room['_y1'] && $this->y <= $room['_y2'])
@@ -750,6 +912,12 @@ class Player
 
 	public function parseArmor()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->wieldedArmor != null)
 		{
 			$arm = [];
@@ -771,6 +939,12 @@ class Player
 
 	public function addCoins($coins, $notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->coins = $this->coins + $coins;
 		if($notify)
 		{
@@ -782,6 +956,12 @@ class Player
 	public function addToInventory($item, $faux = false, $notify = true, $send_to_server = true)
 	{
 		global $massive;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$invcount = count($this->inventory);
 		foreach($this->inventory as $invitem)
 		{
@@ -824,6 +1004,12 @@ class Player
 
 	public function escape()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->unsetRequest();
 		$this->unsetTiles();
 		$this->usedItem = null;
@@ -835,6 +1021,12 @@ class Player
 
 	public function wield($item, $type)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$uctype = ucfirst($type);
 		if($this->level >= $item->level)
 		{
@@ -861,6 +1053,12 @@ class Player
 
 	public function unwield($item, $type)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$uctype = ucfirst($type);
 		if($this->{"wielded".$uctype} != null)
 		{
@@ -873,6 +1071,12 @@ class Player
 
 	public function useSpell($key)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$index = 0;
 		if($key == "VK_U")
 		{
@@ -937,6 +1141,12 @@ class Player
 
 	public function addToSpells($spell, $scroll, $faux = false, $notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$spellcount = count($this->spells);
 		$item = clone $spell;
 		$duped = false;
@@ -988,6 +1198,12 @@ class Player
 
 	public function useInventory($index)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(!$this->dead)
 		{
 			$index--;
@@ -1051,6 +1267,12 @@ class Player
 
 	public function isInInventory($item_id, $use_name = false, $use_index = false)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(!$use_index)
 		{
 			foreach($this->inventory as $item)
@@ -1078,6 +1300,12 @@ class Player
 
 	public function removeFromInventory($item_to_remove, $use_id = true, $reset_index = true, $use_item = false, $use_index = false)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(!$use_item)
 		{
 			if(!$use_index)
@@ -1174,6 +1402,12 @@ class Player
 
 	public function parseInventory()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$inven = $this->inventory;
 		$inv = [];
 		for ($i=0; $i <10; $i++) {
@@ -1217,6 +1451,12 @@ class Player
 
 	public function parseSpells()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$inven = $this->spells;
 		$inv = [];
 		for ($i=0; $i <4; $i++) {
@@ -1234,6 +1474,12 @@ class Player
 	}
 	public function hasHook($hook)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		foreach($this->inventory as $item)
 		{
 			if(isset($item->hook))
@@ -1275,6 +1521,12 @@ class Player
 
 	public function runHook()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$hook = func_get_arg(0);
 		$args = func_get_args();
 		array_push($args, $hook);
@@ -1373,6 +1625,12 @@ class Player
 	public function damage($amount, $type, $dealer = null)
 	{
 		global $safe_rooms;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($dealer == null) { $dealer->name = "You were"; }
 		$orgamount = $amount;
 		if($this->hasHook("before_damage"))
@@ -1457,6 +1715,12 @@ class Player
 
 	public function performCharm($first = false)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->charmed)
 		{
 
@@ -1483,6 +1747,12 @@ class Player
 
 	public function performBurn()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->burned)
 		{
 			$curtime = round(microtime(true) * 1000);
@@ -1523,6 +1793,12 @@ class Player
 
 	public function performInvincible()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->invincible)
 		{
 			$curtime = round(microtime(true)*1000);
@@ -1547,6 +1823,12 @@ class Player
 
 	public function invincible($duration, $thisplayer = null)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->invincible = true;
 		$this->invincible_duration = $duration;
 		$this->last_invincible = 0;
@@ -1557,6 +1839,12 @@ class Player
 
 	public function charm($charm, $duration)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->charm_duration = $duration;
 		$this->charm_time = round(microtime(true) * 1000);
 		$this->charmed = true;
@@ -1570,6 +1858,12 @@ class Player
 	// Frequency = how often the damage is done. 1 = 1 second.
 	public function burn($damage, $duration, $frequency, $thisplayer = null, $player = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->burned = true;
 		$this->burn_damage = $damage;
 		$this->burn_duration = $duration;
@@ -1596,6 +1890,12 @@ class Player
 
 	public function burnFailed($thisplayer = null)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($thisplayer != null)
 		{
 			status($thisplayer->clientid, "You failed to burn " . $this->name . ".", "#ff5c5c");
@@ -1605,6 +1905,12 @@ class Player
 
 	public function freeze($duration, $thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(!$this->frozen)
 		{
 			$this->frozen_duration = $duration;
@@ -1620,6 +1926,12 @@ class Player
 
 	public function freezeFailed($thisplayer = null)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($thisplayer != null)
 		{
 			status($thisplayer->clientid, "You failed to freeze " . $this->name . ".", "#42eef4");
@@ -1628,12 +1940,24 @@ class Player
 
 	public function unFreeze($notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->frozen = false;
 		status($this->clientid, "You're no longer frozen.", "#42eef4");
 	}
 
 	public function isFrozen()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->frozen_time == 0)
 		{
 			$this->frozen_time = time();
@@ -1654,6 +1978,12 @@ class Player
 
 	public function slow($duration, $percentage, $thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$perc = 1-($percentage / 100);
 		$this->slowmovementspeed = $this->maxstamina;
 		$this->maxstamina = round($this->maxstamina*$perc);
@@ -1671,6 +2001,12 @@ class Player
 
 	public function slowFailed($thisplayer = null)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($thisplayer != null)
 		{
 			status($thisplayer->clientid, "You failed to slow " . $this->name . ".", "#42eef4");
@@ -1679,11 +2015,23 @@ class Player
 
 	public function isSlowed()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $this->slowed;
 	}
 
 	public function unSlow($notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->maxstamina = $this->slowmovementspeed;
 		$this->slowmovementspeed = 0;
 		$this->slowed_at = 0;
@@ -1696,6 +2044,12 @@ class Player
 
 	public function die()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		global $players, $map;
 		$this->dead = true;
 		$playersalive = 0;
@@ -1716,6 +2070,12 @@ class Player
 
 	public function heal($amount, $notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$oldcur = $this->curhp;
 		$this->curhp = $this->curhp + $amount;
 		if($this->curhp > $this->maxhp)
@@ -1736,6 +2096,12 @@ class Player
 
 	public function addShield($amount, $notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$oldcur = $this->curshield;
 		$this->curshield = $this->curshield + $amount;
 		if($this->curshield > $this->maxshield)
@@ -1752,6 +2118,12 @@ class Player
 
 	public function reduceMana($amount, $notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->curmana = $this->curmana - $amount;
 		if($notify)
 		{
@@ -1760,6 +2132,12 @@ class Player
 	}
 	public function addMana($amount, $notify = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$oldcur = $this->curmana;
 		$this->curmana = $this->curmana + $amount;
 		if($this->curmana > $this->maxmana)
@@ -1776,6 +2154,12 @@ class Player
 
 	public function request($requestname, $arg = null)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->hold = true;
 		$this->requestVar = $requestname;
 		if($arg != null)
@@ -1790,6 +2174,12 @@ class Player
 
 	public function unsetRequest()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->hold = false;
 		$this->unsetTiles();
 		$this->requestVar = null;
@@ -1800,6 +2190,12 @@ class Player
 	public function unsetTiles()
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		foreach($this->radiustiles as $x => $yar)
 		{
 			foreach ($yar as $y => $ytile)
@@ -1814,6 +2210,12 @@ class Player
 
 	public function getInventoryIndex($item)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		foreach ($this->inventory as $index => $value) {
 			if($item == $value)
 			{
@@ -1825,23 +2227,47 @@ class Player
 
 	public function itemUseRequest($item)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $item->useRequest($this);
 	}
 
 	public function itemUseResponse($message)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return $this->requestArg->useResponse($message, $this);
 	}
 
 
 	public function spellFullRequest($spell)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($this->clientid, "Your spellbook is full. In which spot do you want to put \"<span style='color:".$spell[0]->color." !important;'>" . $spell[0]->name . "</span>\"? <span style='color:#ff0000;'>The old spell will disappear!</span> Type either \"E\" or \"Q\". Type \"0\" to cancel.", "#ffff00", true);
 		return true;		
 	}
 
 	public function spellFullResponse($message)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$message = ucfirst($message);
 		if($message == "E")
 		{
@@ -1884,6 +2310,12 @@ class Player
 
 	public function inventoryFullRequest($item)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($this->clientid, "Your inventory is full. In which spot do you want to put \"<span style='color:".$item->color." !important;'>" . $item->name . "</span>\"? Type \"0\" to put it nowhere.", "#ffff00", true);
 		return true;
 	}
@@ -1891,6 +2323,12 @@ class Player
 	public function inventoryFullResponse($message)
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(is_numeric($message))
 		{
 			$message = (int)$message;
@@ -1932,12 +2370,24 @@ class Player
 
 	public function swapRequest()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($this->clientid, "What would you like to swap?", "#ffff00", true);
 		return true;
 	}
 
 	public function swapResponse($message)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$item1 = substr($message, 0, 1);
 		$item2 = substr($message, 1, 1);
 		if(is_numeric($item1) && is_numeric($item2) && $item1 > -1 && $item1 < 10 && $item1 != 0  && $item2 > -1 && $item2 < 10 && $item2 != 0)
@@ -2008,12 +2458,24 @@ class Player
 
 	public function characterRequest()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return true;
 	}
 
 	public function characterResponse($data)
 	{
 		global $ready, $massive, $encryption_key;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		
 		list($encrypted_data, $iv) = explode('::', base64_decode($data), 2);
 		$character = json_decode(openssl_decrypt($encrypted_data, 'aes-256-cbc', $encryption_key, 0, $iv), true);
@@ -2039,6 +2501,12 @@ class Player
 
 	public function nameRequest()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->state = "nameRequest";
 		status($this->clientid, "Please enter your name.", "#ffffff", true);
 		return true;
@@ -2047,6 +2515,12 @@ class Player
 	public function nameResponse($name)
 	{
 		global $ready, $keybindings;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->name = preg_replace('/\s+/', '', $name);
 		$ready = true;
 		setLobby($this->clientid);
@@ -2057,6 +2531,12 @@ class Player
 	public function dropRequest()
 	{
 		global $keybindings;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($this->clientid, "Which item(s) would you like to drop? Press ".$this->getKeybinding("ESCAPE")." to cancel.", "#ffff00", true);
 		return true;
 	}
@@ -2064,6 +2544,12 @@ class Player
 	public function dropResponse($string)
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$ar = str_split($string);
 		rsort($ar);
 		foreach($ar as $string)
@@ -2105,6 +2591,12 @@ class Player
 
 	public function performAction()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		/* Add shop functionality to non-mobs here. */
 		if($this->action_target != null)
 		{
@@ -2116,6 +2608,12 @@ class Player
 
 	public function getCharacterMenu()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->in_shop)
 		{
 			if(method_exists($this->action_target, 'getMenu'))
@@ -2127,6 +2625,12 @@ class Player
 
 	public function performMenuAction()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($this->in_shop)
 		{
 			if(method_exists($this->action_target, 'performMenuAction'))
@@ -2138,11 +2642,23 @@ class Player
 
 	public function displaySettings()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$this->show_settings = true;
 	}
 
 	public function changeSetting()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		switch ($this->selected_setting) {
 			case 0:
 				if($this->state == "lobby")
@@ -2169,12 +2685,24 @@ class Player
 
 	public function settingRequest()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return true;
 	}
 
 	public function settingResponse($string)
 	{
 		global $default_auto_timeout, $Server;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 			switch ($this->selected_setting) {
 				case 0:
 					if($this->state == "lobby")
@@ -2215,6 +2743,12 @@ class Player
 	public function getSettings()
 	{
 		global $keybindings;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$strings = [];
 		$options = [];
 		$localoptions = [];
@@ -2298,12 +2832,24 @@ class Player
 	public function describeRequest()
 	{
 		global $keybindings;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		status($this->clientid, "What would you like to have described? Press ".str_replace("VK_", "", $keybindings['ESCAPE'])." to cancel.", "#ffff00", true);
 		return true;
 	}
 
 	public function describeResponse($string)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$ar = str_split($string);
 		foreach($ar as $string)
 		{

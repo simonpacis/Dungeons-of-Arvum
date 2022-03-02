@@ -14,6 +14,12 @@ $spawned_characters = [];
 function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_only = false, $generic_only = false, $loot_chance = 1, $potions_only = false)
 {
 	global $generic_items, $limited_items, $rarity_ladder, $potion_items;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$gen_items = $generic_items;
 	$lim_items = 0;
 	if($potions_only)
@@ -95,6 +101,12 @@ function getItem($min_rarity = "common", $max_rarity = "legendary", $limited_onl
 function populateMap()
 {
 	global $ip, $port, $limited_characters, $constant_tick;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	/*
 		Rules of room distribution.
 
@@ -184,6 +196,12 @@ function populateMap()
 function safeRoom($room)
 {
 	global $safe_rooms, $spawnable_characters, $characters;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	foreach($room['_doors'] as $door => $value)
 	{
 		$door_coords = explode(",", $door, 2);
@@ -256,12 +274,24 @@ function safeRoom($room)
 function vacantRoom($room)
 {
 	global $vacant_rooms;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	array_push($vacant_rooms, $room);
 	return true;
 }
 
 function treasureRoom($room)
 {
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$itemdist = rand(0,100);
 	if($itemdist < 50)
 	{
@@ -317,6 +347,12 @@ function treasureRoom($room)
 function mobRoom($room)
 {
 	global $map, $rooms, $predefinedClasses, $spawnable_mobs, $spawned_mobs;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 		$mob_selected = false;
 		if(count($spawnable_mobs) > 0)
 		{

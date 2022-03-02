@@ -2,8 +2,25 @@
 
 class Spell
 {
+	public function __construct()
+	{
+
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
+	}
+
 	public function panelText()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		//<span style='color:#ff5c5c !important;'>(" . $inven[$i]->panelText() . ")</span>";
 		$color = "#fff";
 		$panel_string = "<span style='color:";
@@ -31,6 +48,12 @@ class Spell
 	public function create_radius($thisplayer, $radius_type, $radius_var_1, $radius_var_2, $color = "#fff")
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($radius_type == "cube")
 		{
 			$thisplayer->radius = true;
@@ -71,6 +94,12 @@ class Spell
 	public function damage_in_radius($damage, $damage_type, $thisplayer, $radius_type, $radius_var_1, $radius_var_2)
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 			$ystart = $thisplayer->y + $radius_var_2;
 			$yend = $thisplayer->y - $radius_var_2;
 			$xstart = $thisplayer->x - $radius_var_1;
@@ -112,6 +141,12 @@ class Spell
 	public function freeze_in_radius($damage, $damage_type, $thisplayer, $radius_type, $radius_var_1, $radius_var_2, $chance = 100)
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 			$ystart = $thisplayer->y + $radius_var_2;
 			$yend = $thisplayer->y - $radius_var_2;
 			$xstart = $thisplayer->x - $radius_var_1;
@@ -158,6 +193,12 @@ class Spell
 	public function do_in_radius($action, $args, $chance = 100, $thisplayer, $radius_type, $radius_var_1, $radius_var_2)
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 			$ystart = $thisplayer->y + $radius_var_2;
 			$yend = $thisplayer->y - $radius_var_2;
 			$xstart = $thisplayer->x - $radius_var_1;
@@ -205,6 +246,12 @@ class Spell
 	public function unset_radius($thisplayer)
 	{
 		global $players;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$player = $players[$thisplayer->clientid];
 		$player->unsetTiles();
 		$player->radius = false;
@@ -214,6 +261,12 @@ class Spell
 
 	public function created($thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		// To be overridden.		
 		return true;
 	}

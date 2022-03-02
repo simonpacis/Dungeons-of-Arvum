@@ -7,6 +7,12 @@ function keypress($clientID, $key)
 {
 	global $players, $keybindings;
 
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
+
 	if(!$players[$clientID]->dead)
 	{
 	checkMobs();
@@ -201,6 +207,13 @@ function keypress($clientID, $key)
 function chat($clientID, $message)
 {
 	global $Server, $players, $allow_cheats, $allow_map_cheats, $massive, $vacant_rooms, $mobs, $single_player_mode, $start_time;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
+
 	if(file_exists(dirname(__FILE__) . "/dev"))
 	{
 		$allow_cheats = true;
@@ -515,6 +528,13 @@ function chat($clientID, $message)
 function setLobby($clientID)
 {
 	global $Server, $players;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
+
 	$playrs = [];
 	foreach ($players as $key) {
 		if($key->name != null)
@@ -537,6 +557,13 @@ function setLobby($clientID)
 function unsetLobby()
 {
 	global $Server, $players, $ready, $vacant_rooms, $safe_rooms;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
+
 	$ready = true;
 	foreach($players as $player)
 	{
@@ -583,6 +610,12 @@ function mapPart($clientID, $receivedMappart)
 	*/
 		return;
 	global $map, $mapset;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$receivedMap = $receivedMappart["map"];
 	if(!$mapset)
 	{
@@ -606,6 +639,12 @@ function map($clientID, $receivedMap)
 {
 
 	global $map, $mapset;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	if(!$mapset)
 	{
 		foreach($receivedMap as $key => $value)
@@ -624,6 +663,12 @@ function bigBroadcast()
 {
 
 	global $Server, $broadcasting, $players;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	if(!$broadcasting)
 	{
 		$broadcasting = true;
@@ -638,6 +683,12 @@ function bigBroadcast()
 function spawnMob($mob, $x, $y)
 {
 	global $map, $mobs;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	array_push($mobs, $mob);
 	$mob = end($mobs);
 	$mob->x = $x;
@@ -649,6 +700,12 @@ function spawnMob($mob, $x, $y)
 function checkMobs()
 {
 	global $map, $players, $mob_checking;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	if(!$mob_checking)
 	{
 		$mob_checking = true;
@@ -720,6 +777,12 @@ function realBigBroadcast()
 {
 
 	global $Server, $broadcastqueue;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	//$current = microtime(true);
 	//array_push($broadcastqueue, $current);
 	if(count($broadcastqueue) == 0)
@@ -736,6 +799,12 @@ function realBigBroadcast()
 function broadcastState($clientID)
 {
 	global $Server, $map, $players, $broadcastqueue;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	 if ($players[$clientID]->show_settings) {
 		$msg = ["type" => "settings", "line" => $players[$clientID]->getSettings()];
 		$Server->wsSend($clientID, json_encode($msg));
@@ -758,6 +827,12 @@ function broadcastState($clientID)
 function requestName($clientID)
 {
 	global $Server;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$message = ["type" => "requestName"];
 	sleep(1);
 	$Server->wsSend($clientID, json_encode($message));
@@ -766,6 +841,12 @@ function requestName($clientID)
 function getState($clientID)
 {
 	global $players, $status, $keybindings;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$state = [];
 	$state['type'] = "state";
 	$state['map'] = parseMap($clientID);
@@ -776,12 +857,24 @@ function getState($clientID)
 function status($clientID, $stat, $color = "#ffff00", $expectresponse = false)
 {
 	global $Server, $status;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$Server->wsSend($clientID, json_encode(['type' => 'status', 'status' => $stat, 'color' => $color, 'expectresponse' => $expectresponse]));
 }
 
 function statusBroadcast($message, $color = "#ffff00", $include_self = true, $player_clientid = null)
 {
 	global $Server;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	foreach($Server->wsClients as $id => $client)
 	{
 		if($include_self)
@@ -799,6 +892,12 @@ function statusBroadcast($message, $color = "#ffff00", $include_self = true, $pl
 function sendKeybindings($clientID)
 {
 	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms, $keybindings;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$state = ["type" => "keybindings", "keybindings" => $players[$clientID]->parseKeybindings()];
 	$Server->wsSend($clientID, json_encode($state));
 }
@@ -806,6 +905,12 @@ function sendKeybindings($clientID)
 function newPlayer($clientID)
 {
 	global $players, $max_players, $Server, $map, $ready, $massive, $playercount, $vacant_rooms, $keybindings, $starting_items;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 
 	if(count($players) < $max_players)
 	{
@@ -859,6 +964,12 @@ function newPlayer($clientID)
 function movePlayer($clientID, $key)
 {
 	global $players, $map, $keybindings;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	switch ($key) {
 		case $players[$clientID]->keybindings['UP']:
 			$players[$clientID]->move(0, -1);
@@ -892,6 +1003,12 @@ function movePlayer($clientID, $key)
 
 function restartServer()
 {
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	resetMap();
 	newMap();
 
@@ -900,12 +1017,24 @@ function restartServer()
 function updateplayercount()
 {
 	global $mdoa_api_base, $playercount;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	exec('curl --data "id=1&players='.$playercount.'" '.$mdoa_api_base.'server/update > /dev/null 2>&1 &');
 }
 
   function phonehome($character)
   {
   	global $mdoa_api_base;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	exec('curl --data "id='.$character->characterid.'&user_id='.$character->userid.'&level='.$character->level.'&maxxp='.$character->maxxp.'&curxp='.$character->curxp.'&hp='.$character->maxhp.'&mana='.$character->maxmana.'&gold='.$character->coins.'" '.$mdoa_api_base.'character/phonehome > /dev/null 2>&1 &');
 	return true;
   }
@@ -913,6 +1042,12 @@ function updateplayercount()
 function newInventoryMassive($item, $character)
 {
 	global $mdoa_api_base;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	exec('curl --data "id='.$character->characterid.'&item_id='.$item->id.'" '.$mdoa_api_base.'inventory/add > /dev/null 2>&1 &');
 	return true;
 }
@@ -921,6 +1056,12 @@ function newInventoryMassive($item, $character)
 function saveGame()
 {
 	global $safe_rooms, $rooms, $vacant_rooms, $spawnable_characters, $spawnable_mobs, $mobs, $characters;
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	file_put_contents("saves/rooms.json", json_encode($rooms));
 	file_put_contents("saves/safe_rooms.json", json_encode($safe_rooms));
 	file_put_contents("saves/vacant_rooms.json", json_encode($vacant_rooms));
@@ -952,6 +1093,12 @@ function saveGame()
 
 function loadGame()
 {
+
+	if(isOverridden(__FUNCTION__))
+	{
+		$args = func_get_args();
+		return runOverride(__FUNCTION__, $args);
+	}
 	$mobs = json_decode(file_put_contents("saves/mobs.json"));
 	foreach($mobs as $mob)
 	{

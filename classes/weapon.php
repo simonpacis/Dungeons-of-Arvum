@@ -4,11 +4,23 @@ class Weapon extends Item
 {
 	public function __construct()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		parent::__construct();
 	}
 
 	public function dps()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(isset($this->attack_speed))
 		{
 			return ((1/$this->attack_speed)*$this->damage);
@@ -20,6 +32,12 @@ class Weapon extends Item
 	public function create_radius($thisplayer, $radius_type, $radius_var_1, $radius_var_2, $color = "#fff")
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($radius_type == "cube")
 		{
 			$thisplayer->radius = true;
@@ -60,6 +78,12 @@ class Weapon extends Item
 
 	public function can_attack($weapon, $thisplayer, $set_new_time = true)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if($thisplayer->level >= $weapon->level)
 		{
 			if(isset($weapon->attack_speed))
@@ -100,6 +124,12 @@ class Weapon extends Item
 	public function damage_in_radius($damage, $damage_type, $thisplayer, $radius_type, $radius_var_1, $radius_var_2)
 	{
 		global $map;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 			$ystart = $thisplayer->y + $radius_var_2;
 			$yend = $thisplayer->y - $radius_var_2;
 			$xstart = $thisplayer->x - $radius_var_1;
@@ -143,12 +173,24 @@ class Weapon extends Item
 
 	public function created($thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return true;
 	}
 
 	public function unset_radius($thisplayer)
 	{
 		global $players;
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		$player = $players[$thisplayer->clientid];
 		$player->unsetTiles();
 		$player->radius = false;

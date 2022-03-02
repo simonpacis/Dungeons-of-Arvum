@@ -8,6 +8,14 @@ class Item
 
 	public function __construct()
 	{
+
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
+
 		if(!isset($this->minprice))
 		{
 			$this->minprice = round($this->calculate_cost()*0.8);
@@ -17,6 +25,12 @@ class Item
 
 	public function spend($thisplayer, $uses = 1)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(isset($this->maxuses))
 		{
 			$this->curuses = $this->curuses - $uses;
@@ -31,6 +45,12 @@ class Item
 
 	public function calculate_cost()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 
 		/* Spell scrolls */
 		if(isset($item->spell))
@@ -56,12 +76,12 @@ class Item
 			$rarity_multiplier = $rarity_multiplier_ladder[$item->rarity];
 		}
 
-		
+
 		/* Damage
 
 			1 damage = 5 coins
 
-		*/
+		 */
 
 		if(isset($item->damage))
 		{
@@ -71,10 +91,10 @@ class Item
 		}
 
 		/* Attack speed
-	
+
 			1 attack per second = 5 coins
 
-		*/
+		 */
 
 		if(isset($item->attack_speed))
 		{
@@ -89,7 +109,7 @@ class Item
 
 			1 field = 0
 			Every consecutive field = extra_range to the power of 1.5.
-		*/
+		 */
 
 		if(isset($item->radius_var_1))
 		{
@@ -104,7 +124,7 @@ class Item
 			1 shield = 0.5 coin
 
 
-		*/
+		 */
 
 		if(isset($item->shield))
 		{
@@ -115,7 +135,7 @@ class Item
 
 		/* Heal
 			1 hp = 0.25 coins
-		*/
+		 */
 
 		if(isset($item->heal))
 		{
@@ -132,6 +152,12 @@ class Item
 
 	public function name()
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		if(isset($this->maxuses))
 		{
 			return $this->name . " (".$this->maxuses." uses)";
@@ -142,6 +168,12 @@ class Item
 
 	public function created($thisplayer)
 	{
+		if(isMethodOverridden(get_class(), __FUNCTION__))
+		{
+			$args = func_get_args();
+			array_push($args, $this);
+			return runMethodOverride(get_class(), __FUNCTION__, $args);
+		}
 		return true;
 	}
 
